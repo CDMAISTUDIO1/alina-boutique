@@ -12,6 +12,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&text=%D8%A7%D9%8E%D9%84%D9%84%D9%91%D9%B0%D9%87%D9%8F%D9%85%D9%8E%D9%91%20%D8%A8%D9%8E%D8%A7%D8%B1%D9%90%D9%83%D9%92%20%D9%84%D9%8E%D9%86%D9%8E%D8%A7%20%D9%81%D9%90%D9%8A%D9%92%D9%85%D9%8E%D8%A7%20%D8%B1%D9%8E%D8%B2%D9%8E%D9%82%D9%92%D8%AA%D9%8E%D9%86%D9%8E%D8%A7&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#e8eee2;--card:#f8f9f2;--ink:#0b261b;--mut:#51635a;--pri:#0f5a41;--on:#fff;--acc:#e8b43a;--neg:#b8400a;--line:#cdd9c6}
@@ -157,6 +158,12 @@ h1,h2,.num,.big,.kpi b{font-family:Montserrat,Nunito,"Noto Sans Arabic","Noto Sa
 .vmsg h2{text-align:center;font-size:21px;margin:8px 0 10px}
 .vp{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid rgba(0,0,0,.08)}.vp i{flex:0 0 40px;height:40px;border-radius:10px;background:linear-gradient(180deg,#f8d96c,#e3a722);display:flex;align-items:center;justify-content:center;box-shadow:0 3px 8px rgba(0,0,0,.2)}.vsep4{width:1.5px;align-self:stretch;background:#d9a521}.vp p{margin:0;font-size:14.5px;line-height:1.5}.vapp{color:#0f7a4f}
 .vsig{text-align:end;font-style:italic;font-weight:800;margin:8px 0 0}
+.dua{font-family:Amiri,'Noto Naskh Arabic','Traditional Arabic',serif!important;font-weight:700;font-size:21px;line-height:1.75;text-align:center;direction:rtl;background:linear-gradient(180deg,#fff7cf 0%,#f8d96c 32%,#e3a722 58%,#a8740f 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 1.5px 0 #6b4a07) drop-shadow(0 4px 6px rgba(0,0,0,.45)) drop-shadow(0 0 10px rgba(246,207,91,.35));margin:0}
+.duabox{flex:0 1 46%;max-width:190px;text-align:center;margin-inline-start:8px}.duabox small{display:block;color:#f3d47a;font-size:10.5px;line-height:1.35;margin-top:2px;font-weight:600}
+.infochips{display:flex;gap:6px;flex-wrap:wrap;margin:-2px 0 6px}.infochips button{background:#fff;color:#0b261b;border:1.5px solid #c8d6c4;box-shadow:none;padding:7px 12px;font-size:12.5px}.infochips button.hot{background:linear-gradient(180deg,#fff3d1,#f9df93);border-color:#d9a521}
+html[lang=ur] body *:not(.dua):not(.dua *){font-family:'Jameel Noori Nastaleeq','Noto Nastaliq Urdu',Nunito,sans-serif!important}
+html[lang=ur] body,html[lang=ur] button,html[lang=ur] input,html[lang=ur] select,html[lang=ur] textarea{line-height:1.95}
+html[lang=ur] h1{line-height:1.6}
 .pw{position:relative}.pw input{padding-inline-end:54px}.pw .eye{position:absolute;inset-inline-end:6px;top:calc(50% - 3px);transform:translateY(-50%);background:none;box-shadow:none;border:0;padding:6px 10px;font-size:19px;line-height:1}
 .rep{overflow-x:auto}.rep table{font-size:11.5px}.rep td,.rep th{padding:6px 3px}@media print{.rep{overflow:visible}.rep table{font-size:12px}}
 </style>
@@ -202,7 +209,7 @@ sRate:['Fixed sale price','Fixed sale price','مقررہ فروخت قیمت'],s
 pp:['Fi piece munafa','Profit per piece','فی پیس منافع'],addCat:['+ Category','+ Category','+ کیٹیگری'],addItem:['+ Naya maal','+ New item','+ نیا مال'],
 edit:['Edit','Edit','ترمیم'],del:['Delete','Delete','حذف'],
 addDist:['+ Naya distributor','+ New distributor','+ نیا ڈسٹری بیوٹر'],phone:['Phone','Phone','فون'],
-admins:['Admin (Malik aur partners)','Admins (owner & partners)','ایڈمن (مالک اور پارٹنر)'],adminsP:['Sab admin barabar hain: sab kuch dekh aur kar sakte hain','All admins have equal access','سب ایڈمن برابر ہیں'],distsBtn:['Distributors','Distributors','ڈسٹری بیوٹرز'],fullH:['Poora hisab','Full account','پورا حساب'],maalH:['Maal ka hisab','Stock','مال کا حساب'],more:['Aur','More','مزید'],maalT:['Maal','Items','مال'],codeT:['Code','Code','کوڈ'],typeHere:['yahan likhein','type here','یہاں لکھیں'],noteEx:['Misaal: Challan no. 15 / Rickshaw se bheja (marzi ka)','e.g. Challan no. 15 / sent by rickshaw (optional)','مثال: چالان نمبر 15 / رکشہ سے بھیجا (اختیاری)'],newMalik:['🛡️ Naya account: Admin (Malik)','🛡️ New account: Admin (Owner)','🛡️ نیا اکاؤنٹ: ایڈمن (مالک)'],newDist:['👤 Naya account: Distributor','👤 New account: Distributor','👤 نیا اکاؤنٹ: ڈسٹری بیوٹر'],distSign:['Distributor ka naya account','New distributor account','ڈسٹری بیوٹر کا نیا اکاؤنٹ'],distSignP:['Malik se Distributor code lein, phir apni email aur password se account banayein','Get the Distributor code from the owner, then sign up with your email and password','مالک سے ڈسٹری بیوٹر کوڈ لیں، پھر اپنی ای میل اور پاس ورڈ سے اکاؤنٹ بنائیں'],dcode:['Distributor code','Distributor code','ڈسٹری بیوٹر کوڈ'],dcodeP:['Ye code naye distributor ko dein. Is se wo khud account bana lega.','Give this code to a new distributor to sign up.','یہ کوڈ نئے ڈسٹری بیوٹر کو دیں۔'],newCode:['Naya code','New code','نیا کوڈ'],makeCode:['Code banao','Create code','کوڈ بنائیں'],badCode:['Distributor code ghalat hai','Wrong distributor code','ڈسٹری بیوٹر کوڈ غلط ہے'],createAcc:['Account banao','Create account','اکاؤنٹ بنائیں'],newCodeQ:['Naya code banayein? Purana code band ho jayega (pehle bane accounts chalte rahenge).','Make a new code? The old code stops working (existing accounts keep working).','نیا کوڈ بنائیں؟ پرانا کوڈ بند ہو جائے گا۔'],addAdmin:['+ Naya admin','+ New admin','+ نیا ایڈمن'],settings:['Settings','Settings','سیٹنگز'],currency:['Currency','Currency','کرنسی'],
+admins:['Admin (Malik aur partners)','Admins (owner & partners)','ایڈمن (مالک اور پارٹنر)'],adminsP:['Sab admin barabar hain: sab kuch dekh aur kar sakte hain','All admins have equal access','سب ایڈمن برابر ہیں'],duaT:['Ae Allah, hamare rizq mein barkat de','O Allah, bless what You have provided us','اے اللہ، ہمارے رزق میں برکت دے'],pendBtn:['Pending','Pending','زیرِ التوا'],monthPdf:['Is mahine ki PDF','This month PDF','اس مہینے کی PDF'],dueList:['Bakaya list','Due list','بقایا لسٹ'],distsBtn:['Distributors','Distributors','ڈسٹری بیوٹرز'],fullH:['Poora hisab','Full account','پورا حساب'],maalH:['Maal ka hisab','Stock','مال کا حساب'],more:['Aur','More','مزید'],maalT:['Maal','Items','مال'],codeT:['Code','Code','کوڈ'],typeHere:['yahan likhein','type here','یہاں لکھیں'],noteEx:['Misaal: Challan no. 15 / Rickshaw se bheja (marzi ka)','e.g. Challan no. 15 / sent by rickshaw (optional)','مثال: چالان نمبر 15 / رکشہ سے بھیجا (اختیاری)'],newMalik:['🛡️ Naya account: Admin (Malik)','🛡️ New account: Admin (Owner)','🛡️ نیا اکاؤنٹ: ایڈمن (مالک)'],newDist:['👤 Naya account: Distributor','👤 New account: Distributor','👤 نیا اکاؤنٹ: ڈسٹری بیوٹر'],distSign:['Distributor ka naya account','New distributor account','ڈسٹری بیوٹر کا نیا اکاؤنٹ'],distSignP:['Malik se Distributor code lein, phir apni email aur password se account banayein','Get the Distributor code from the owner, then sign up with your email and password','مالک سے ڈسٹری بیوٹر کوڈ لیں، پھر اپنی ای میل اور پاس ورڈ سے اکاؤنٹ بنائیں'],dcode:['Distributor code','Distributor code','ڈسٹری بیوٹر کوڈ'],dcodeP:['Ye code naye distributor ko dein. Is se wo khud account bana lega.','Give this code to a new distributor to sign up.','یہ کوڈ نئے ڈسٹری بیوٹر کو دیں۔'],newCode:['Naya code','New code','نیا کوڈ'],makeCode:['Code banao','Create code','کوڈ بنائیں'],badCode:['Distributor code ghalat hai','Wrong distributor code','ڈسٹری بیوٹر کوڈ غلط ہے'],createAcc:['Account banao','Create account','اکاؤنٹ بنائیں'],newCodeQ:['Naya code banayein? Purana code band ho jayega (pehle bane accounts chalte rahenge).','Make a new code? The old code stops working (existing accounts keep working).','نیا کوڈ بنائیں؟ پرانا کوڈ بند ہو جائے گا۔'],addAdmin:['+ Naya admin','+ New admin','+ نیا ایڈمن'],settings:['Settings','Settings','سیٹنگز'],currency:['Currency','Currency','کرنسی'],
 months:['Mahine','Months','مہینے'],backup:['Owner Backup','Owner Backup','اونر بیک اپ'],owner:['Owner (sirf aap)','Owner (only you)','اونر (صرف آپ)'],
 vlinks:['Visitor links','Visitor links','وزیٹر لنکس'],visitors:['Visitors','Visitors','وزیٹرز'],visitorsP:['Har visitor ko alag link dein. Wo sirf dekh sakta hai, kuch add ya change nahi kar sakta. Hatane par us ka link band ho jata hai.','Give each visitor a separate link. They can only look, not add or change anything. Removing closes the link.','ہر وزیٹر کو الگ لنک دیں۔ وہ صرف دیکھ سکتا ہے۔'],newVLink:['Naya visitor link','New visitor link','نیا وزیٹر لنک'],lastSeen:['Aakhri baar','Last opened','آخری بار'],hatayein:['Hatayein','Remove','ہٹائیں'],vmsgT:['Visitor ka message','Visitor message','وزیٹر کا پیغام'],vmsgP:['Visitor ko doosre page par ye message nazar aata hai. Har zuban ka alag likhein. Pehla paragraph bada (heading) hota hai, aakhri "— naam" wali line dastkhat ban jati hai. Khali line se naya paragraph.','Shown on the second visitor page. Write one per language. First paragraph is the heading; a last line starting with "—" becomes the signature. Blank line = new paragraph.','یہ پیغام وزیٹر کو دوسرے صفحے پر نظر آتا ہے۔'],saveK:['Save karein','Save','محفوظ کریں'],resetK:['Pehle jaisa karein','Reset to default','پہلے جیسا کریں'],waP:['WhatsApp number (pehle page par)','WhatsApp number (first page)','واٹس ایپ نمبر'],saveNum:['Number save karein','Save number','نمبر محفوظ کریں'],asVisitorT:['Visitor ki tarah dekhein (test)','View as visitor (test)','وزیٹر کی طرح دیکھیں'],asVisitorP:['Dekh sakte hain visitor ko kya nazar aayega. Kuch save nahi hota.','See what a visitor sees. Nothing is saved.','دیکھیں وزیٹر کو کیا نظر آئے گا۔'],newLink:['+ Naya link','+ New link','+ نیا لنک'],share:['Share','Share','شیئر'],
 wa:['WhatsApp number','WhatsApp number','واٹس ایپ نمبر'],wmsg:['Welcome message','Welcome message','خوش آمدید پیغام'],vset:['WhatsApp aur message','WhatsApp & messages','واٹس ایپ اور پیغام'],
@@ -484,9 +491,10 @@ function delTx(id){confirmBox(t('delTx'),()=>{DB.del('tx',id);toast(t('deleted')
 
 /* ---------- render ---------- */
 function render(){
+ const sc=S.screen;
  const rtl=S.screen==='vw1'||S.screen==='vw2'?RTL7.includes(S.vlang):S.lang==='ur';
- document.documentElement.dir=rtl?'rtl':'ltr';document.documentElement.lang=rtl?'ur':'en';
- const a=$('#app');const sc=S.screen;
+ const lg=(sc==='vw1'||sc==='vw2')?S.vlang:S.lang;document.documentElement.dir=rtl?'rtl':'ltr';document.documentElement.lang=lg;if(lg==='ur'&&!document.getElementById('nastf')){const l=document.createElement('link');l.id='nastf';l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap';document.head.appendChild(l)}
+ const a=$('#app');
  if(sc==='app')a.innerHTML=hdr()+bars()+`<main>${body()}<p class="foot">${t('devBy')}</p></main>`+nav();
  else if(sc==='report')a.innerHTML=`<div class="rep-tools noprint"><button onclick="window.print()">🖨️ ${t('print')}</button><button class="ghost" onclick="S.screen='app';render()">↩ ${t('back')}</button></div><p class="noprint center" style="color:#cfe6d9;font-size:12px;margin:0 0 8px;position:relative;z-index:1">${t('printHint')}</p><div class="rep">${S.report}</div>`;
  else if(sc==='vw1'||sc==='vw2')a.innerHTML=`<main class="vmain">${pre()}</main>`;else a.innerHTML=simpleHdr(true)+`<main>${pre()}</main>`;
@@ -546,21 +554,31 @@ function pre(){
 function vHomeA(){
  const all=agg(txArr()),tot=sumAgg(all);
  const mon=S.month==='all'?tot:sumAgg(agg(txArr().filter(x=>x.m===S.month)));
- const pend=txArr().filter(x=>x.type==='pay'&&x.st==='pending');
- return `<div class="turn"><div class="row" style="align-items:flex-start"><div class="sp" style="min-width:0"><small>${t('totDue')}</small><h2 class="num big">${money(tot.due)}</h2>
+ const pn=txArr().filter(x=>x.type==='pay'&&x.st==='pending').length;
+ return `<div class="turn"><div class="row" style="align-items:center"><div class="sp" style="min-width:0"><small>${t('totDue')}</small><h2 class="num big">${money(tot.due)}</h2>
  <div style="color:#cfe6d9;font-weight:700">${t('withDist')}: ${fmt(tot.left)} ${t('pcs')}</div></div>
- <div class="vbtns"><button onclick="go('dists')">👥 ${t('distsBtn')} (${distUsers().length})</button></div></div>
+ <div class="duabox"><p class="dua">اَللّٰهُمَّ بَارِكْ لَنَا<br>فِيْمَا رَزَقْتَنَا</p><small>${t('duaT')}</small></div></div>
  <div class="row" style="margin-top:14px"><button class="gold" onclick="plusMenu()">${t('newEntry')}</button></div></div>
- ${pend.length?card('⏳ '+t('pendingT'),pend.map(x=>txRow(x)).join('')):''}
+ <div class="infochips"><button class="${pn?'hot':''}" onclick="showPending()">⏳ ${t('pendBtn')} (${pn})</button><button onclick="repMonth(curM())">📄 ${t('monthPdf')}</button><button onclick="showDueList()">💰 ${t('dueList')}</button></div>
  ${monthChips()}
  ${card(S.month==='all'?t('since'):mName(S.month),kpis([[t('given'),fmt(mon.g)+' '+t('pcs')],[t('sold'),fmt(mon.s)+' '+t('pcs')],[t('returned'),fmt(mon.r)+' '+t('pcs')],[t('lost'),fmt(mon.l)+' '+t('pcs'),'neg'],[t('saleVal'),money(mon.sv)],[t('received'),money(mon.paid),'pos'],[t('adminProfit'),money(mon.ap),'pos'],[t('distProfit'),money(mon.dp)],[t('lossVal'),money(mon.lv),'neg'],[t('pending'),money(mon.pend)]]))}`;
 }
+function showPending(){const l=txArr().filter(x=>x.type==='pay'&&x.st==='pending');sheet(`<h2>⏳ ${t('pendingT')}</h2>${l.length?l.map(x=>txRow(x)).join(''):empty()}<button class="full ghost" style="margin-top:12px" onclick="closeSheet()">${t('back')}</button>`)}
+function showDueList(){const all=agg(txArr());const ds=distUsers().map(d=>({...d,a:all[d.id]||{left:0,due:0}})).sort((a,b)=>b.a.due-a.a.due);
+ sheet(`<h2>💰 ${t('dueList')}</h2>${ds.length?ds.map(d=>`<div class="li click" onclick="closeSheet();openDist('${d.id}')"><div class="ico">👤</div><div class="sp"><b>${esc(d.name)}</b><div class="mut">${t('left')}: ${fmt(d.a.left)} ${t('pcs')}</div></div><b class="num ${r2(d.a.due)>0?'neg':''}">${money(d.a.due)}</b></div>`).join(''):empty()}<button class="full ghost" style="margin-top:12px" onclick="closeSheet()">${t('back')}</button>`)}
 function openDist(id){S.tab='dists';S.view=id;S.vsub='';render();scrollTo(0,0)}
 function vDists(){const all=agg(txArr()),ds=distUsers();
  return card(t('dists'),(ds.length?ds.map(d=>{const a=all[d.id]||{left:0,due:0};return `<div class="li click" onclick="openDist('${d.id}')"><div class="ico">👤</div><div class="sp"><b>${esc(d.name)}</b>${d.active===false?` <span class="tag offt">${t('offT')}</span>`:''}<div class="mut">${esc(d.phone||'')} · ${t('left')} ${fmt(a.left)} ${t('pcs')}</div></div><b class="num ${r2(a.due)>0?'neg':''}">${money(a.due)}</b></div>`}).join(''):empty())+`<button class="full" style="margin-top:10px" onclick="distForm()">${t('addDist')}</button>`)}
+function catChips(cats,cur,fn){return cats.length>1?`<div class="chips" style="flex-wrap:wrap;margin:0 0 8px">${cats.map(c=>`<button class="${cur===c?'on':''}" onclick="${fn}('${c}')">${esc(catName(c)||'—')}</button>`).join('')}</div>`:''}
+function setDcat(c){S.dcat=c;render()}
 function itemTable(A,showRates){
- const rows=Object.entries(A?A.items:{}).map(([i,it])=>({i,...it,left:leftOf(it)}));
+ let rows=Object.entries(A?A.items:{}).map(([i,it])=>({i,...it,left:leftOf(it)}));
  if(!rows.length)return empty();
+ const cats=[...new Set(rows.map(r=>S.items[r.i]?.cat||''))].sort((a,b)=>catName(a).localeCompare(catName(b)));
+ if(!cats.includes(S.dcat))S.dcat=cats[0];
+ const chips=catChips(cats,S.dcat,'setDcat');rows=rows.filter(r=>(S.items[r.i]?.cat||'')===S.dcat);
+ return chips+itemTable2(rows,showRates)}
+function itemTable2(rows,showRates){
  return `<table><tr><th>${t('item')}</th><th class="n">${t('given')}</th><th class="n">${t('sold')}</th><th class="n">${t('returned')}</th><th class="n">${t('lost')}</th><th class="n">${t('left')}</th></tr>${rows.map(r=>`<tr><td>${esc(itemName(r.i))}${showRates&&S.items[r.i]?`<div class="mut">${t('dRateS')} ${fmt(S.items[r.i].d)} · ${t('sRateS')} ${fmt(S.items[r.i].s)}</div>`:''}</td><td class="n">${fmt(r.g+r.o)}</td><td class="n">${fmt(r.s)}</td><td class="n">${fmt(r.r)}</td><td class="n">${fmt(r.l)}</td><td class="n"><b>${fmt(r.left)}</b></td></tr>`).join('')}</table>`;
 }
 function dsub(k){S.vsub=S.vsub===k?'':k;render();setTimeout(()=>{const e=$('#dsec');if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},30)}
@@ -590,8 +608,10 @@ function vAdmin(){
  const a=S.asub;
  if(a==='maal'){
   const cats=Object.entries(S.cats).sort((a,b)=>(a[1].name||'').localeCompare(b[1].name||''));const its=itemList(false);
-  h+=card(t('cats'),`<div class="chips" style="flex-wrap:wrap">${cats.map(([id,c])=>`<button onclick="catForm('${id}')">${esc(c.name)} ✏️</button>`).join('')}<button class="on" onclick="catForm()">${t('addCat')}</button></div>`);
-  h+=card(t('items'),(its.length?its.map(x=>{const c=+(S.cost[x.id]?.c)||0;return `<div class="li click" onclick="itemForm('${x.id}')"><div class="ico">👗</div><div class="sp"><b>${esc(x.name)}</b> ${x.on===false?`<span class="tag offt">${t('offT')}</span>`:''}<div class="mut">${esc(catName(x.cat))}</div><div class="mut">${t('costS')} ${fmt(c)} · ${t('dRateS')} ${fmt(x.d)} · ${t('sRateS')} ${fmt(x.s)}</div></div><div class="mut" style="text-align:end">Admin +${fmt(x.d-c)}<br>Dist +${fmt(x.s-x.d)}</div></div>`}).join(''):empty())+`<button class="full" style="margin-top:10px" onclick="itemForm()">${t('addItem')}</button><p class="mut center" style="margin:8px 0 0">🔒 ${t('rateNote')}</p>`);
+  if(cats.length&&!S.cats[S.mcat])S.mcat=cats[0][0];
+  h+=card(t('cats'),`<div class="chips" style="flex-wrap:wrap">${cats.map(([id,c])=>`<span style="display:inline-flex;gap:2px"><button class="${S.mcat===id?'on':''}" onclick="S.mcat='${id}';render()">${esc(c.name)}</button><button style="padding:7px 9px" onclick="catForm('${id}')" aria-label="edit">✏️</button></span>`).join('')}<button class="ok" onclick="catForm()">${t('addCat')}</button></div>`);
+  const fits=its.filter(x=>x.cat===S.mcat);
+  h+=card(t('items')+(S.cats[S.mcat]?' · '+esc(S.cats[S.mcat].name):''),(fits.length?fits.map(x=>{const c=+(S.cost[x.id]?.c)||0;return `<div class="li click" onclick="itemForm('${x.id}')"><div class="ico">👗</div><div class="sp"><b>${esc(x.name)}</b> ${x.on===false?`<span class="tag offt">${t('offT')}</span>`:''}<div class="mut">${esc(catName(x.cat))}</div><div class="mut">${t('costS')} ${fmt(c)} · ${t('dRateS')} ${fmt(x.d)} · ${t('sRateS')} ${fmt(x.s)}</div></div><div class="mut" style="text-align:end">Admin +${fmt(x.d-c)}<br>Dist +${fmt(x.s-x.d)}</div></div>`}).join(''):empty())+`<button class="full" style="margin-top:10px" onclick="itemForm()">${t('addItem')}</button><p class="mut center" style="margin:8px 0 0">🔒 ${t('rateNote')}</p>`);
  }else if(a==='code'){
   h+=card('🔑 '+t('dcode'),S.code?`<p class="mut" style="margin-top:0">${t('dcodeP')}</p><div class="center" style="font-size:34px;font-weight:800;letter-spacing:6px;margin:6px 0 12px;font-family:Montserrat,sans-serif">${esc(S.code)}</div><div class="row"><button class="sp" onclick="shareCode()">${t('share')}</button><button class="ghost sp" onclick="newCode()">🔄 ${t('newCode')}</button></div>`:`<button class="full" onclick="newCode(true)">${t('makeCode')}</button>`);
  }else if(a==='months'){
@@ -629,9 +649,9 @@ function vHomeD(){
  ${card(t('since'),kpis([[t('got'),fmt(A.g+A.o)+' '+t('pcs')],[t('sold'),fmt(A.s)+' '+t('pcs')],[t('returned'),fmt(A.r)+' '+t('pcs')],[t('lost'),fmt(A.l)+' '+t('pcs')],[t('saleVal'),money(A.sv)],[t('paidOk'),money(A.paid),'pos'],[t('myProfit'),money(A.dp),'pos'],[t('pending'),money(A.pend)]]))}`;
 }
 function vStockD(){
- const A=agg(txArr())[S.uid];
- const rates=itemList(true).map(x=>`<div class="li"><div class="ico">👗</div><div class="sp"><b>${esc(x.name)}</b><div class="mut">${esc(catName(x.cat))}</div></div><div style="text-align:end" class="mut">${t('dRateS')} <b>${fmt(x.d)}</b><br>${t('sRateS')} <b>${fmt(x.s)}</b><br><span class="pos">+${fmt(x.s-x.d)}</span></div></div>`).join('');
- return card(t('perItem'),itemTable(A,true))+card(t('dRate')+' / '+t('sRate'),rates||empty());
+ const A=agg(txArr())[S.uid];const tbl=itemTable(A,true);const has=A&&Object.keys(A.items).length;
+ const rates=itemList(true).filter(x=>!has||x.cat===S.dcat).map(x=>`<div class="li"><div class="ico">👗</div><div class="sp"><b>${esc(x.name)}</b><div class="mut">${esc(catName(x.cat))}</div></div><div style="text-align:end" class="mut">${t('dRateS')} <b>${fmt(x.d)}</b><br>${t('sRateS')} <b>${fmt(x.s)}</b><br><span class="pos">+${fmt(x.s-x.d)}</span></div></div>`).join('');
+ return card(t('perItem'),tbl)+card(t('dRate')+' / '+t('sRate'),rates||empty());
 }
 
 /* ---------- forms ---------- */
@@ -678,7 +698,7 @@ function catForm(id){const c=id?S.cats[id]:{name:''};
  sheet(`<h2>${t('cat')}</h2><label>${t('name')}</label><input id="fCat" value="${esc(c.name)}" placeholder="Ladies suit"><div class="row"><button class="ghost sp" onclick="closeSheet()">${t('cancel')}</button>${id&&!Object.values(S.items).some(x=>x.cat===id)?`<button class="danger" onclick="DB.del('cats','${id}');closeSheet()">🗑</button>`:''}<button class="ok sp" onclick="saveCat('${id||''}')">${t('save')}</button></div>`)}
 function saveCat(id){const n=val('#fCat');if(!n)return toast(t('fill'));DB.set('cats',id||nid(),{name:n},true);closeSheet();toast(t('saved'))}
 function itemForm(id){
- const x=id?S.items[id]:{cat:Object.keys(S.cats)[0]||'',name:'',d:'',s:'',on:true},c=id?(S.cost[id]?.c??''):'';
+ const x=id?S.items[id]:{cat:(S.cats[S.mcat]?S.mcat:Object.keys(S.cats)[0])||'',name:'',d:'',s:'',on:true},c=id?(S.cost[id]?.c??''):'';
  if(!Object.keys(S.cats).length)return catForm();
  sheet(`<h2>👗 ${t('item')}</h2><label>${t('cat')}</label><select id="fIc">${Object.entries(S.cats).map(([k,v])=>`<option value="${k}" ${x.cat===k?'selected':''}>${esc(v.name)}</option>`).join('')}</select>
  <label>${t('name')}</label><input id="fIn" value="${esc(x.name)}" placeholder="3-piece lawn">
