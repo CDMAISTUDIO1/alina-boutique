@@ -160,19 +160,22 @@ h1,h2,.num,.big,.kpi b{font-family:Montserrat,Nunito,"Noto Sans Arabic","Noto Sa
 .dua{font-family:Amiri,'Noto Naskh Arabic','Traditional Arabic',serif!important;font-weight:700;font-size:21px;line-height:1.75;text-align:center;direction:rtl;background:linear-gradient(180deg,#fff7cf 0%,#f8d96c 32%,#e3a722 58%,#a8740f 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 1.5px 0 #6b4a07) drop-shadow(0 4px 6px rgba(0,0,0,.45)) drop-shadow(0 0 10px rgba(246,207,91,.35));margin:0}
 .duabox{flex:0 1 46%;max-width:190px;text-align:center;margin-inline-start:8px}.duabox small{display:block;color:#f3d47a;font-size:10.5px;line-height:1.35;margin-top:2px;font-weight:600}
 .infochips{display:flex;gap:6px;flex-wrap:wrap;margin:-2px 0 6px}.infochips button{background:#fff;color:#0b261b;border:1.5px solid #c8d6c4;box-shadow:none;padding:7px 12px;font-size:12.5px}.infochips button.hot{background:linear-gradient(180deg,#fff3d1,#f9df93);border-color:#d9a521}
-html[lang=ur] body *:not(.dua):not(.dua *){font-family:'Jameel Noori Nastaleeq','Noto Nastaliq Urdu',Nunito,sans-serif!important}
+html[lang=ur] body *:not(.dua):not(.dua *):not(.hb-amt):not(.hb-n){font-family:'Jameel Noori Nastaleeq','Noto Nastaliq Urdu',Nunito,sans-serif!important}
 html[lang=ur] body,html[lang=ur] button,html[lang=ur] input,html[lang=ur] select,html[lang=ur] textarea{line-height:1.95}
 html[lang=ur] h1{line-height:1.6}
 .hban{position:relative;container-type:inline-size;margin:12px -4px;direction:ltr;filter:drop-shadow(0 8px 14px rgba(0,0,0,.35))}
 .hban img{display:block;width:100%;height:auto;border-radius:4.2cqw}
-.hban>div,.hban>button{position:absolute;white-space:nowrap;line-height:1.15;unicode-bidi:plaintext}
+.hban>div,.hban>button{position:absolute;white-space:nowrap;line-height:1.25!important;unicode-bidi:plaintext;overflow:visible}
+html[lang=ur] .hban>div,html[lang=ur] .hban>button{line-height:1.7!important}
+.hb-n{font-family:Montserrat,Nunito,sans-serif!important}
 .hb-l1{left:13.2%;top:14.7%;transform:translateY(-50%);font-family:Montserrat,Nunito,sans-serif;font-weight:800;font-size:2.9cqw;color:#fff}
 .hb-amt{left:15.7%;top:36.5%;transform:translateY(-50%);font-family:Montserrat,Nunito,sans-serif;font-weight:800;color:#fff4d2;text-shadow:0 .28cqw 0 #9b7414,0 .6cqw 1.2cqw rgba(0,0,0,.55)}
-.hb-dl{left:12.1%;top:58.6%;transform:translateY(-50%);font-family:Montserrat,Nunito,sans-serif;font-weight:800;font-size:2.4cqw;color:#fff;max-width:25.1cqw;overflow:hidden;text-overflow:ellipsis}
+.hb-dl{left:12.1%;top:58.6%;transform:translateY(-50%);font-family:Montserrat,Nunito,sans-serif;font-weight:800;font-size:2.4cqw;color:#fff;}
 .hb-pc{left:38.15%;width:12.7%;top:58.5%;transform:translateY(-50%);text-align:center;font-family:Montserrat,Nunito,sans-serif;font-weight:800;font-size:2.45cqw;color:#1c2b0f}
 .hban .hb-btn{left:4.3%;top:67.3%;width:29.8%;height:19.2%;background:transparent;box-shadow:none;border:0;border-radius:999px;padding:0;font-family:Montserrat,Nunito,sans-serif;font-weight:800;font-size:3.7cqw;color:#0b261b}
-.hb-rib{left:59.6%;width:34.6%;top:61.7%;transform:translateY(-50%);text-align:center;font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:700;color:#0b261b}
+.hb-rib{left:61%;width:31.8%;top:61.7%;transform:translateY(-50%);overflow:hidden!important;text-align:center;font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:700;color:#0b261b}
 html[lang=ur] .hb-rib,html[lang=ur] .hb-l1,html[lang=ur] .hb-dl{font-style:normal}
+html[lang=ur] .hb-rib{transform:translateY(-40%);line-height:1.5!important}
 .pw{position:relative}.pw input{padding-inline-end:54px}.pw .eye{position:absolute;inset-inline-end:6px;top:calc(50% - 3px);transform:translateY(-50%);background:none;box-shadow:none;border:0;padding:6px 10px;font-size:19px;line-height:1}
 .rep{overflow-x:auto}.rep table{font-size:11.5px}.rep td,.rep th{padding:6px 3px}@media print{.rep{overflow:visible}.rep table{font-size:12px}}
 </style>
@@ -504,12 +507,14 @@ function render(){
  const rtl=S.screen==='vw1'||S.screen==='vw2'?RTL7.includes(S.vlang):S.lang==='ur';
  const lg=(sc==='vw1'||sc==='vw2')?S.vlang:S.lang;document.documentElement.dir=rtl?'rtl':'ltr';document.documentElement.lang=lg;if(lg==='ur'&&!document.getElementById('nastf')){const l=document.createElement('link');l.id='nastf';l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap';document.head.appendChild(l)}
  const a=$('#app');
- if(sc==='app')a.innerHTML=hdr()+bars()+`<main>${body()}<p class="foot">${t('devBy')}</p></main>`+nav();
+ if(sc==='app'){a.innerHTML=hdr()+bars()+`<main>${body()}<p class="foot">${t('devBy')}</p></main>`+nav();fitBan();setTimeout(fitBan,60)}
  else if(sc==='report')a.innerHTML=`<div class="rep-tools noprint"><button onclick="window.print()">🖨️ ${t('print')}</button><button class="ghost" onclick="S.screen='app';render()">↩ ${t('back')}</button></div><p class="noprint center" style="color:#cfe6d9;font-size:12px;margin:0 0 8px;position:relative;z-index:1">${t('printHint')}</p><div class="rep">${S.report}</div>`;
  else if(sc==='vw1'||sc==='vw2')a.innerHTML=`<main class="vmain">${pre()}</main>`;else a.innerHTML=simpleHdr(true)+`<main>${pre()}</main>`;
 }
 function pwBox(id,extra){return `<div class="pw"><input id="${id}" type="password" ${extra||''}><button type="button" class="eye" onclick="togglePw('${id}',this)" aria-label="show password">👁️</button></div>`}
 function togglePw(id,b){const i=$('#'+id);if(!i)return;const sh=i.type==='password';i.type=sh?'text':'password';b.textContent=sh?'🙈':'👁️';i.focus()}
+function fitBan(){document.querySelectorAll('.hban').forEach(b=>{const W=b.clientWidth;if(!W)return;b.querySelectorAll('[data-fit]').forEach(el=>{const [mw,mh,st]=el.dataset.fit.split(',').map(Number);let f=st*W/100;el.style.fontSize=f+'px';let n=0;const MW=mw*W/100,MH=mh*W/100;while((el.scrollWidth>MW+1||el.scrollWidth>el.clientWidth+1||el.getBoundingClientRect().height>MH*1.15)&&n++<45){f*=0.94;el.style.fontSize=f+'px'}})})}
+addEventListener('resize',()=>fitBan());if(document.fonts){document.fonts.addEventListener&&document.fonts.addEventListener('loadingdone',()=>fitBan());document.fonts.ready.then(()=>fitBan())}
 function langSel(){return `<select id="lang" onchange="setLang(this.value)">${LANGS.map(([k,n])=>`<option value="${k}" ${S.lang===k?'selected':''}>${n}</option>`).join('')}</select>`}
 function simpleHdr(withLang){return `<header><div class="hlogo"><img src="logo.png" alt=""><h1>${esc(S.cfg.bizName||'Alina Boutique')}</h1></div><p>${t('appSub')}</p>${withLang?`<div class="row">${langSel()}</div>`:''}</header>`}
 function hdr(){
@@ -565,7 +570,7 @@ function vHomeA(){
  const mon=S.month==='all'?tot:sumAgg(agg(txArr().filter(x=>x.m===S.month)));
  const pn=txArr().filter(x=>x.type==='pay'&&x.st==='pending').length;
  const amt=money(tot.due),rib=t('duaT');
- return `<div class="hban"><img src="banner-home.jpg" alt=""><div class="hb-l1">${t('totDue')}</div><div class="hb-amt" style="font-size:${Math.min(6.55,30.7/(amt.length*0.62)).toFixed(2)}cqw">${amt}</div><div class="hb-dl">${t('withDist')}:</div><div class="hb-pc">${fmt(tot.left)} ${t('pcs')}</div><button class="hb-btn" onclick="plusMenu()">${t('newEntry')}</button><div class="hb-rib" style="font-size:${Math.min(2.65,32/(rib.length*0.5)).toFixed(2)}cqw">${rib}</div></div>
+ return `<div class="hban"><img src="banner-home.jpg" alt=""><div class="hb-l1" data-fit="26,4,2.9">${t('totDue')}</div><div class="hb-amt" data-fit="30.7,7.5,6.55">${amt}</div><div class="hb-dl" data-fit="25,3.6,2.4">${t('withDist')}:</div><div class="hb-pc" data-fit="13,3.1,2.45"><span class="hb-n">${fmt(tot.left)}</span> ${t('pcs')}</div><button class="hb-btn" onclick="plusMenu()"><span data-fit="27,7,3.7" style="display:inline-block;white-space:nowrap">${t('newEntry')}</span></button><div class="hb-rib" data-fit="32,2.9,2.55">${rib}</div></div>
  <div class="infochips"><button class="${pn?'hot':''}" onclick="showPending()">⏳ ${t('pendBtn')} (${pn})</button><button onclick="repMonth(curM())">📄 ${t('monthPdf')}</button><button onclick="showDueList()">💰 ${t('dueList')}</button></div>
  ${monthChips()}
  ${card(S.month==='all'?t('since'):mName(S.month),kpis([[t('given'),fmt(mon.g)+' '+t('pcs')],[t('sold'),fmt(mon.s)+' '+t('pcs')],[t('returned'),fmt(mon.r)+' '+t('pcs')],[t('lost'),fmt(mon.l)+' '+t('pcs'),'neg'],[t('saleVal'),money(mon.sv)],[t('received'),money(mon.paid),'pos'],[t('adminProfit'),money(mon.ap),'pos'],[t('distProfit'),money(mon.dp)],[t('lossVal'),money(mon.lv),'neg'],[t('pending'),money(mon.pend)]]))}`;
