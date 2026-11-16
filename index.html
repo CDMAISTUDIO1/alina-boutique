@@ -141,6 +141,7 @@ h1,h2,.num,.big,.kpi b{font-family:Montserrat,Nunito,"Noto Sans Arabic","Noto Sa
 .rep .tot td{background:#e3f0e8}
 .rep .rd{color:#b42318;font-weight:800}.rep .gr{color:#0a6b36;font-weight:800}
 .rep .rlogo{width:64px;height:64px;border-radius:14px}
+.pw{position:relative}.pw input{padding-inline-end:54px}.pw .eye{position:absolute;inset-inline-end:6px;top:calc(50% - 3px);transform:translateY(-50%);background:none;box-shadow:none;border:0;padding:6px 10px;font-size:19px;line-height:1}
 .rep{overflow-x:auto}.rep table{font-size:11.5px}.rep td,.rep th{padding:6px 3px}@media print{.rep{overflow:visible}.rep table{font-size:12px}}
 </style>
 </head>
@@ -160,9 +161,9 @@ appSub:['Maal aur hisab','Stock & accounts','مال اور حساب'],
 login:['Login','Login','لاگ اِن'],email:['Email','Email','ای میل'],pass:['Password','Password','پاس ورڈ'],
 forgot:['Password bhool gaye?','Forgot password?','پاس ورڈ بھول گئے؟'],
 resetSent:['Password badalne ki email bhej di gayi','Password reset email sent','پاس ورڈ بدلنے کی ای میل بھیج دی گئی'],
-setupT:['Pehli baar setup','First-time setup','پہلی بار سیٹ اپ'],
-setupP:['Business ka naam aur Main Admin ka account banayein','Create the business name and main admin account','کاروبار کا نام اور مین ایڈمن کا اکاؤنٹ بنائیں'],
-setupBtn:['Setup karo','Set up','سیٹ اپ کریں'],biz:['Business ka naam','Business name','کاروبار کا نام'],name:['Naam','Name','نام'],
+setupT:['Admin (Malik) ka account','Owner admin account','ایڈمن (مالک) کا اکاؤنٹ'],
+setupP:['Ye sirf ek baar banta hai, business ke Malik ke liye','Created only once, for the business owner','یہ صرف ایک بار بنتا ہے، کاروبار کے مالک کے لیے'],
+setupBtn:['Account banao','Create account','اکاؤنٹ بنائیں'],biz:['Business ka naam','Business name','کاروبار کا نام'],name:['Naam','Name','نام'],
 logout:['Logout','Logout','لاگ آؤٹ'],offline:['Offline karo','Go offline','آف لائن کریں'],online:['Online karo','Go online','آن لائن کریں'],
 offBar:['Offline: entries phone mein mehfooz hain, net aate hi sync hongi','Offline: entries are saved on this phone and will sync','آف لائن: انٹریز فون میں محفوظ ہیں، نیٹ آتے ہی سنک ہوں گی'],
 syncBar:['Sync baaki ({0})','Sync pending ({0})','سنک باقی ({0})'],
@@ -185,7 +186,7 @@ sRate:['Fixed sale price','Fixed sale price','مقررہ فروخت قیمت'],s
 pp:['Fi piece munafa','Profit per piece','فی پیس منافع'],addCat:['+ Category','+ Category','+ کیٹیگری'],addItem:['+ Naya maal','+ New item','+ نیا مال'],
 edit:['Edit','Edit','ترمیم'],del:['Delete','Delete','حذف'],
 addDist:['+ Naya distributor','+ New distributor','+ نیا ڈسٹری بیوٹر'],phone:['Phone','Phone','فون'],
-admins:['Admins','Admins','ایڈمنز'],addAdmin:['+ Naya admin','+ New admin','+ نیا ایڈمن'],settings:['Settings','Settings','سیٹنگز'],currency:['Currency','Currency','کرنسی'],
+admins:['Admin (Malik)','Admin (Owner of business)','ایڈمن (مالک)'],newMalik:['🛡️ Naya account: Admin (Malik)','🛡️ New account: Admin (Owner)','🛡️ نیا اکاؤنٹ: ایڈمن (مالک)'],newDist:['👤 Naya account: Distributor','👤 New account: Distributor','👤 نیا اکاؤنٹ: ڈسٹری بیوٹر'],distSign:['Distributor ka naya account','New distributor account','ڈسٹری بیوٹر کا نیا اکاؤنٹ'],distSignP:['Malik se Distributor code lein, phir apni email aur password se account banayein','Get the Distributor code from the owner, then sign up with your email and password','مالک سے ڈسٹری بیوٹر کوڈ لیں، پھر اپنی ای میل اور پاس ورڈ سے اکاؤنٹ بنائیں'],dcode:['Distributor code','Distributor code','ڈسٹری بیوٹر کوڈ'],dcodeP:['Ye code naye distributor ko dein. Is se wo khud account bana lega.','Give this code to a new distributor to sign up.','یہ کوڈ نئے ڈسٹری بیوٹر کو دیں۔'],newCode:['Naya code','New code','نیا کوڈ'],makeCode:['Code banao','Create code','کوڈ بنائیں'],badCode:['Distributor code ghalat hai','Wrong distributor code','ڈسٹری بیوٹر کوڈ غلط ہے'],createAcc:['Account banao','Create account','اکاؤنٹ بنائیں'],newCodeQ:['Naya code banayein? Purana code band ho jayega (pehle bane accounts chalte rahenge).','Make a new code? The old code stops working (existing accounts keep working).','نیا کوڈ بنائیں؟ پرانا کوڈ بند ہو جائے گا۔'],addAdmin:['+ Naya admin','+ New admin','+ نیا ایڈمن'],settings:['Settings','Settings','سیٹنگز'],currency:['Currency','Currency','کرنسی'],
 months:['Mahine','Months','مہینے'],backup:['Owner Backup','Owner Backup','اونر بیک اپ'],owner:['Owner (sirf aap)','Owner (only you)','اونر (صرف آپ)'],
 vlinks:['Visitor links','Visitor links','وزیٹر لنکس'],newLink:['+ Naya link','+ New link','+ نیا لنک'],share:['Share','Share','شیئر'],
 wa:['WhatsApp number','WhatsApp number','واٹس ایپ نمبر'],wmsg:['Welcome message','Welcome message','خوش آمدید پیغام'],vset:['WhatsApp aur message','WhatsApp & messages','واٹس ایپ اور پیغام'],
@@ -268,6 +269,7 @@ function nextM(m){let y=+m.slice(0,4),mo=+m.slice(5)+1;if(mo>12){mo=1;y++}return
 const r2=n=>Math.round((+n||0)*100)/100;
 function fmt(n){n=r2(n);const neg=n<0;n=Math.abs(n);return (neg?'-':'')+n.toLocaleString('en-US',{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2})}
 const money=n=>(r2(n)<0?'-':'')+(S.cfg.cur||'Rs')+' '+fmt(Math.abs(r2(n)));
+const EZ='ABCDEFGHJKMNPQRSTUVWXYZ23456789';const ezCode=n=>{let r='';const a=new Uint32Array(n);crypto.getRandomValues(a);for(const x of a)r+=EZ[x%EZ.length];return r};
 const nid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,9);
 const fdate=d=>d?d.slice(8,10)+'-'+d.slice(5,7)+'-'+d.slice(0,4):'';
 
@@ -275,7 +277,7 @@ const CFG=window.FIREBASE_CONFIG||{};
 const HAS_CFG=!!(CFG.apiKey&&!/YAHAN|PASTE|xxxx/i.test(CFG.apiKey));
 let db=null,auth=null,unsubs=[];
 const S={mode:'real',role:null,uid:null,me:{},owner:false,cfg:{bizName:'Alina Boutique',cur:'Rs'},vcfg:{wa:'',msgs:{}},
-cats:{},items:{},cost:{},users:{},tx:{},vlinks:{},pend:0,tab:'home',month:'all',fDist:'',view:null,
+cats:{},items:{},cost:{},users:{},tx:{},vlinks:{},code:'',hasMalik:true,pend:0,tab:'home',month:'all',fDist:'',view:null,
 lang:localStorage.getItem('cdm_lang')||'ru',off:localStorage.getItem('cdm_off')==='1',net:navigator.onLine,screen:'loading',vlang:'en'};
 function t(k,...a){const r=TX[k];let s=r?(r[{ru:0,en:1,ur:2}[S.lang]]??r[0]):k;a.forEach((v,i)=>s=s.split('{'+i+'}').join(v));return s}
 let rq=0;function later(){if(rq)return;rq=requestAnimationFrame(()=>{rq=0;render()})}
@@ -290,7 +292,7 @@ const card=(h,b,extra='')=>`<div class="card">${h?`<div class="row"><h2 class="s
 const empty=()=>`<p class="empty">${t('noData')}</p>`;
 
 /* ---------- data layer (Firebase ya demo memory) ---------- */
-function memSet(c,id,d,merge){if(c==='cfg'){const k=id==='app'?'cfg':'vcfg';S[k]=merge?{...S[k],...d}:{...d}}else{S[c][id]=merge?{...(S[c][id]||{}),...d}:{...d}}}
+function memSet(c,id,d,merge){if(c==='cfg'&&id==='code'){S.code=d.c;return}if(c==='cfg'){const k=id==='app'?'cfg':'vcfg';S[k]=merge?{...S[k],...d}:{...d}}else{S[c][id]=merge?{...(S[c][id]||{}),...d}:{...d}}}
 const DB={
  real(){return S.mode==='real'&&db},
  set(c,id,d,merge){if(this.real())return db.collection(c).doc(id).set(d,merge?{merge:true}:{}).catch(werr);memSet(c,id,d,merge);later();return Promise.resolve()},
@@ -307,7 +309,7 @@ function listen(){
  const col=(c,q)=>L(q||db.collection(c),s=>{const m={};s.docs.forEach(d=>m[d.id]=d.data());S[c]=m;if(c==='tx')S.pend=s.docs.filter(d=>d.metadata.hasPendingWrites).length;later()},c==='tx');
  L(db.collection('cfg').doc('app'),s=>{if(s.exists)S.cfg={...S.cfg,...s.data()};later()});
  col('cats');col('items');
- if(S.role==='admin'){col('cost');col('users');col('tx')}
+ if(S.role==='admin'){col('cost');col('users');col('tx');L(db.collection('cfg').doc('code'),s=>{S.code=s.exists?(s.data().c||''):'';later()})}
  else{col('tx',db.collection('tx').where('dist','==',S.uid));
   L(db.collection('users').doc(S.uid),s=>{if(s.exists){S.me=s.data();if(S.me.active===false){stop();return gate('accOff',true)}}later()})}
  if(S.owner){L(db.collection('cfg').doc('visitor'),s=>{S.vcfg=s.exists?{wa:'',msgs:{},...s.data()}:{wa:'',msgs:{}};later()});col('vlinks')}
@@ -331,9 +333,9 @@ async function onAuth(u){
   if(!u)return auth.signInAnonymously().catch(e=>gate(/operation-not-allowed|admin-restricted/.test(e.code||'')?'anonOff':'connErr'));
   return visitorOpen(u);
  }
- if(!u){S.screen='loading';render();let setup=false;
-  try{const s=await db.collection('cfg').doc('app').get();setup=!s.exists;if(s.exists)S.cfg={...S.cfg,...s.data()}}catch(e){}
-  S.screen=setup?'setup':'login';return render()}
+ if(!u){if(S.screen==='dsign'||S.screen==='setup')return;S.screen='loading';render();
+  try{const s=await db.collection('cfg').doc('app').get();S.hasMalik=!!(s.exists&&s.data().malik===true);if(s.exists)S.cfg={...S.cfg,...s.data()}}catch(e){S.hasMalik=true}
+  S.screen='login';return render()}
  if(u.isAnonymous){await auth.signOut();return}
  afterLogin(u);
 }
@@ -358,8 +360,22 @@ async function doSetup(){
  S.busy=true;
  try{
   const c=await auth.createUserWithEmailAndPassword(em,pw);const uid=c.user.uid;
-  const mk=owner=>{const b=db.batch();b.set(db.collection('users').doc(uid),{role:'admin',owner,name:nm,email:em,active:true,at:Date.now()});b.set(db.collection('cfg').doc('app'),{bizName:biz,cur:'Rs',at:Date.now()});return b.commit()};
-  try{await mk(true)}catch(e){await mk(false)}
+  const b=db.batch();
+  b.set(db.collection('users').doc(uid),{role:'admin',owner:false,name:nm,email:em,active:true,at:Date.now()});
+  b.set(db.collection('cfg').doc('app'),{bizName:biz,cur:S.cfg.cur||'Rs',malik:true,at:Date.now()},{merge:true});
+  b.set(db.collection('cfg').doc('code'),{c:ezCode(6),at:Date.now()});
+  try{await b.commit()}catch(e){try{await c.user.delete()}catch(x){}S.busy=false;S.hasMalik=true;toast(t('noAcc'));return render()}
+  S.busy=false;afterLogin(c.user);
+ }catch(e){S.busy=false;toast(authErr(e))}
+}
+async function doDistSign(){
+ const nm=val('#dName'),ph=val('#dPhone'),em=val('#dEmail'),pw=val('#dPass'),jc=val('#dCode').toUpperCase().replace(/\s/g,'');
+ if(!nm||!em||!pw||!jc)return toast(t('fill'));
+ S.busy=true;
+ try{
+  const c=await auth.createUserWithEmailAndPassword(em,pw);const uid=c.user.uid;
+  try{await db.collection('users').doc(uid).set({role:'dist',name:nm,phone:ph,email:em,active:true,jc,at:Date.now()})}
+  catch(e){try{await c.user.delete()}catch(x){try{await auth.signOut()}catch(y){}}S.busy=false;S.screen='dsign';render();return toast(t('badCode'))}
   S.busy=false;afterLogin(c.user);
  }catch(e){S.busy=false;toast(authErr(e))}
 }
@@ -392,7 +408,7 @@ function demoRole(){if(S.role==='admin'){S.role='dist';S.uid='d1';S.me={...S.use
 function seed(){
  const cm=curM(),pm=(()=>{let y=+cm.slice(0,4),m=+cm.slice(5)-1;if(!m){m=12;y--}return y+'-'+pad(m)})();
  const dd=(m,d)=>m+'-'+pad(d);const now=Date.now();
- S.cfg={bizName:'Alina Boutique',cur:'Rs'};
+ S.cfg={bizName:'Alina Boutique',cur:'Rs'};S.code='KD7MXP';
  S.cats={c1:{name:'Ladies suit'},c2:{name:'Bachon ke suit'},c3:{name:'Gents'}};
  S.items={i1:{cat:'c1',name:'3-piece lawn',d:1000,s:1200,on:true},i2:{cat:'c1',name:'2-piece',d:700,s:850,on:true},i3:{cat:'c2',name:'Baby frock',d:400,s:500,on:true},i4:{cat:'c2',name:'Boys kurta',d:450,s:550,on:true},i5:{cat:'c3',name:'Shalwar kameez',d:1500,s:1800,on:true}};
  S.cost={i1:{c:500},i2:{c:350},i3:{c:200},i4:{c:250},i5:{c:900}};
@@ -459,6 +475,8 @@ function render(){
  else if(sc==='report')a.innerHTML=`<div class="rep-tools noprint"><button onclick="window.print()">🖨️ ${t('print')}</button><button class="ghost" onclick="S.screen='app';render()">↩ ${t('back')}</button></div><p class="noprint center" style="color:#cfe6d9;font-size:12px;margin:0 0 8px;position:relative;z-index:1">${t('printHint')}</p><div class="rep">${S.report}</div>`;
  else a.innerHTML=simpleHdr(sc!=='vw1'&&sc!=='vw2')+`<main>${pre()}</main>`;
 }
+function pwBox(id,extra){return `<div class="pw"><input id="${id}" type="password" ${extra||''}><button type="button" class="eye" onclick="togglePw('${id}',this)" aria-label="show password">👁️</button></div>`}
+function togglePw(id,b){const i=$('#'+id);if(!i)return;const sh=i.type==='password';i.type=sh?'text':'password';b.textContent=sh?'🙈':'👁️';i.focus()}
 function langSel(){return `<select id="lang" onchange="setLang(this.value)">${LANGS.map(([k,n])=>`<option value="${k}" ${S.lang===k?'selected':''}>${n}</option>`).join('')}</select>`}
 function simpleHdr(withLang){return `<header><div class="hlogo"><img src="logo.png" alt=""><h1>${esc(S.cfg.bizName||'Alina Boutique')}</h1></div><p>${t('appSub')}</p>${withLang?`<div class="row">${langSel()}</div>`:''}</header>`}
 function hdr(){
@@ -484,8 +502,9 @@ function pre(){
  if(sc==='loading')return `<p class="center" style="color:#fff;margin-top:30vh">${t('loading')}</p>`;
  if(sc==='nocfg')return card('⚙️ Setup',`<p>${t('cfgMissing')}</p><button class="full" onclick="previewVisitor()">${t('demoBtn')}</button>`);
  if(sc==='msg')return card('',`<p style="font-weight:700">${t(S.msg)}</p><div class="row">${S.msgLo?`<button class="ghost sp" onclick="logout()">${t('logout')}</button>`:''}<button class="sp" onclick="location.reload()">${t('retry')}</button></div>`);
- if(sc==='login')return `<img class="logo-img" src="logo.png" alt="">`+card(t('login'),`<label>${t('email')}</label><input id="lEmail" type="email" autocomplete="username"><label>${t('pass')}</label><input id="lPass" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"><button class="full" onclick="doLogin()">${t('login')}</button><p class="center"><a href="#" onclick="doForgot();return false" style="color:var(--pri);font-weight:700;font-size:13px">${t('forgot')}</a></p>`)+`<p class="foot">${t('devBy')}</p>`;
- if(sc==='setup')return `<img class="logo-img" src="logo.png" alt="">`+card(t('setupT'),`<p class="mut">${t('setupP')}</p><label>${t('biz')}</label><input id="sBiz" value="Alina Boutique"><label>${t('name')}</label><input id="sName"><label>${t('email')}</label><input id="sEmail" type="email"><label>${t('pass')}</label><input id="sPass" type="password"><button class="full" onclick="doSetup()">${t('setupBtn')}</button>`)+`<p class="foot">${t('devBy')}</p>`;
+ if(sc==='login')return `<img class="logo-img" src="logo.png" alt="">`+card(t('login'),`<label>${t('email')}</label><input id="lEmail" type="email" autocomplete="username"><label>${t('pass')}</label>${pwBox('lPass',`autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"`)}<button class="full" onclick="doLogin()">${t('login')}</button><p class="center"><a href="#" onclick="doForgot();return false" style="color:var(--pri);font-weight:700;font-size:13px">${t('forgot')}</a></p>`)+(S.hasMalik?'':`<button class="full ok" style="margin-bottom:10px" onclick="S.screen='setup';render()">${t('newMalik')}</button>`)+`<button class="full ghost" onclick="S.screen='dsign';render()">${t('newDist')}</button><p class="foot">${t('devBy')}</p>`;
+ if(sc==='setup')return `<img class="logo-img" src="logo.png" alt="">`+card(t('setupT'),`<p class="mut">${t('setupP')}</p><label>${t('biz')}</label><input id="sBiz" value="Alina Boutique"><label>${t('name')}</label><input id="sName"><label>${t('email')}</label><input id="sEmail" type="email"><label>${t('pass')}</label>${pwBox('sPass','autocomplete="new-password"')}<button class="full" onclick="doSetup()">${t('setupBtn')}</button><button class="full ghost" style="margin-top:10px" onclick="S.screen='login';render()">← ${t('back')}</button>`)+`<p class="foot">${t('devBy')}</p>`;
+ if(sc==='dsign')return `<img class="logo-img" src="logo.png" alt="">`+card(t('distSign'),`<p class="mut">${t('distSignP')}</p><label>${t('dcode')}</label><input id="dCode" autocapitalize="characters" autocomplete="off" style="text-transform:uppercase;letter-spacing:3px;font-weight:800" placeholder="ABC234"><label>${t('name')}</label><input id="dName"><label>${t('phone')}</label><input id="dPhone" type="tel"><label>${t('email')}</label><input id="dEmail" type="email" autocomplete="username"><label>${t('pass')}</label>${pwBox('dPass','autocomplete="new-password" placeholder="min 6"')}<button class="full" onclick="doDistSign()">${t('createAcc')}</button><button class="full ghost" style="margin-top:10px" onclick="S.screen='login';render()">← ${t('back')}</button>`)+`<p class="foot">${t('devBy')}</p>`;
  const v=V[S.vlang]||V.en,logo=`<img class="logo-img" src="logo.png" alt="Alina Boutique">`;
  const waBtn=S.vcfg.wa?`<a href="https://wa.me/${esc(String(S.vcfg.wa).replace(/\D/g,''))}" target="_blank" rel="noopener" style="text-decoration:none"><button class="full ok" style="background:linear-gradient(180deg,#2bd46a,#1aa851);border-color:#1aa851;margin-top:8px">💬 ${v[6]}</button></a>`:'';
  if(sc==='vw1')return `<div class="chips" style="flex-wrap:wrap;justify-content:center">${VL.map(l=>`<button class="${S.vlang===l?'on':''}" onclick="setVlang('${l}')">${V[l][0]}</button>`).join('')}</div>`+card('',`${logo}<p class="center" style="margin:0;font-weight:700;color:var(--mut)">${v[1]}</p><h2 class="center" style="font-size:24px;margin:4px 0 14px">Alina Boutique</h2><label>${v[2]}</label><input id="vName" value="${esc(S.vname||'')}" maxlength="60"><button class="full" onclick="vNext()">${v[3]} →</button>${waBtn}`)+`<p class="foot">${t('devBy')}</p>`;
@@ -538,7 +557,8 @@ function vAdmin(){
  let h=card(t('cats'),`<div class="chips" style="flex-wrap:wrap">${cats.map(([id,c])=>`<button onclick="catForm('${id}')">${esc(c.name)} ✏️</button>`).join('')}<button class="on" onclick="catForm()">${t('addCat')}</button></div>`);
  h+=card(t('items'),(its.length?its.map(x=>{const c=+(S.cost[x.id]?.c)||0;return `<div class="li click" onclick="itemForm('${x.id}')"><div class="ico">👗</div><div class="sp"><b>${esc(x.name)}</b> ${x.on===false?`<span class="tag offt">${t('offT')}</span>`:''}<div class="mut">${esc(catName(x.cat))}</div><div class="mut">${t('costS')} ${fmt(c)} · ${t('dRateS')} ${fmt(x.d)} · ${t('sRateS')} ${fmt(x.s)}</div></div><div class="mut" style="text-align:end">Admin +${fmt(x.d-c)}<br>Dist +${fmt(x.s-x.d)}</div></div>`}).join(''):empty())+`<button class="full" style="margin-top:10px" onclick="itemForm()">${t('addItem')}</button><p class="mut center" style="margin:8px 0 0">🔒 ${t('rateNote')}</p>`);
  h+=card(t('months'),ms.map(m=>`<div class="li"><div class="ico">🗓️</div><div class="sp"><b>${mName(m)}</b><div class="mut">${cnt[m]||0} ${t('entries')}</div></div><button class="sm" onclick="repMonth('${m}')">📄 PDF</button><button class="sm danger" onclick="delMonth('${m}')">🗑 ${t('del')}</button></div>`).join(''));
- h+=card(t('admins'),admins.map(([id,u])=>`<div class="li"><div class="ico">🛡️</div><div class="sp"><b>${esc(u.name)}</b>${u.owner?' <span class="tag">Owner</span>':''}<div class="mut">${esc(u.email||'')}</div></div>${u.owner||id===S.uid?'':`<button class="sm danger" onclick="toggleUser('${id}')">${u.active===false?t('turnOn'):t('turnOff')}</button>`}</div>`).join('')+`<button class="full" style="margin-top:10px" onclick="adminForm()">${t('addAdmin')}</button>`);
+ h+=card(t('admins'),admins.map(([id,u])=>`<div class="li"><div class="ico">🛡️</div><div class="sp"><b>${esc(u.name)}</b>${u.owner?' <span class="tag">Owner</span>':''}<div class="mut">${esc(u.email||'')}</div></div>${u.owner||id===S.uid?'':`<button class="sm danger" onclick="toggleUser('${id}')">${u.active===false?t('turnOn'):t('turnOff')}</button>`}</div>`).join(''));
+ h+=card('🔑 '+t('dcode'),S.code?`<p class="mut" style="margin-top:0">${t('dcodeP')}</p><div class="center" style="font-size:34px;font-weight:800;letter-spacing:6px;margin:6px 0 12px;font-family:Montserrat,sans-serif">${esc(S.code)}</div><div class="row"><button class="sp" onclick="shareCode()">${t('share')}</button><button class="ghost sp" onclick="newCode()">🔄 ${t('newCode')}</button></div>`:`<button class="full" onclick="newCode(true)">${t('makeCode')}</button>`);
  h+=card(t('settings'),`<div class="li"><div class="sp"><div class="mut">${t('biz')}</div><b>${esc(S.cfg.bizName)}</b></div></div><div class="li"><div class="sp"><div class="mut">${t('currency')}</div><b>${esc(S.cfg.cur||'Rs')}</b></div></div><button class="full ghost" style="margin-top:8px" onclick="setForm()">✏️ ${t('edit')}</button>`);
  if(S.owner&&S.mode==='real')h+=vOwner();
  return h;
@@ -624,9 +644,9 @@ function saveItem(id){const n=val('#fIn'),cat=val('#fIc'),c=r2(val('#fIcst')),d=
 function needNet(){return S.mode==='real'&&(S.off||!navigator.onLine)}
 function distForm(id){const u=id?S.users[id]:{};
  sheet(`<h2>👤 ${t('dist')}</h2><label>${t('name')}</label><input id="fDn" value="${esc(u.name||'')}"><label>${t('phone')}</label><input id="fDp" type="tel" value="${esc(u.phone||'')}">
- ${id?`<p class="mut">${t('email')}: ${esc(u.email||'')}</p>`:`<label>${t('email')} (login)</label><input id="fDe" type="email"><label>${t('pass')}</label><input id="fDw" type="text" placeholder="min 6">`}
+ ${id?`<p class="mut">${t('email')}: ${esc(u.email||'')}</p>`:`<label>${t('email')} (login)</label><input id="fDe" type="email"><label>${t('pass')}</label>${pwBox('fDw','placeholder="min 6" autocomplete="new-password"')}`}
  <div class="row"><button class="ghost sp" onclick="closeSheet()">${t('cancel')}</button><button class="ok sp" onclick="saveUser('dist','${id||''}')">${t('save')}</button></div>`)}
-function adminForm(){sheet(`<h2>🛡️ ${t('addAdmin').replace('+ ','')}</h2><label>${t('name')}</label><input id="fDn"><label>${t('email')}</label><input id="fDe" type="email"><label>${t('pass')}</label><input id="fDw" type="text" placeholder="min 6"><div class="row"><button class="ghost sp" onclick="closeSheet()">${t('cancel')}</button><button class="ok sp" onclick="saveUser('admin','')">${t('save')}</button></div>`)}
+function adminForm(){sheet(`<h2>🛡️ ${t('addAdmin').replace('+ ','')}</h2><label>${t('name')}</label><input id="fDn"><label>${t('email')}</label><input id="fDe" type="email"><label>${t('pass')}</label>${pwBox('fDw','placeholder="min 6" autocomplete="new-password"')}<div class="row"><button class="ghost sp" onclick="closeSheet()">${t('cancel')}</button><button class="ok sp" onclick="saveUser('admin','')">${t('save')}</button></div>`)}
 let secApp=null;
 async function saveUser(role,id){
  const n=val('#fDn'),p=val('#fDp');if(!n)return toast(t('fill'));
@@ -638,6 +658,9 @@ async function saveUser(role,id){
  try{if(!secApp)secApp=firebase.initializeApp(CFG,'sec');const sa=secApp.auth();const c=await sa.createUserWithEmailAndPassword(e,w);const uid=c.user.uid;await sa.signOut();
   await DB.set('users',uid,d);closeSheet();toast(t('saved'))}catch(err){toast(authErr(err))}
 }
+function shareCode(){const u=location.origin+location.pathname,txt=(S.cfg.bizName||'Alina Boutique')+' app: '+u+'\n'+t('dcode')+': '+S.code;
+ (navigator.share?navigator.share({title:S.cfg.bizName,text:txt}).catch(()=>{}):navigator.clipboard.writeText(txt).then(()=>toast(t('copied'))).catch(()=>dlg(`<p style="white-space:pre-wrap;font-weight:700">${esc(txt)}</p><button class="full" onclick="closeDlg()">OK</button>`)))}
+function newCode(first){const go=()=>{DB.set('cfg','code',{c:ezCode(6),at:Date.now()});toast(t('saved'))};first?go():confirmBox(t('newCodeQ'),go)}
 function toggleUser(id){const u=S.users[id];if(!u)return;confirmBox((u.active===false?t('turnOn'):t('turnOff'))+': '+u.name+'?',()=>{DB.set('users',id,{active:u.active===false},true);toast(t('saved'))})}
 function setForm(){sheet(`<h2>⚙️ ${t('settings')}</h2><label>${t('biz')}</label><input id="fBz" value="${esc(S.cfg.bizName||'')}"><label>${t('currency')}</label><select id="fCu">${CURS.map(c=>`<option ${S.cfg.cur===c?'selected':''}>${c}</option>`).join('')}</select><div class="row"><button class="ghost sp" onclick="closeSheet()">${t('cancel')}</button><button class="ok sp" onclick="saveSet()">${t('save')}</button></div>`)}
 function saveSet(){const b=val('#fBz');if(!b)return toast(t('fill'));DB.set('cfg','app',{bizName:b,cur:val('#fCu')||'Rs'},true);closeSheet();toast(t('saved'))}
@@ -692,7 +715,7 @@ function backup(){
  const b=new Blob([JSON.stringify(data,null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='Alina-Boutique-backup-'+today()+'.json';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500);toast(t('backupDone'));
 }
 const linkUrl=k=>location.origin+location.pathname+'?v='+k;
-function newLink(){if(needNet())return toast(t('needNet'));const k=Math.random().toString(36).slice(2,8)+Math.random().toString(36).slice(2,8);const n=Math.max(0,...Object.values(S.vlinks).map(l=>l.n||0))+1;DB.set('vlinks',k,{n,at:Date.now()});toast('Link '+n+' ✅')}
+function newLink(){if(needNet())return toast(t('needNet'));const k=ezCode(12);const n=Math.max(0,...Object.values(S.vlinks).map(l=>l.n||0))+1;DB.set('vlinks',k,{n,at:Date.now()});toast('Link '+n+' ✅')}
 async function shareLink(k){const u=linkUrl(k);try{if(navigator.share){await navigator.share({title:'Alina Boutique',url:u});return}}catch(e){if(e&&e.name==='AbortError')return}
  try{await navigator.clipboard.writeText(u);toast(t('copied'))}catch(e){dlg(`<p style="word-break:break-all;font-weight:700">${esc(u)}</p><button class="full" onclick="closeDlg()">OK</button>`)}}
 function delLink(k){confirmBox(t('del')+' Link '+(S.vlinks[k]?.n||'')+'?',()=>{DB.del('vlinks',k);toast(t('deleted'))})}
