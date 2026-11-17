@@ -191,6 +191,8 @@ html[lang=ur] .hb-rib{transform:translateY(-40%);line-height:1.5!important}
 .mrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.mrow .chips{flex:1 1 auto;min-width:0}
 .dsbtn{background:linear-gradient(180deg,#14805c,#0b5a40);color:#fff;border:1.5px solid #d9a521;padding:7px 12px;font-size:12.5px;white-space:nowrap}
 .hban .hb-amtbtn{left:3%;top:24%;width:47%;height:24%;background:transparent;box-shadow:none;border:0;border-radius:999px;padding:0}
+.hban .hb-ds{left:4.5%;top:55%;width:41%;height:14.5%;padding:0;border-radius:999px;background:linear-gradient(180deg,#14805c,#0b5a40);border:.35cqw solid #e8b43a;color:#fff;font-family:Montserrat,Nunito,sans-serif;font-weight:800;box-shadow:0 .6cqw 1.6cqw rgba(0,0,0,.45),inset 0 .2cqw 0 rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center}
+.iled{border:1px solid var(--line);border-radius:16px;padding:10px;margin:8px 0;background:#fff}
 .pw{position:relative}.pw input{padding-inline-end:54px}.pw .eye{position:absolute;inset-inline-end:6px;top:calc(50% - 3px);transform:translateY(-50%);background:none;box-shadow:none;border:0;padding:6px 10px;font-size:19px;line-height:1}
 .rep{overflow-x:auto}.rep table{font-size:11.5px}.rep td,.rep th{padding:6px 3px}@media print{.rep{overflow:visible}.rep table{font-size:12px}}
 </style>
@@ -207,6 +209,7 @@ html[lang=ur] .hb-rib{transform:translateY(-40%);line-height:1.5!important}
 <script>
 /* ================= Alina Boutique — Developed by CDM AI Studio ================= */
 const TX={
+stockValP:['Bache hue stock ki qeemat (Distributor Price se)','Value of remaining stock (at distributor price)','بچے ہوئے اسٹاک کی قیمت (ڈسٹری بیوٹر پرائس سے)'],
 aGive:['Distributor ko Stock Issue','Issue stock to distributor','ڈسٹری بیوٹر کو اسٹاک جاری'],aSale:['Distributor ki Sale darj karein','Record distributor sale','ڈسٹری بیوٹر کی سیل درج کریں'],aPay:['Distributor se Payment li','Payment from distributor','ڈسٹری بیوٹر سے ادائیگی لی'],aRet:['Distributor se Stock Return','Stock return from distributor','ڈسٹری بیوٹر سے اسٹاک واپسی'],
 byMalik:['Malik ne darj ki','Entered by owner','مالک نے درج کی'],byDist:['Distributor ne darj ki','Entered by distributor','ڈسٹری بیوٹر نے درج کی'],
 perDist:['Har distributor ka hisab','By distributor','ہر ڈسٹری بیوٹر کا حساب'],howMade:['Ye number kin entries se bana','Entries behind this number','یہ نمبر کن انٹریز سے بنا'],
@@ -641,14 +644,15 @@ function vHomeA(){
  const mon=S.month==='all'?tot:sumAgg(agg(txArr().filter(x=>x.m===S.month)));
  const pn=txArr().filter(x=>x.type==='pay'&&x.st==='pending').length;
  const amt=money(tot.due),rib=t('duaT');
- return `<div class="hban"><img src="banner-home.jpg" alt=""><div class="hb-l1" data-fit="26,4,2.9">${t('totDue')}</div><div class="hb-amt" data-fit="30.7,7.5,6.55">${amt}</div><button class="hb-amtbtn" onclick="showDueList()" aria-label="due"></button><div class="hb-rib" data-fit="32,2.9,2.55">${rib}</div></div>
+ return `<div class="hban"><img src="banner-home.jpg" alt=""><div class="hb-l1" data-fit="26,4,2.9">${t('totDue')}</div><div class="hb-amt" data-fit="30.7,7.5,6.55">${amt}</div><button class="hb-amtbtn" onclick="showDueList()" aria-label="due"></button><button class="hb-ds" onclick="showDistStock()"><span data-fit="37,6,3.9" style="display:inline-block;white-space:nowrap">👥 ${t('distStock')} ▸</span></button><div class="hb-rib" data-fit="32,2.9,2.55">${rib}</div></div>
  <div class="infochips"><button class="${pn?'hot':''}" onclick="showPending()">⏳ ${t('pendBtn')} (${pn})</button><button onclick="showDueList()">💰 ${t('dueList')}</button><button onclick="repMonth(curM())">📄 ${t('monthPdf')}</button><button onclick="resetList('reset')">🔄 ${t('resetBtn')}</button></div>
- <div class="mrow">${monthChips()}<button class="dsbtn" onclick="showDistStock()">👥 ${t('distStock')} <b>▸</b></button></div>
+ ${monthChips()}
  ${card(S.month==='all'?t('since'):mName(S.month),kpis([[t('given'),fmt(mon.g+mon.o)+' '+t('pcs'),'',`showMetric('g','${t('given')}')`],[t('sold'),fmt(mon.s)+' '+t('pcs'),'',`showMetric('s','${t('sold')}')`],[t('returned'),fmt(mon.r)+' '+t('pcs'),'',`showMetric('r','${t('returned')}')`],[t('lost'),fmt(mon.l)+' '+t('pcs'),'neg',`showMetric('l','${t('lost')}')`],[t('saleVal'),money(mon.sv),'',`showMetric('sv','${t('saleVal')}')`],[t('received'),money(mon.paid),'pos',`showMetric('paid','${t('received')}')`],[t('adminProfit'),money(mon.ap),'pos',`showMetric('ap','${t('adminProfit')}')`],[t('distProfit'),money(mon.dp),'',`showMetric('dp','${t('distProfit')}')`],[t('lossVal'),money(mon.lv),'neg',`showMetric('lv','${t('lossVal')}')`],[t('pending'),money(mon.pend),'',`showMetric('pend','${t('pending')}')`]]))}`;
 }
 function showPending(){const l=txArr().filter(x=>x.type==='pay'&&x.st==='pending');sheet(`<h2>⏳ ${t('pendingT')}</h2>${l.length?l.map(x=>txRow(x)).join(''):empty()}<button class="full ghost" style="margin-top:12px" onclick="closeSheet()">${t('back')}</button>`)}
-function showDistStock(){const all=agg(txArr());const ds=distUsers().map(d=>({...d,a:all[d.id]||{left:0,due:0}}));
- sheet(`<h2>📦 ${t('distStock')}</h2>${ds.length?ds.map(d=>`<div class="li click" onclick="closeSheet();openDist('${d.id}')"><div class="ico">👤</div><div class="sp"><b>${esc(d.name)}</b>${d.active===false?` <span class="tag offt">${t('offT')}</span>`:''}<div class="mut">${esc(d.phone||'')}</div></div><div style="text-align:end"><b class="num">📦 ${fmt(d.a.left)} ${t('pcs')}</b><div class="num ${dueCls(d.a.due)}" style="font-weight:800">💰 ${dueTxt(d.a.due)}</div></div></div>`).join(''):empty()}<button class="full ghost" style="margin-top:12px" onclick="closeSheet()">${t('back')}</button>`)}
+function stockVal(d){return Object.entries((d&&d.items)||{}).reduce((s,[i,it])=>s+leftOf(it)*(+(S.items[i]?.d)||0),0)}
+function showDistStock(){const all=agg(txArr());let tq=0,tv=0;const ds=distUsers().map(d=>{const a=all[d.id];const q=a?a.left:0,v=stockVal(a);tq+=q;tv+=v;return {...d,q,v}});
+ sheet(`<h2>📦 ${t('distStock')}</h2><p class="mut" style="margin-top:-6px">${t('stockValP')}</p>${ds.length?ds.map(d=>`<div class="li click" onclick="closeSheet();openDist('${d.id}')"><div class="ico">👤</div><div class="sp"><b>${esc(d.name)}</b>${d.active===false?` <span class="tag offt">${t('offT')}</span>`:''}<div class="mut">${esc(d.phone||'')}</div></div><div style="text-align:end"><b class="num">📦 ${fmt(d.q)} ${t('pcs')}</b><div class="num" style="font-weight:800;color:#0a6b36">💰 ${money(d.v)}</div></div></div>`).join('')+`<div class="li" style="border-top:2px solid var(--line)"><div class="sp"><b>${t('total')}</b></div><div style="text-align:end"><b class="num">📦 ${fmt(tq)} ${t('pcs')}</b><div class="num" style="font-weight:800;color:#0a6b36">💰 ${money(tv)}</div></div></div>`:empty()}<button class="full ghost" style="margin-top:12px" onclick="closeSheet()">${t('back')}</button>`)}
 function resetRows(mode){const all=agg(txArr()),ds=distUsers();return ds.length?ds.map(d=>{const a=all[d.id]||{left:0,due:0};return `<div class="li click" onclick="zeroAsk('${d.id}','${mode}')"><div class="ico">${mode==='full'?'🗑️':'🔄'}</div><div class="sp"><b>${esc(d.name)}</b><div class="mut">📦 ${fmt(a.left)} ${t('pcs')} · 💰 ${dueTxt(a.due)}</div></div><b style="color:var(--neg)">▸</b></div>`}).join(''):empty()}
 function resetList(mode){sheet(`<h2>🔄 ${t('resetT')}</h2><p class="mut" style="margin-top:-4px">${t('resetP')}</p>${resetRows(mode)}<button class="full ghost" style="margin-top:12px" onclick="closeSheet()">${t('back')}</button>`)}
 function zeroAsk(id,mode){closeSheet();const a=agg(txArr())[id]||{left:0,due:0},nm=distName(id),warn=r2(a.left)!==0||r2(a.due)!==0;
@@ -674,7 +678,13 @@ function itemTable(A,showRates){
  const cats=[...new Set(rows.map(r=>S.items[r.i]?.cat||''))].sort((a,b)=>catName(a).localeCompare(catName(b)));
  if(!cats.includes(S.dcat))S.dcat=cats[0];
  const chips=catChips(cats,S.dcat,'setDcat');rows=rows.filter(r=>(S.items[r.i]?.cat||'')===S.dcat);
- return chips+itemTable2(rows,showRates)}
+ return chips+rows.map(r=>itemLedger(r.i,showRates)).join('')}
+function itemLedger(i,showRates){const id=S.itDist,it=S.items[i]||{};
+ const list=txArr().filter(x=>x.dist===id&&MT.left.includes(x.type)&&(x.lines||[]).some(l=>l.i===i)).sort((a,b)=>(a.date||'').localeCompare(b.date||'')||(a.at||0)-(b.at||0));
+ let run=0;const rows=list.map(x=>{const q=(x.lines||[]).filter(l=>l.i===i).reduce((s,l)=>s+(+l.q||0),0);const sg=(x.type==='give'||x.type==='open')?1:-1;run+=sg*q;
+  return `<tr><td>${fdate(x.date)}</td><td>${ICON[x.type]||''} ${t('t'+x.type)}<div class="mut" style="font-size:11px">✍️ ${byTxt(x)}${x.note?' · 📝 '+esc(x.note):''}</div></td><td class="n" style="color:${sg>0?'#0a6b36':'#b8400a'};font-weight:800">${sg>0?'+':'−'}${fmt(q)}</td><td class="n"><b>${fmt(run)}</b></td></tr>`}).join('');
+ return `<div class="iled"><div class="row" style="cursor:pointer" onclick="openItem('${i}')"><div class="sp"><b class="cl">👗 ${esc(it.name||'?')}</b> <span style="color:#b8860b">▸</span><div class="mut">${esc(catName(it.cat))}${showRates?` · ${t('dRateS')} ${fmt(it.d)} · ${t('sRateS')} ${fmt(it.s)}`:''}</div></div><div style="text-align:end"><div class="mut">${t('left')}</div><b class="num" style="font-size:18px">${fmt(run)}</b></div></div>
+ <table style="margin-top:6px"><tr><th>${t('date')}</th><th>${t('entries')}</th><th class="n">${t('qty')}</th><th class="n">${t('left')}</th></tr>${rows}</table></div>`}
 function itemTable2(rows,showRates){
  const C=(i,k,v,b)=>`<td class="n"><span class="cl" onclick="event.stopPropagation();showItemType('${i}','${k}')">${b?'<b>'+fmt(v)+'</b>':fmt(v)}</span></td>`;
  return `<table><tr><th>${t('item')}</th><th class="n">${t('given')}</th><th class="n">${t('sold')}</th><th class="n">${t('returned')}</th><th class="n">${t('lost')}</th><th class="n">${t('left')}</th></tr>${rows.map(r=>`<tr style="cursor:pointer" onclick="openItem('${r.i}')"><td><span class="cl">${esc(itemName(r.i))}</span> <span style="color:#b8860b">▸</span>${showRates&&S.items[r.i]?`<div class="mut">${t('dRateS')} ${fmt(S.items[r.i].d)} · ${t('sRateS')} ${fmt(S.items[r.i].s)}</div>`:''}</td>${C(r.i,'g',r.g+r.o)}${C(r.i,'s',r.s)}${C(r.i,'r',r.r)}${C(r.i,'l',r.l)}${C(r.i,'left',r.left,1)}</tr>`).join('')}</table>`;
@@ -702,8 +712,7 @@ function vDist(id){
  const B=(k,e,l)=>`<button class="${sub===k?'on':''}" onclick="dsub('${k}')">${e} ${l}</button>`;
  let h=`<button class="ghost sm" style="margin-top:8px" onclick="S.view=null;S.vsub='';render()">← ${t('back')}</button>
  <div class="turn"><div class="row" style="align-items:flex-start"><div class="sp" style="min-width:0"><small>${esc(u.name||'')} · ${t('due')}</small><h2 class="num big">${dueTxt(A.due)}</h2><div style="color:#cfe6d9;font-weight:700">${t('left')}: ${fmt(A.left)} ${t('pcs')}</div>${u.phone?`<div style="color:#cfe6d9;font-weight:700;margin-top:2px">📞 ${esc(u.phone)}</div>`:''}</div>
- <div class="vbtns">${B('full','📊',t('fullH'))}${B('items','👗',t('maalH'))}${B('ent','📒',t('entries'))}${B('more','⚙️',t('more'))}</div></div>
- <div class="row" style="margin-top:12px;flex-wrap:wrap"><button class="gold sm" onclick="openForm('give','${id}')">📦 ${t('aGive')}</button><button class="gold sm" onclick="openForm('sale','${id}')">🛍️ ${t('aSale')}</button><button class="gold sm" onclick="openForm('pay','${id}')">💵 ${t('aPay')}</button><button class="gold sm" onclick="openForm('ret','${id}')">↩️ ${t('aRet')}</button></div></div><div id="dsec"></div>`;
+ <div class="vbtns">${B('full','📊',t('fullH'))}${B('items','👗',t('maalH'))}${B('ent','📒',t('entries'))}${B('more','⚙️',t('more'))}</div></div></div><div id="dsec"></div>`;
  if(sub==='full')h+=card('📊 '+t('fullH'),kpis([[t('given'),fmt(A.g+A.o)+' '+t('pcs'),'',`showEntries('${id}','g','${t('given')}')`],[t('sold'),fmt(A.s)+' '+t('pcs'),'',`showEntries('${id}','s','${t('sold')}')`],[t('returned'),fmt(A.r)+' '+t('pcs'),'',`showEntries('${id}','r','${t('returned')}')`],[t('lost'),fmt(A.l)+' '+t('pcs'),'neg',`showEntries('${id}','l','${t('lost')}')`],[t('saleVal'),money(A.sv),'',`showEntries('${id}','sv','${t('saleVal')}')`],[t('received'),money(A.paid),'pos',`showEntries('${id}','paid','${t('received')}')`],[t('distProfit'),money(A.dp),'',`showEntries('${id}','dp','${t('distProfit')}')`],[t('adminProfit'),money(A.ap),'pos',`showEntries('${id}','ap','${t('adminProfit')}')`],[t('pending'),money(A.pend),'',`showEntries('${id}','pend','${t('pending')}')`]]));
  else if(sub==='items'){S.itDist=id;h+=S.ipage?vItem(id,S.ipage):card('👗 '+t('perItem'),itemTable(A,true))}
  else if(sub==='ent')h+=card('📒 '+t('entries')+` (${list.length})`,list.length?list.slice(0,100).map(x=>txRow(x,true)).join(''):empty());
@@ -782,7 +791,7 @@ function openForm(type,dist){
  const ds=distUsers().filter(d=>d.active!==false);
  if(S.role==='admin'&&!ds.length)return toast(t('noDists'));
  if(type!=='pay'&&!itemList(true).length&&type==='give')return toast(t('noItems'));
- S.f={type,dist:S.role==='dist'?S.uid:(dist||(ds.length===1?ds[0].id:'')),date:today(),lines:[{i:'',q:''}],amt:'',meth:'cash',note:''};
+ S.f={type,dist:S.role==='dist'?S.uid:(dist||(S.tab==='dists'&&S.view&&S.users[S.view]?S.view:'')||(ds.length===1?ds[0].id:'')),date:today(),lines:[{i:'',q:''}],amt:'',meth:'cash',note:''};
  drawForm();
 }
 function drawForm(){
@@ -886,7 +895,7 @@ function repMonth(m){
  ${S.role==='admin'?`<h3>${t('adminProfit')}: ${money(T.ap)} · ${t('distProfit')}: ${money(T.dp)} · ${t('lossVal')}: ${money(T.lv)}</h3>`:''}
  <h3>${t('entries')} (${list.length})</h3>${repTx(list,true)}`);
 }
-function repDist(id){
+function repDist(id){S.itDist=id;
  const list=txArr().filter(x=>x.dist===id),A=agg(list)[id]||sumAgg({}),adm=S.role==='admin';
  showRep(repHead(t('statement'),esc(distName(id))+(S.users[id]?.phone?' · '+esc(S.users[id].phone):''))+`<h3>${t('since')}</h3><table>
  <tr><td>${t('given')}</td><td class="n">${fmt(A.g+A.o)} ${t('pcs')}</td><td>${t('saleVal')}</td><td class="n">${money(A.sv)}</td></tr>
