@@ -186,6 +186,11 @@ html[lang=ur] .hb-rib{transform:translateY(-40%);line-height:1.5!important}
 @media (max-width:860px){.tw-tabs{display:flex}.tw-ph{display:none;width:100%}.tw-ph.act{display:block}.tw-ph iframe{height:calc(100vh - 175px)}}
 .kpi.kbig{border:1.5px solid #d9a521;background:linear-gradient(180deg,#fffdf3,#f6efd6)}.kpi.kbig b{font-size:22px}
 .hban .hb-row{left:3.5%;top:51.5%;width:48%;height:14%;background:transparent;box-shadow:none;border:0;border-radius:999px;padding:0}
+.kpi.kclick{cursor:pointer;transition:transform .08s}.kpi.kclick:active{transform:scale(.97)}.karr{color:#b8860b;font-weight:800}
+.cl{border-bottom:1.5px dotted #b8860b;cursor:pointer}
+.mrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.mrow .chips{flex:1 1 auto;min-width:0}
+.dsbtn{background:linear-gradient(180deg,#14805c,#0b5a40);color:#fff;border:1.5px solid #d9a521;padding:7px 12px;font-size:12.5px;white-space:nowrap}
+.hban .hb-amtbtn{left:3%;top:24%;width:47%;height:24%;background:transparent;box-shadow:none;border:0;border-radius:999px;padding:0}
 .pw{position:relative}.pw input{padding-inline-end:54px}.pw .eye{position:absolute;inset-inline-end:6px;top:calc(50% - 3px);transform:translateY(-50%);background:none;box-shadow:none;border:0;padding:6px 10px;font-size:19px;line-height:1}
 .rep{overflow-x:auto}.rep table{font-size:11.5px}.rep td,.rep th{padding:6px 3px}@media print{.rep{overflow:visible}.rep table{font-size:12px}}
 </style>
@@ -202,6 +207,10 @@ html[lang=ur] .hb-rib{transform:translateY(-40%);line-height:1.5!important}
 <script>
 /* ================= Alina Boutique — Developed by CDM AI Studio ================= */
 const TX={
+aGive:['Distributor ko Stock Issue','Issue stock to distributor','ڈسٹری بیوٹر کو اسٹاک جاری'],aSale:['Distributor ki Sale darj karein','Record distributor sale','ڈسٹری بیوٹر کی سیل درج کریں'],aPay:['Distributor se Payment li','Payment from distributor','ڈسٹری بیوٹر سے ادائیگی لی'],aRet:['Distributor se Stock Return','Stock return from distributor','ڈسٹری بیوٹر سے اسٹاک واپسی'],
+byMalik:['Malik ne darj ki','Entered by owner','مالک نے درج کی'],byDist:['Distributor ne darj ki','Entered by distributor','ڈسٹری بیوٹر نے درج کی'],
+perDist:['Har distributor ka hisab','By distributor','ہر ڈسٹری بیوٹر کا حساب'],howMade:['Ye number kin entries se bana','Entries behind this number','یہ نمبر کن انٹریز سے بنا'],
+itemPage:['Stock item','Stock item','اسٹاک آئٹم'],perPc:['Fi piece','Per piece','فی پیس'],
 itHist:['Tareekh wali detail','Date-wise detail','تاریخ وار تفصیل'],running:['Available','Available','دستیاب'],
 resetBtn:['Hisab khatam','Close account','حساب ختم'],resetT:['Hisab khatam, nayi shuruat','Close account, start fresh','حساب ختم، نئی شروعات'],
 resetP:['Jis distributor ka purane stock ka hisab khatam ho gaya, use chunein. Us ki saari purani entries delete hongi, distributor rahega aur nayi shuruat karega.','Pick the distributor whose old stock account is finished. All their entries are deleted; the distributor stays.','جس ڈسٹری بیوٹر کا حساب ختم ہو گیا ہو اسے چنیں۔ اس کی ساری انٹریز حذف ہوں گی، ڈسٹری بیوٹر رہے گا۔'],
@@ -338,6 +347,22 @@ const r2=n=>Math.round((+n||0)*100)/100;
 function fmt(n){n=r2(n);const neg=n<0;n=Math.abs(n);return (neg?'-':'')+n.toLocaleString('en-US',{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2})}
 const money=n=>(r2(n)<0?'-':'')+(S.cfg.cur||'Rs')+' '+fmt(Math.abs(r2(n)));
 const EZ='ABCDEFGHJKMNPQRSTUVWXYZ23456789';const ezCode=n=>{let r='';const a=new Uint32Array(n);crypto.getRandomValues(a);for(const x of a)r+=EZ[x%EZ.length];return r};
+const MT={g:['give','open'],s:['sale'],r:['ret'],l:['loss'],sv:['sale'],paid:['pay'],pend:['pay'],ap:['sale'],dp:['sale'],lv:['loss'],left:['give','open','sale','ret','loss'],due:['sale','pay','open']};
+const MONEYK={sv:1,paid:1,pend:1,ap:1,dp:1,lv:1,due:1};
+function aggV(d,k){if(!d)return 0;return k==='g'?d.g+d.o:(d[k]||0)}
+function fmtK(k,v){return MONEYK[k]?(k==='due'?dueTxt(v):money(v)):fmt(v)+' '+t('pcs')}
+function entryV(x,k,item){const ls=(x.lines||[]).filter(l=>!item||l.i===item);const q=ls.reduce((s,l)=>s+(+l.q||0),0);const c=i=>+(S.cost[i]?.c)||0;
+ switch(k){case 'g':case 's':case 'r':case 'l':return q;case 'left':return (x.type==='give'||x.type==='open'?1:-1)*q;
+ case 'sv':return ls.reduce((s,l)=>s+l.q*l.d,0);case 'dp':return ls.reduce((s,l)=>s+l.q*(l.s-l.d),0);case 'ap':return ls.reduce((s,l)=>s+l.q*(l.d-c(l.i)),0);case 'lv':return ls.reduce((s,l)=>s+l.q*c(l.i),0);
+ case 'paid':case 'pend':return +x.amt||0;case 'due':return x.type==='pay'?-(+x.amt||0):x.type==='open'?(+x.amt||0):ls.reduce((s,l)=>s+l.q*l.d,0)}return 0}
+function entOk(x,k){if(!MT[k].includes(x.type))return false;if(k==='paid'||k==='due')return x.type!=='pay'||x.st==='ok';if(k==='pend')return x.st==='pending';return true}
+function byTxt(x){return x.by===x.dist?t('byDist'):t('byMalik')}
+function entTable(list,k,item,withDist){let tot=0;const rows=list.slice().sort((a,b)=>(a.date||'').localeCompare(b.date||'')||(a.at||0)-(b.at||0)).map(x=>{const v=entryV(x,k,item);tot+=v;return `<tr><td>${fdate(x.date)}</td><td>${ICON[x.type]||''} <b>${t('t'+x.type)}</b>${withDist?`<div class="mut">${esc(distName(x.dist))}</div>`:''}<div class="mut">${(x.lines||[]).filter(l=>!item||l.i===item).map(l=>esc(itemName(l.i))+' × '+fmt(l.q)).join(', ')}</div><div class="mut" style="font-size:11px">✍️ ${byTxt(x)}${x.note?' · 📝 '+esc(x.note):''}</div></td><td class="n"><b>${MONEYK[k]?money(v):fmt(v)}</b></td></tr>`}).join('');
+ return list.length?`<table><tr><th>${t('date')}</th><th>${t('entries')}</th><th class="n">${t('total')}</th></tr>${rows}<tr class="tot"><td colspan="2"><b>${t('total')}</b></td><td class="n"><b>${fmtK(k,tot)}</b></td></tr></table>`:empty()}
+function showEntries(id,k,label){const list=txArr().filter(x=>x.dist===id&&entOk(x,k));sheet(`<h2>📅 ${label}</h2><p class="mut" style="margin-top:-6px">${t('howMade')} · ${esc(distName(id))}</p>${entTable(list,k,null,false)}<button class="full ghost" style="margin-top:12px" onclick="closeSheet()">${t('back')}</button>`)}
+function showMetric(k,label){let list=txArr();if(S.month!=='all')list=list.filter(x=>x.m===S.month);const A=agg(list);let tot=0;
+ const rows=distUsers().map(d=>{const v=aggV(A[d.id],k);tot+=v;return `<div class="li click" onclick="closeSheet();openDist('${d.id}')"><div class="ico">👤</div><div class="sp"><b>${esc(d.name)}</b></div><b class="num">${fmtK(k,v)}</b> <span style="color:#b8860b">▸</span></div>`}).join('');
+ sheet(`<h2>📊 ${label}</h2><p class="mut" style="margin-top:-6px">${t('perDist')} · ${S.month==='all'?t('since'):mName(S.month)}</p>${rows||empty()}<div class="li" style="border-top:2px solid var(--line)"><div class="sp"><b>${t('total')}</b></div><b class="num">${fmtK(k,tot)}</b></div><button class="full ghost" style="margin-top:12px" onclick="closeSheet()">${t('back')}</button>`)}
 function dueTxt(v){return r2(v)<0?money(v)+' ('+t('adv')+')':money(v)}
 function dueCls(v){return r2(v)>0?'neg':r2(v)<0?'pos':''}
 const nid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,9);
@@ -526,7 +551,7 @@ function itemName(i){const it=S.items[i];return it?(catName(it.cat)?catName(it.c
 function itemList(onlyOn){return Object.entries(S.items).filter(([,x])=>!onlyOn||x.on!==false).map(([id,x])=>({id,...x})).sort((a,b)=>(catName(a.cat)+a.name).localeCompare(catName(b.cat)+b.name))}
 function monthsList(){const s=new Set(txArr().map(x=>x.m).filter(Boolean));s.add(curM());return [...s].sort().reverse()}
 const ICON={give:'📦',sale:'🛍️',ret:'↩️',loss:'⚠️',pay:'💵',open:'📌'};
-const kpis=a=>`<div class="grid">${a.map(([k,v,c])=>`<div class="kpi"><small>${k}</small><b class="num ${c||''}">${v}</b></div>`).join('')}</div>`;
+const kpis=a=>`<div class="grid">${a.map(([k,v,c,on])=>`<div class="kpi${on?' kclick':''}" ${on?`onclick="${on}"`:''}><small>${k}${on?' <span class="karr">▸</span>':''}</small><b class="num ${c||''}">${v}</b></div>`).join('')}</div>`;
 function monthChips(){return `<div class="chips">${['all',...monthsList()].map(m=>`<button class="${S.month===m?'on':''}" onclick="S.month='${m}';render()">${m==='all'?t('all'):mName(m)}</button>`).join('')}</div>`}
 const linesTxt=x=>(x.lines||[]).map(l=>`${esc(itemName(l.i))} × ${fmt(l.q)}`).join(', ');
 function txVal(x){if(x.type==='pay'||x.type==='open'&&!(x.lines||[]).length)return money(x.amt);if(x.type==='sale')return money((x.lines||[]).reduce((s,l)=>s+l.q*l.d,0));if(x.type==='open')return money(x.amt||0);return fmt((x.lines||[]).reduce((s,l)=>s+(+l.q||0),0))+' '+t('pcs')}
@@ -534,7 +559,7 @@ function txRow(x,noDist){
  const adm=S.role==='admin';let tag='';
  if(x.type==='pay')tag=x.st==='pending'?`<span class="tag pend">${adm?t('pending'):t('waitAppr')}</span>`:x.st==='rej'?`<span class="tag rej">${t('reject')}</span>`:`<span class="tag">✓ ${x.meth==='bank'?t('bank'):t('cash')}</span>`;
  const act=adm?`<div class="row" style="justify-content:flex-end;margin-top:6px;gap:6px">${x.type==='pay'&&x.st==='pending'?`<button class="sm ok" onclick="setPay('${x.id}','ok')">${t('approve')}</button><button class="sm danger" onclick="setPay('${x.id}','rej')">${t('reject')}</button>`:''}<button class="sm danger" onclick="delTx('${x.id}')" aria-label="del">🗑</button></div>`:'';
- return `<div class="li"><div class="ico">${ICON[x.type]||'•'}</div><div class="sp" style="min-width:0"><b>${t('t'+x.type)}</b> ${tag}<div class="mut">${fdate(x.date)}${noDist?'':' · '+esc(distName(x.dist))}</div>${x.lines&&x.lines.length?`<div class="mut">${linesTxt(x)}</div>`:''}${x.note?`<div class="mut">📝 ${esc(x.note)}</div>`:''}</div><div style="text-align:end"><b class="num">${txVal(x)}</b>${act}</div></div>`;
+ return `<div class="li"><div class="ico">${ICON[x.type]||'•'}</div><div class="sp" style="min-width:0"><b>${t('t'+x.type)}</b> ${tag}<div class="mut">${fdate(x.date)}${noDist?'':' · '+esc(distName(x.dist))}</div><div class="mut" style="font-size:11px">✍️ ${byTxt(x)}</div>${x.lines&&x.lines.length?`<div class="mut">${linesTxt(x)}</div>`:''}${x.note?`<div class="mut">📝 ${esc(x.note)}</div>`:''}</div><div style="text-align:end"><b class="num">${txVal(x)}</b>${act}</div></div>`;
 }
 function setPay(id,st){DB.upd('tx',id,{st,okBy:S.uid,okAt:Date.now()});toast(t('saved'))}
 function delTx(id){confirmBox(t('delTx'),()=>{DB.del('tx',id);toast(t('deleted'))})}
@@ -576,7 +601,7 @@ function hdr(){
 function bars(){let h='';if(S.mode==='demo')h+=`<div class="bar demo">🎬 ${t('demoBar')}</div>`;else{if(S.off||!S.net)h+=`<div class="bar off">📴 ${t('offBar')}</div>`;if(S.pend>0)h+=`<div class="bar sync">⏳ ${t('syncBar',S.pend)}</div>`}return h}
 function nav(){const it=S.role==='admin'?[['home','🏠'],['dists','👥'],['+'],['hisab','📒'],['admin','⚙️']]:[['home','🏠'],['mystock','📦'],['+'],['hisab','📒']];
  return '<nav>'+it.map(([k,e])=>k==='+'?`<button class="plus" onclick="plusMenu()" aria-label="new">+</button>`:`<button class="${S.tab===k?'on':''}" onclick="go('${k}')"><span class="e">${e}</span>${t(k)}</button>`).join('')+'</nav>'}
-function go(k){S.tab=k;S.view=null;S.vsub='';render();scrollTo(0,0)}
+function go(k){S.tab=k;S.view=null;S.vsub='';S.ipage=null;render();scrollTo(0,0)}
 function body(){
  if(S.role==='admin'){if(S.tab==='dists')return S.view?vDist(S.view):vDists();if(S.tab==='hisab')return vHisab();if(S.tab==='admin')return vAdmin();return vHomeA()}
  if(S.tab==='mystock')return vStockD();if(S.tab==='hisab')return vHisab();return vHomeD();
@@ -616,10 +641,10 @@ function vHomeA(){
  const mon=S.month==='all'?tot:sumAgg(agg(txArr().filter(x=>x.m===S.month)));
  const pn=txArr().filter(x=>x.type==='pay'&&x.st==='pending').length;
  const amt=money(tot.due),rib=t('duaT');
- return `<div class="hban"><img src="banner-home.jpg" alt=""><div class="hb-l1" data-fit="26,4,2.9">${t('totDue')}</div><div class="hb-amt" data-fit="30.7,7.5,6.55">${amt}</div><div class="hb-dl" data-fit="25,3.6,2.4">${t('distStock')}</div><div class="hb-pc" data-fit="13,3.1,2.45">${t('see')}</div><button class="hb-row" onclick="showDistStock()" aria-label="stock"></button><button class="hb-btn" onclick="plusMenu()"><span data-fit="27,7,3.7" style="display:inline-block;white-space:nowrap">${t('newEntry')}</span></button><div class="hb-rib" data-fit="32,2.9,2.55">${rib}</div></div>
- <div class="infochips"><button onclick="resetList('reset')">🔄 ${t('resetBtn')}</button><button class="${pn?'hot':''}" onclick="showPending()">⏳ ${t('pendBtn')} (${pn})</button><button onclick="repMonth(curM())">📄 ${t('monthPdf')}</button><button onclick="showDueList()">💰 ${t('dueList')}</button></div>
- ${monthChips()}
- ${card(S.month==='all'?t('since'):mName(S.month),kpis([[t('given'),fmt(mon.g)+' '+t('pcs')],[t('sold'),fmt(mon.s)+' '+t('pcs')],[t('returned'),fmt(mon.r)+' '+t('pcs')],[t('lost'),fmt(mon.l)+' '+t('pcs'),'neg'],[t('saleVal'),money(mon.sv)],[t('received'),money(mon.paid),'pos'],[t('adminProfit'),money(mon.ap),'pos'],[t('distProfit'),money(mon.dp)],[t('lossVal'),money(mon.lv),'neg'],[t('pending'),money(mon.pend)]]))}`;
+ return `<div class="hban"><img src="banner-home.jpg" alt=""><div class="hb-l1" data-fit="26,4,2.9">${t('totDue')}</div><div class="hb-amt" data-fit="30.7,7.5,6.55">${amt}</div><button class="hb-amtbtn" onclick="showDueList()" aria-label="due"></button><div class="hb-rib" data-fit="32,2.9,2.55">${rib}</div></div>
+ <div class="infochips"><button class="${pn?'hot':''}" onclick="showPending()">⏳ ${t('pendBtn')} (${pn})</button><button onclick="showDueList()">💰 ${t('dueList')}</button><button onclick="repMonth(curM())">📄 ${t('monthPdf')}</button><button onclick="resetList('reset')">🔄 ${t('resetBtn')}</button></div>
+ <div class="mrow">${monthChips()}<button class="dsbtn" onclick="showDistStock()">👥 ${t('distStock')} <b>▸</b></button></div>
+ ${card(S.month==='all'?t('since'):mName(S.month),kpis([[t('given'),fmt(mon.g+mon.o)+' '+t('pcs'),'',`showMetric('g','${t('given')}')`],[t('sold'),fmt(mon.s)+' '+t('pcs'),'',`showMetric('s','${t('sold')}')`],[t('returned'),fmt(mon.r)+' '+t('pcs'),'',`showMetric('r','${t('returned')}')`],[t('lost'),fmt(mon.l)+' '+t('pcs'),'neg',`showMetric('l','${t('lost')}')`],[t('saleVal'),money(mon.sv),'',`showMetric('sv','${t('saleVal')}')`],[t('received'),money(mon.paid),'pos',`showMetric('paid','${t('received')}')`],[t('adminProfit'),money(mon.ap),'pos',`showMetric('ap','${t('adminProfit')}')`],[t('distProfit'),money(mon.dp),'',`showMetric('dp','${t('distProfit')}')`],[t('lossVal'),money(mon.lv),'neg',`showMetric('lv','${t('lossVal')}')`],[t('pending'),money(mon.pend),'',`showMetric('pend','${t('pending')}')`]]))}`;
 }
 function showPending(){const l=txArr().filter(x=>x.type==='pay'&&x.st==='pending');sheet(`<h2>⏳ ${t('pendingT')}</h2>${l.length?l.map(x=>txRow(x)).join(''):empty()}<button class="full ghost" style="margin-top:12px" onclick="closeSheet()">${t('back')}</button>`)}
 function showDistStock(){const all=agg(txArr());const ds=distUsers().map(d=>({...d,a:all[d.id]||{left:0,due:0}}));
@@ -638,7 +663,7 @@ function zeroDo(id,mode){if(val('#zeroIn').toUpperCase()!=='ZERO')return toast(t
  DB.batch(ops);closeDlg();if(mode==='full'&&S.view===id)S.view=null;toast(mode==='full'?t('delDone',nm):t('resetDone',nm));render()}
 function showDueList(){const all=agg(txArr());const ds=distUsers().map(d=>({...d,a:all[d.id]||{left:0,due:0}})).sort((a,b)=>b.a.due-a.a.due);
  sheet(`<h2>💰 ${t('dueList')}</h2>${ds.length?ds.map(d=>`<div class="li click" onclick="closeSheet();openDist('${d.id}')"><div class="ico">👤</div><div class="sp"><b>${esc(d.name)}</b><div class="mut">${t('left')}: ${fmt(d.a.left)} ${t('pcs')}</div></div><b class="num ${dueCls(d.a.due)}">${dueTxt(d.a.due)}</b></div>`).join(''):empty()}<button class="full ghost" style="margin-top:12px" onclick="closeSheet()">${t('back')}</button>`)}
-function openDist(id){S.tab='dists';S.view=id;S.vsub='';render();scrollTo(0,0)}
+function openDist(id){S.tab='dists';S.view=id;S.vsub='';S.ipage=null;render();scrollTo(0,0)}
 function vDists(){const all=agg(txArr()),ds=distUsers();
  return card(t('dists'),(ds.length?ds.map(d=>{const a=all[d.id]||{left:0,due:0};return `<div class="li click" onclick="openDist('${d.id}')"><div class="ico">👤</div><div class="sp"><b>${esc(d.name)}</b>${d.active===false?` <span class="tag offt">${t('offT')}</span>`:''}<div class="mut">${esc(d.phone||'')} · ${t('left')} ${fmt(a.left)} ${t('pcs')}</div></div><b class="num ${dueCls(a.due)}">${dueTxt(a.due)}</b></div>`}).join(''):empty())+`<button class="full" style="margin-top:10px" onclick="distForm()">${t('addDist')}</button>`)}
 function catChips(cats,cur,fn){return cats.length>1?`<div class="chips" style="flex-wrap:wrap;margin:0 0 8px">${cats.map(c=>`<button class="${cur===c?'on':''}" onclick="${fn}('${c}')">${esc(catName(c)||'—')}</button>`).join('')}</div>`:''}
@@ -651,23 +676,36 @@ function itemTable(A,showRates){
  const chips=catChips(cats,S.dcat,'setDcat');rows=rows.filter(r=>(S.items[r.i]?.cat||'')===S.dcat);
  return chips+itemTable2(rows,showRates)}
 function itemTable2(rows,showRates){
- return `<table><tr><th>${t('item')}</th><th class="n">${t('given')}</th><th class="n">${t('sold')}</th><th class="n">${t('returned')}</th><th class="n">${t('lost')}</th><th class="n">${t('left')}</th></tr>${rows.map(r=>`<tr class="click" onclick="showItemHist('${r.i}')" style="cursor:pointer"><td>${esc(itemName(r.i))} <span style="color:#b8860b">▸</span>${showRates&&S.items[r.i]?`<div class="mut">${t('dRateS')} ${fmt(S.items[r.i].d)} · ${t('sRateS')} ${fmt(S.items[r.i].s)}</div>`:''}</td><td class="n">${fmt(r.g+r.o)}</td><td class="n">${fmt(r.s)}</td><td class="n">${fmt(r.r)}</td><td class="n">${fmt(r.l)}</td><td class="n"><b>${fmt(r.left)}</b></td></tr>`).join('')}</table>`;
+ const C=(i,k,v,b)=>`<td class="n"><span class="cl" onclick="event.stopPropagation();showItemType('${i}','${k}')">${b?'<b>'+fmt(v)+'</b>':fmt(v)}</span></td>`;
+ return `<table><tr><th>${t('item')}</th><th class="n">${t('given')}</th><th class="n">${t('sold')}</th><th class="n">${t('returned')}</th><th class="n">${t('lost')}</th><th class="n">${t('left')}</th></tr>${rows.map(r=>`<tr style="cursor:pointer" onclick="openItem('${r.i}')"><td><span class="cl">${esc(itemName(r.i))}</span> <span style="color:#b8860b">▸</span>${showRates&&S.items[r.i]?`<div class="mut">${t('dRateS')} ${fmt(S.items[r.i].d)} · ${t('sRateS')} ${fmt(S.items[r.i].s)}</div>`:''}</td>${C(r.i,'g',r.g+r.o)}${C(r.i,'s',r.s)}${C(r.i,'r',r.r)}${C(r.i,'l',r.l)}${C(r.i,'left',r.left,1)}</tr>`).join('')}</table>`;
 }
+function showItemType(i,k){const id=S.itDist;const lab={g:t('given'),s:t('sold'),r:t('returned'),l:t('lost'),left:t('left')}[k];
+ const list=txArr().filter(x=>x.dist===id&&MT[k].includes(x.type)&&(x.lines||[]).some(l=>l.i===i));
+ sheet(`<h2>📅 ${lab}</h2><p class="mut" style="margin-top:-6px">${esc(itemName(i))} · ${esc(distName(id))}</p>${entTable(list,k,i,false)}<button class="full ghost" style="margin-top:12px" onclick="closeSheet()">${t('back')}</button>`)}
+function openItem(i){S.ipage=i;render();scrollTo(0,0)}
+function vItem(id,i){const it=S.items[i]||{},A=agg(txArr().filter(x=>x.dist===id))[id];const r=A&&A.items[i]?A.items[i]:{g:0,o:0,s:0,r:0,l:0};const lf=leftOf(r);const adm=S.role==='admin';const c=+(S.cost[i]?.c)||0;
+ const T=(k,lab,v,cls,big)=>`<div class="kpi kclick${big?' kbig':''}" onclick="showItemType('${i}','${k}')"><small>${lab} <span class="karr">▸</span></small><b class="num ${cls||''}">${fmt(v)} ${t('pcs')}</b></div>`;
+ const list=txArr().filter(x=>x.dist===id&&MT.left.includes(x.type)&&(x.lines||[]).some(l=>l.i===i));
+ return `<button class="ghost sm" style="margin-top:8px" onclick="S.ipage=null;render()">← ${t('back')}</button>
+ <div class="card"><div class="row"><div class="ico" style="width:52px;height:52px;font-size:26px;flex:0 0 52px">👗</div><div class="sp"><h2 style="margin:0">${esc(it.name||'?')}</h2><div class="mut">${esc(catName(it.cat))} · ${esc(distName(id))}</div></div></div>
+ <div class="grid" style="margin-top:12px">${adm?`<div class="kpi"><small>${t('costS')}</small><b class="num">${fmt(c)}</b></div>`:''}<div class="kpi"><small>${t('dRate')}</small><b class="num">${fmt(it.d)}</b></div><div class="kpi"><small>${t('sRate')}</small><b class="num">${fmt(it.s)}</b></div><div class="kpi"><small>${adm?t('distProfit'):t('myProfit')} · ${t('perPc')}</small><b class="num pos">+${fmt((it.s||0)-(it.d||0))}</b></div>${adm?`<div class="kpi"><small>${t('adminProfit')} · ${t('perPc')}</small><b class="num pos">+${fmt((it.d||0)-c)}</b></div>`:''}</div></div>
+ ${card('📦 '+t('perItem'),`<div class="grid">${T('left',t('left'),lf,'',1)}${T('g',t('given'),r.g+r.o)}${T('s',t('sold'),r.s)}${T('r',t('returned'),r.r)}${T('l',t('lost'),r.l,'neg')}</div>`)}
+ ${card('📅 '+t('itHist'),entTable(list,'left',i,false))}`}
 function showItemHist(i){const id=S.itDist;if(!id)return;
  const sign={give:1,open:1,sale:-1,ret:-1,loss:-1};
  const list=txArr().filter(x=>x.dist===id&&(x.lines||[]).some(l=>l.i===i)).sort((a,b)=>(a.date||'').localeCompare(b.date||'')||(a.at||0)-(b.at||0));
  let run=0;const rows=list.map(x=>{const q=(x.lines||[]).filter(l=>l.i===i).reduce((s,l)=>s+(+l.q||0),0);run+=(sign[x.type]||0)*q;return `<tr><td>${fdate(x.date)}</td><td>${ICON[x.type]||''} ${t('t'+x.type)}${x.note?`<div class="mut">📝 ${esc(x.note)}</div>`:''}</td><td class="n">${(sign[x.type]||0)<0?'-':'+'}${fmt(q)}</td><td class="n"><b>${fmt(run)}</b></td></tr>`}).join('');
  sheet(`<h2>📅 ${t('itHist')}</h2><p class="mut" style="margin-top:-6px">${esc(itemName(i))} · ${esc(distName(id))}</p>${list.length?`<table><tr><th>${t('date')}</th><th></th><th class="n">${t('qty')}</th><th class="n">${t('running')}</th></tr>${rows}<tr class="tot"><td colspan="3"><b>${t('running')}</b></td><td class="n"><b>${fmt(run)}</b></td></tr></table>`:empty()}<button class="full ghost" style="margin-top:12px" onclick="closeSheet()">${t('back')}</button>`)}
-function dsub(k){S.vsub=S.vsub===k?'':k;render();setTimeout(()=>{const e=$('#dsec');if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},30)}
+function dsub(k){S.vsub=S.vsub===k?'':k;S.ipage=null;render();setTimeout(()=>{const e=$('#dsec');if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},30)}
 function vDist(id){
  const u=S.users[id]||{},list=txArr().filter(x=>x.dist===id),A=agg(list)[id]||sumAgg({}),sub=S.vsub||'';
  const B=(k,e,l)=>`<button class="${sub===k?'on':''}" onclick="dsub('${k}')">${e} ${l}</button>`;
  let h=`<button class="ghost sm" style="margin-top:8px" onclick="S.view=null;S.vsub='';render()">← ${t('back')}</button>
  <div class="turn"><div class="row" style="align-items:flex-start"><div class="sp" style="min-width:0"><small>${esc(u.name||'')} · ${t('due')}</small><h2 class="num big">${dueTxt(A.due)}</h2><div style="color:#cfe6d9;font-weight:700">${t('left')}: ${fmt(A.left)} ${t('pcs')}</div>${u.phone?`<div style="color:#cfe6d9;font-weight:700;margin-top:2px">📞 ${esc(u.phone)}</div>`:''}</div>
  <div class="vbtns">${B('full','📊',t('fullH'))}${B('items','👗',t('maalH'))}${B('ent','📒',t('entries'))}${B('more','⚙️',t('more'))}</div></div>
- <div class="row" style="margin-top:12px;flex-wrap:wrap"><button class="gold sm" onclick="openForm('give','${id}')">📦 ${t('give')}</button><button class="gold sm" onclick="openForm('sale','${id}')">🛍️ ${t('tsale')}</button><button class="gold sm" onclick="openForm('pay','${id}')">💵 ${t('pay')}</button><button class="gold sm" onclick="openForm('ret','${id}')">↩️ ${t('tret')}</button></div></div><div id="dsec"></div>`;
- if(sub==='full')h+=card('📊 '+t('fullH'),kpis([[t('given'),fmt(A.g+A.o)+' '+t('pcs')],[t('sold'),fmt(A.s)+' '+t('pcs')],[t('returned'),fmt(A.r)+' '+t('pcs')],[t('lost'),fmt(A.l)+' '+t('pcs'),'neg'],[t('saleVal'),money(A.sv)],[t('received'),money(A.paid),'pos'],[t('distProfit'),money(A.dp)],[t('adminProfit'),money(A.ap),'pos'],[t('pending'),money(A.pend)]]));
- else if(sub==='items'){S.itDist=id;h+=card('👗 '+t('perItem'),itemTable(A,true))}
+ <div class="row" style="margin-top:12px;flex-wrap:wrap"><button class="gold sm" onclick="openForm('give','${id}')">📦 ${t('aGive')}</button><button class="gold sm" onclick="openForm('sale','${id}')">🛍️ ${t('aSale')}</button><button class="gold sm" onclick="openForm('pay','${id}')">💵 ${t('aPay')}</button><button class="gold sm" onclick="openForm('ret','${id}')">↩️ ${t('aRet')}</button></div></div><div id="dsec"></div>`;
+ if(sub==='full')h+=card('📊 '+t('fullH'),kpis([[t('given'),fmt(A.g+A.o)+' '+t('pcs'),'',`showEntries('${id}','g','${t('given')}')`],[t('sold'),fmt(A.s)+' '+t('pcs'),'',`showEntries('${id}','s','${t('sold')}')`],[t('returned'),fmt(A.r)+' '+t('pcs'),'',`showEntries('${id}','r','${t('returned')}')`],[t('lost'),fmt(A.l)+' '+t('pcs'),'neg',`showEntries('${id}','l','${t('lost')}')`],[t('saleVal'),money(A.sv),'',`showEntries('${id}','sv','${t('saleVal')}')`],[t('received'),money(A.paid),'pos',`showEntries('${id}','paid','${t('received')}')`],[t('distProfit'),money(A.dp),'',`showEntries('${id}','dp','${t('distProfit')}')`],[t('adminProfit'),money(A.ap),'pos',`showEntries('${id}','ap','${t('adminProfit')}')`],[t('pending'),money(A.pend),'',`showEntries('${id}','pend','${t('pending')}')`]]));
+ else if(sub==='items'){S.itDist=id;h+=S.ipage?vItem(id,S.ipage):card('👗 '+t('perItem'),itemTable(A,true))}
  else if(sub==='ent')h+=card('📒 '+t('entries')+` (${list.length})`,list.length?list.slice(0,100).map(x=>txRow(x,true)).join(''):empty());
  else if(sub==='more')h+=card('⚙️ '+t('more'),`<button class="full" onclick="repDist('${id}')">📄 ${t('statement')}</button><button class="full ghost" style="margin-top:10px" onclick="distForm('${id}')">✏️ ${t('edit')}</button><button class="full danger" style="margin-top:10px" onclick="toggleUser('${id}')">${u.active===false?t('turnOn'):t('turnOff')}</button>`);
  return h;
@@ -726,17 +764,18 @@ function vHomeD(){
  return `<div class="turn"><small>${t('myDue')}</small><h2 class="num big">${dueTxt(A.due)}</h2><div style="color:#cfe6d9;font-weight:700">${t('withMe')}: ${fmt(A.left)} ${t('pcs')}</div>
  <div class="row" style="margin-top:14px"><button class="gold" onclick="openForm('sale')">🛍️ ${t('sale')}</button><button class="gold" onclick="openForm('pay')">💵 ${t('pay')}</button></div></div>
  ${mine.length?card('⏳ '+t('waitAppr'),mine.map(x=>txRow(x,true)).join('')):''}
- ${card(t('since'),`<div class="grid" style="margin-bottom:8px"><div class="kpi kbig"><small>📦 ${t('withMe')}</small><b class="num">${fmt(A.left)} ${t('pcs')}</b></div><div class="kpi kbig"><small>💰 ${t('due')}</small><b class="num ${dueCls(A.due)}">${dueTxt(A.due)}</b></div></div>`+kpis([[t('got'),fmt(A.g+A.o)+' '+t('pcs')],[t('sold'),fmt(A.s)+' '+t('pcs')],[t('returned'),fmt(A.r)+' '+t('pcs')],[t('lost'),fmt(A.l)+' '+t('pcs')],[t('saleVal'),money(A.sv)],[t('paidOk'),money(A.paid),'pos'],[t('myProfit'),money(A.dp),'pos'],[t('pending'),money(A.pend)]]))}`;
+ ${card(t('since'),`<div class="grid" style="margin-bottom:8px"><div class="kpi kbig kclick" onclick="showEntries('${S.uid}','left','${t('withMe')}')"><small>📦 ${t('withMe')} <span class="karr">▸</span></small><b class="num">${fmt(A.left)} ${t('pcs')}</b></div><div class="kpi kbig kclick" onclick="showEntries('${S.uid}','due','${t('due')}')"><small>💰 ${t('due')} <span class="karr">▸</span></small><b class="num ${dueCls(A.due)}">${dueTxt(A.due)}</b></div></div>`+kpis([[t('got'),fmt(A.g+A.o)+' '+t('pcs'),'',`showEntries('${S.uid}','g','${t('got')}')`],[t('sold'),fmt(A.s)+' '+t('pcs'),'',`showEntries('${S.uid}','s','${t('sold')}')`],[t('returned'),fmt(A.r)+' '+t('pcs'),'',`showEntries('${S.uid}','r','${t('returned')}')`],[t('lost'),fmt(A.l)+' '+t('pcs'),'',`showEntries('${S.uid}','l','${t('lost')}')`],[t('saleVal'),money(A.sv),'',`showEntries('${S.uid}','sv','${t('saleVal')}')`],[t('paidOk'),money(A.paid),'pos',`showEntries('${S.uid}','paid','${t('paidOk')}')`],[t('myProfit'),money(A.dp),'pos',`showEntries('${S.uid}','dp','${t('myProfit')}')`],[t('pending'),money(A.pend),'',`showEntries('${S.uid}','pend','${t('pending')}')`]]))}`;
 }
 function vStockD(){
+ if(S.ipage){S.itDist=S.uid;return vItem(S.uid,S.ipage)}
  const A=agg(txArr())[S.uid];S.itDist=S.uid;const tbl=itemTable(A,true);const has=A&&Object.keys(A.items).length;
- const rates=itemList(true).filter(x=>!has||x.cat===S.dcat).map(x=>`<div class="li"><div class="ico">👗</div><div class="sp"><b>${esc(x.name)}</b><div class="mut">${esc(catName(x.cat))}</div></div><div style="text-align:end" class="mut">${t('dRateS')} <b>${fmt(x.d)}</b><br>${t('sRateS')} <b>${fmt(x.s)}</b><br><span class="pos">+${fmt(x.s-x.d)}</span></div></div>`).join('');
- return card(t('perItem'),tbl)+card(t('dRate')+' / '+t('sRate'),rates||empty());
+ const rates=itemList(true).filter(x=>!has||x.cat===S.dcat).map(x=>`<div class="li click" onclick="openItem('${x.id}')"><div class="ico">👗</div><div class="sp"><b>${esc(x.name)}</b><div class="mut">${esc(catName(x.cat))}</div></div><div style="text-align:end" class="mut">${t('dRateS')} <b>${fmt(x.d)}</b><br>${t('sRateS')} <b>${fmt(x.s)}</b><br><span class="pos">+${fmt(x.s-x.d)}</span></div></div>`).join('');
+ return card(t('dRate')+' / '+t('sRate'),rates||empty())+card(t('perItem'),tbl);
 }
 
 /* ---------- forms ---------- */
 function plusMenu(){
- const b=(k,e)=>`<button class="full" style="margin:6px 0;text-align:start" onclick="closeSheet();openForm('${k}')">${e} ${t(k)}</button>`;
+ const AL={give:'aGive',sale:'aSale',pay:'aPay',ret:'aRet'};const b=(k,e)=>`<button class="full" style="margin:6px 0;text-align:start" onclick="closeSheet();openForm('${k}')">${e} ${t(S.role==='admin'&&AL[k]?AL[k]:k)}</button>`;
  sheet(`<h2>${t('newEntry').replace('+ ','')}</h2>`+(S.role==='admin'?b('give','📦')+b('sale','🛍️')+b('pay','💵')+b('ret','↩️')+b('loss','⚠️'):b('sale','🛍️')+b('pay','💵'))+`<button class="full ghost" style="margin-top:8px" onclick="closeSheet()">${t('cancel')}</button>`);
 }
 function openForm(type,dist){
@@ -754,7 +793,7 @@ function drawForm(){
  else opts=Object.entries(A?A.items:{}).map(([i,it])=>[i,itemName(i),leftOf(it)]).filter(o=>o[2]>0).map(o=>[o[0],o[1]+' ('+t('left')+' '+fmt(o[2])+')']);
  const noStock=isL&&f.type!=='give'&&f.dist&&!opts.length;
  const ln=f.lines.map((l,k)=>`<div class="ln"><select onchange="S.f.lines[${k}].i=this.value"><option value="">${t('chooseItem')}</option>${opts.map(([v,n])=>`<option value="${v}" ${l.i===v?'selected':''}>${esc(n)}</option>`).join('')}</select><input type="number" inputmode="decimal" min="0" placeholder="${t('qty')}" value="${esc(l.q)}" oninput="S.f.lines[${k}].q=this.value"><button class="danger" onclick="S.f.lines.splice(${k},1);if(!S.f.lines.length)S.f.lines.push({i:'',q:''});drawForm()">✕</button></div>`).join('');
- sheet(`<h2>${ICON[f.type]} ${t(f.type)}</h2>
+ sheet(`<h2>${ICON[f.type]} ${t(adm&&({give:'aGive',sale:'aSale',pay:'aPay',ret:'aRet'})[f.type]||f.type)}</h2>
  ${adm?`<label>${t('dist')}</label><select onchange="S.f.dist=this.value;S.f.lines=[{i:'',q:''}];drawForm()"><option value="">${t('chooseDist')}</option>${distUsers().filter(d=>d.active!==false||d.id===f.dist).map(d=>`<option value="${d.id}" ${f.dist===d.id?'selected':''}>${esc(d.name)}</option>`).join('')}</select>`:''}
  <label>${t('date')}</label><input type="date" value="${f.date}" onchange="S.f.date=this.value">
  ${isL?(noStock?`<p class="neg" style="font-weight:700">${t('noStock')}</p>`:`<label>${t('item')} / ${t('qty')}</label>${ln}<button class="sm ghost" style="margin:4px 0 12px" onclick="S.f.lines.push({i:'',q:''});drawForm()">${t('addLine')}</button>`)
