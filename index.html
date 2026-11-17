@@ -202,6 +202,19 @@ html[lang=ur] .hb-rib{transform:translateY(-40%);line-height:1.5!important}
 <script>
 /* ================= Alina Boutique — Developed by CDM AI Studio ================= */
 const TX={
+itHist:['Tareekh wali detail','Date-wise detail','تاریخ وار تفصیل'],running:['Available','Available','دستیاب'],
+resetBtn:['Hisab khatam','Close account','حساب ختم'],resetT:['Hisab khatam, nayi shuruat','Close account, start fresh','حساب ختم، نئی شروعات'],
+resetP:['Jis distributor ka purane stock ka hisab khatam ho gaya, use chunein. Us ki saari purani entries delete hongi, distributor rahega aur nayi shuruat karega.','Pick the distributor whose old stock account is finished. All their entries are deleted; the distributor stays.','جس ڈسٹری بیوٹر کا حساب ختم ہو گیا ہو اسے چنیں۔ اس کی ساری انٹریز حذف ہوں گی، ڈسٹری بیوٹر رہے گا۔'],
+delDistT:['Distributor delete karein','Delete distributor','ڈسٹری بیوٹر حذف کریں'],
+delDistP:['Isse distributor ka naam aur poora hisab hamesha ke liye delete ho jayega.','This permanently deletes the distributor and all their records.','اس سے ڈسٹری بیوٹر کا نام اور پورا حساب ہمیشہ کے لیے حذف ہو جائے گا۔'],
+stillLeft:['⚠️ {0} ke paas abhi {1} piece stock aur {2} bakaya hai!','⚠️ {0} still has {1} pcs stock and {2} due!','⚠️ {0} کے پاس ابھی {1} پیس اسٹاک اور {2} بقایا ہے!'],
+typeZero:['Pakka karne ke liye neeche ZERO likhein','Type ZERO below to confirm','تصدیق کے لیے نیچے ZERO لکھیں'],
+zeroWrong:['ZERO sahi nahi likha','Please type ZERO','ZERO درست نہیں لکھا'],
+doReset:['Hisab delete karein','Delete records','حساب حذف کریں'],doDel:['Distributor delete karein','Delete distributor','ڈسٹری بیوٹر حذف کریں'],
+resetDone:['{0} ka hisab zero ho gaya. Nayi shuruat!','{0} reset. Fresh start!','{0} کا حساب صفر ہو گیا۔'],
+delDone:['{0} delete ho gaya','{0} deleted','{0} حذف ہو گیا'],
+adv:['Advance','Advance','ایڈوانس'],
+overPay:['⚠️ Aap ki {0} raqam minus mein ja rahi hai. Bakaya {1} hai, payment {2}.','⚠️ {0} goes into minus. Due is {1}, payment {2}.','⚠️ آپ کی {0} رقم مائنس میں جا رہی ہے۔ بقایا {1} ہے، ادائیگی {2}۔'],
 see:['Dekhein ▸','View ▸','دیکھیں ▸'],
 distStock:['Distributors ka Stock','Distributors’ stock','ڈسٹری بیوٹرز کا اسٹاک'],
 received_d:['Payment Issue','Payment issued','ادائیگی جاری'],
@@ -325,6 +338,8 @@ const r2=n=>Math.round((+n||0)*100)/100;
 function fmt(n){n=r2(n);const neg=n<0;n=Math.abs(n);return (neg?'-':'')+n.toLocaleString('en-US',{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2})}
 const money=n=>(r2(n)<0?'-':'')+(S.cfg.cur||'Rs')+' '+fmt(Math.abs(r2(n)));
 const EZ='ABCDEFGHJKMNPQRSTUVWXYZ23456789';const ezCode=n=>{let r='';const a=new Uint32Array(n);crypto.getRandomValues(a);for(const x of a)r+=EZ[x%EZ.length];return r};
+function dueTxt(v){return r2(v)<0?money(v)+' ('+t('adv')+')':money(v)}
+function dueCls(v){return r2(v)>0?'neg':r2(v)<0?'pos':''}
 const nid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,9);
 const fdate=d=>d?d.slice(8,10)+'-'+d.slice(5,7)+'-'+d.slice(0,4):'';
 
@@ -602,18 +617,30 @@ function vHomeA(){
  const pn=txArr().filter(x=>x.type==='pay'&&x.st==='pending').length;
  const amt=money(tot.due),rib=t('duaT');
  return `<div class="hban"><img src="banner-home.jpg" alt=""><div class="hb-l1" data-fit="26,4,2.9">${t('totDue')}</div><div class="hb-amt" data-fit="30.7,7.5,6.55">${amt}</div><div class="hb-dl" data-fit="25,3.6,2.4">${t('distStock')}</div><div class="hb-pc" data-fit="13,3.1,2.45">${t('see')}</div><button class="hb-row" onclick="showDistStock()" aria-label="stock"></button><button class="hb-btn" onclick="plusMenu()"><span data-fit="27,7,3.7" style="display:inline-block;white-space:nowrap">${t('newEntry')}</span></button><div class="hb-rib" data-fit="32,2.9,2.55">${rib}</div></div>
- <div class="infochips"><button class="${pn?'hot':''}" onclick="showPending()">⏳ ${t('pendBtn')} (${pn})</button><button onclick="repMonth(curM())">📄 ${t('monthPdf')}</button><button onclick="showDueList()">💰 ${t('dueList')}</button></div>
+ <div class="infochips"><button onclick="resetList('reset')">🔄 ${t('resetBtn')}</button><button class="${pn?'hot':''}" onclick="showPending()">⏳ ${t('pendBtn')} (${pn})</button><button onclick="repMonth(curM())">📄 ${t('monthPdf')}</button><button onclick="showDueList()">💰 ${t('dueList')}</button></div>
  ${monthChips()}
  ${card(S.month==='all'?t('since'):mName(S.month),kpis([[t('given'),fmt(mon.g)+' '+t('pcs')],[t('sold'),fmt(mon.s)+' '+t('pcs')],[t('returned'),fmt(mon.r)+' '+t('pcs')],[t('lost'),fmt(mon.l)+' '+t('pcs'),'neg'],[t('saleVal'),money(mon.sv)],[t('received'),money(mon.paid),'pos'],[t('adminProfit'),money(mon.ap),'pos'],[t('distProfit'),money(mon.dp)],[t('lossVal'),money(mon.lv),'neg'],[t('pending'),money(mon.pend)]]))}`;
 }
 function showPending(){const l=txArr().filter(x=>x.type==='pay'&&x.st==='pending');sheet(`<h2>⏳ ${t('pendingT')}</h2>${l.length?l.map(x=>txRow(x)).join(''):empty()}<button class="full ghost" style="margin-top:12px" onclick="closeSheet()">${t('back')}</button>`)}
 function showDistStock(){const all=agg(txArr());const ds=distUsers().map(d=>({...d,a:all[d.id]||{left:0,due:0}}));
- sheet(`<h2>📦 ${t('distStock')}</h2>${ds.length?ds.map(d=>`<div class="li click" onclick="closeSheet();openDist('${d.id}')"><div class="ico">👤</div><div class="sp"><b>${esc(d.name)}</b>${d.active===false?` <span class="tag offt">${t('offT')}</span>`:''}<div class="mut">${esc(d.phone||'')}</div></div><div style="text-align:end"><b class="num">📦 ${fmt(d.a.left)} ${t('pcs')}</b><div class="num ${r2(d.a.due)>0?'neg':''}" style="font-weight:800">💰 ${money(d.a.due)}</div></div></div>`).join(''):empty()}<button class="full ghost" style="margin-top:12px" onclick="closeSheet()">${t('back')}</button>`)}
+ sheet(`<h2>📦 ${t('distStock')}</h2>${ds.length?ds.map(d=>`<div class="li click" onclick="closeSheet();openDist('${d.id}')"><div class="ico">👤</div><div class="sp"><b>${esc(d.name)}</b>${d.active===false?` <span class="tag offt">${t('offT')}</span>`:''}<div class="mut">${esc(d.phone||'')}</div></div><div style="text-align:end"><b class="num">📦 ${fmt(d.a.left)} ${t('pcs')}</b><div class="num ${dueCls(d.a.due)}" style="font-weight:800">💰 ${dueTxt(d.a.due)}</div></div></div>`).join(''):empty()}<button class="full ghost" style="margin-top:12px" onclick="closeSheet()">${t('back')}</button>`)}
+function resetRows(mode){const all=agg(txArr()),ds=distUsers();return ds.length?ds.map(d=>{const a=all[d.id]||{left:0,due:0};return `<div class="li click" onclick="zeroAsk('${d.id}','${mode}')"><div class="ico">${mode==='full'?'🗑️':'🔄'}</div><div class="sp"><b>${esc(d.name)}</b><div class="mut">📦 ${fmt(a.left)} ${t('pcs')} · 💰 ${dueTxt(a.due)}</div></div><b style="color:var(--neg)">▸</b></div>`}).join(''):empty()}
+function resetList(mode){sheet(`<h2>🔄 ${t('resetT')}</h2><p class="mut" style="margin-top:-4px">${t('resetP')}</p>${resetRows(mode)}<button class="full ghost" style="margin-top:12px" onclick="closeSheet()">${t('back')}</button>`)}
+function zeroAsk(id,mode){closeSheet();const a=agg(txArr())[id]||{left:0,due:0},nm=distName(id),warn=r2(a.left)!==0||r2(a.due)!==0;
+ dlg(`<h2>${mode==='full'?'🗑️ '+t('delDistT'):'🔄 '+t('resetT')}</h2><p style="font-weight:800;font-size:17px;margin:0 0 6px">${esc(nm)}</p><p class="mut" style="margin-top:0">${mode==='full'?t('delDistP'):t('resetP')}</p>
+ ${warn?`<p class="neg" style="font-weight:800">${t('stillLeft',esc(nm),fmt(a.left),dueTxt(a.due))}</p>`:''}
+ <button class="full" style="margin-bottom:10px" onclick="closeDlg();repDist('${id}')">📄 ${t('statement')}</button>
+ <label>${t('typeZero')}</label><input id="zeroIn" autocomplete="off" autocapitalize="characters" placeholder="ZERO" style="text-transform:uppercase;letter-spacing:3px;font-weight:800">
+ <div class="row"><button class="ghost sp" onclick="closeDlg()">${t('cancel')}</button><button class="danger sp" onclick="zeroDo('${id}','${mode}')">${mode==='full'?t('doDel'):t('doReset')}</button></div>`)}
+function zeroDo(id,mode){if(val('#zeroIn').toUpperCase()!=='ZERO')return toast(t('zeroWrong'));const nm=distName(id);
+ const ops=Object.entries(S.tx).filter(([,x])=>x.dist===id).map(([k])=>({o:'del',c:'tx',id:k}));
+ if(mode==='full')ops.push({o:'del',c:'users',id});
+ DB.batch(ops);closeDlg();if(mode==='full'&&S.view===id)S.view=null;toast(mode==='full'?t('delDone',nm):t('resetDone',nm));render()}
 function showDueList(){const all=agg(txArr());const ds=distUsers().map(d=>({...d,a:all[d.id]||{left:0,due:0}})).sort((a,b)=>b.a.due-a.a.due);
- sheet(`<h2>💰 ${t('dueList')}</h2>${ds.length?ds.map(d=>`<div class="li click" onclick="closeSheet();openDist('${d.id}')"><div class="ico">👤</div><div class="sp"><b>${esc(d.name)}</b><div class="mut">${t('left')}: ${fmt(d.a.left)} ${t('pcs')}</div></div><b class="num ${r2(d.a.due)>0?'neg':''}">${money(d.a.due)}</b></div>`).join(''):empty()}<button class="full ghost" style="margin-top:12px" onclick="closeSheet()">${t('back')}</button>`)}
+ sheet(`<h2>💰 ${t('dueList')}</h2>${ds.length?ds.map(d=>`<div class="li click" onclick="closeSheet();openDist('${d.id}')"><div class="ico">👤</div><div class="sp"><b>${esc(d.name)}</b><div class="mut">${t('left')}: ${fmt(d.a.left)} ${t('pcs')}</div></div><b class="num ${dueCls(d.a.due)}">${dueTxt(d.a.due)}</b></div>`).join(''):empty()}<button class="full ghost" style="margin-top:12px" onclick="closeSheet()">${t('back')}</button>`)}
 function openDist(id){S.tab='dists';S.view=id;S.vsub='';render();scrollTo(0,0)}
 function vDists(){const all=agg(txArr()),ds=distUsers();
- return card(t('dists'),(ds.length?ds.map(d=>{const a=all[d.id]||{left:0,due:0};return `<div class="li click" onclick="openDist('${d.id}')"><div class="ico">👤</div><div class="sp"><b>${esc(d.name)}</b>${d.active===false?` <span class="tag offt">${t('offT')}</span>`:''}<div class="mut">${esc(d.phone||'')} · ${t('left')} ${fmt(a.left)} ${t('pcs')}</div></div><b class="num ${r2(a.due)>0?'neg':''}">${money(a.due)}</b></div>`}).join(''):empty())+`<button class="full" style="margin-top:10px" onclick="distForm()">${t('addDist')}</button>`)}
+ return card(t('dists'),(ds.length?ds.map(d=>{const a=all[d.id]||{left:0,due:0};return `<div class="li click" onclick="openDist('${d.id}')"><div class="ico">👤</div><div class="sp"><b>${esc(d.name)}</b>${d.active===false?` <span class="tag offt">${t('offT')}</span>`:''}<div class="mut">${esc(d.phone||'')} · ${t('left')} ${fmt(a.left)} ${t('pcs')}</div></div><b class="num ${dueCls(a.due)}">${dueTxt(a.due)}</b></div>`}).join(''):empty())+`<button class="full" style="margin-top:10px" onclick="distForm()">${t('addDist')}</button>`)}
 function catChips(cats,cur,fn){return cats.length>1?`<div class="chips" style="flex-wrap:wrap;margin:0 0 8px">${cats.map(c=>`<button class="${cur===c?'on':''}" onclick="${fn}('${c}')">${esc(catName(c)||'—')}</button>`).join('')}</div>`:''}
 function setDcat(c){S.dcat=c;render()}
 function itemTable(A,showRates){
@@ -624,18 +651,23 @@ function itemTable(A,showRates){
  const chips=catChips(cats,S.dcat,'setDcat');rows=rows.filter(r=>(S.items[r.i]?.cat||'')===S.dcat);
  return chips+itemTable2(rows,showRates)}
 function itemTable2(rows,showRates){
- return `<table><tr><th>${t('item')}</th><th class="n">${t('given')}</th><th class="n">${t('sold')}</th><th class="n">${t('returned')}</th><th class="n">${t('lost')}</th><th class="n">${t('left')}</th></tr>${rows.map(r=>`<tr><td>${esc(itemName(r.i))}${showRates&&S.items[r.i]?`<div class="mut">${t('dRateS')} ${fmt(S.items[r.i].d)} · ${t('sRateS')} ${fmt(S.items[r.i].s)}</div>`:''}</td><td class="n">${fmt(r.g+r.o)}</td><td class="n">${fmt(r.s)}</td><td class="n">${fmt(r.r)}</td><td class="n">${fmt(r.l)}</td><td class="n"><b>${fmt(r.left)}</b></td></tr>`).join('')}</table>`;
+ return `<table><tr><th>${t('item')}</th><th class="n">${t('given')}</th><th class="n">${t('sold')}</th><th class="n">${t('returned')}</th><th class="n">${t('lost')}</th><th class="n">${t('left')}</th></tr>${rows.map(r=>`<tr class="click" onclick="showItemHist('${r.i}')" style="cursor:pointer"><td>${esc(itemName(r.i))} <span style="color:#b8860b">▸</span>${showRates&&S.items[r.i]?`<div class="mut">${t('dRateS')} ${fmt(S.items[r.i].d)} · ${t('sRateS')} ${fmt(S.items[r.i].s)}</div>`:''}</td><td class="n">${fmt(r.g+r.o)}</td><td class="n">${fmt(r.s)}</td><td class="n">${fmt(r.r)}</td><td class="n">${fmt(r.l)}</td><td class="n"><b>${fmt(r.left)}</b></td></tr>`).join('')}</table>`;
 }
+function showItemHist(i){const id=S.itDist;if(!id)return;
+ const sign={give:1,open:1,sale:-1,ret:-1,loss:-1};
+ const list=txArr().filter(x=>x.dist===id&&(x.lines||[]).some(l=>l.i===i)).sort((a,b)=>(a.date||'').localeCompare(b.date||'')||(a.at||0)-(b.at||0));
+ let run=0;const rows=list.map(x=>{const q=(x.lines||[]).filter(l=>l.i===i).reduce((s,l)=>s+(+l.q||0),0);run+=(sign[x.type]||0)*q;return `<tr><td>${fdate(x.date)}</td><td>${ICON[x.type]||''} ${t('t'+x.type)}${x.note?`<div class="mut">📝 ${esc(x.note)}</div>`:''}</td><td class="n">${(sign[x.type]||0)<0?'-':'+'}${fmt(q)}</td><td class="n"><b>${fmt(run)}</b></td></tr>`}).join('');
+ sheet(`<h2>📅 ${t('itHist')}</h2><p class="mut" style="margin-top:-6px">${esc(itemName(i))} · ${esc(distName(id))}</p>${list.length?`<table><tr><th>${t('date')}</th><th></th><th class="n">${t('qty')}</th><th class="n">${t('running')}</th></tr>${rows}<tr class="tot"><td colspan="3"><b>${t('running')}</b></td><td class="n"><b>${fmt(run)}</b></td></tr></table>`:empty()}<button class="full ghost" style="margin-top:12px" onclick="closeSheet()">${t('back')}</button>`)}
 function dsub(k){S.vsub=S.vsub===k?'':k;render();setTimeout(()=>{const e=$('#dsec');if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},30)}
 function vDist(id){
  const u=S.users[id]||{},list=txArr().filter(x=>x.dist===id),A=agg(list)[id]||sumAgg({}),sub=S.vsub||'';
  const B=(k,e,l)=>`<button class="${sub===k?'on':''}" onclick="dsub('${k}')">${e} ${l}</button>`;
  let h=`<button class="ghost sm" style="margin-top:8px" onclick="S.view=null;S.vsub='';render()">← ${t('back')}</button>
- <div class="turn"><div class="row" style="align-items:flex-start"><div class="sp" style="min-width:0"><small>${esc(u.name||'')} · ${t('due')}</small><h2 class="num big">${money(A.due)}</h2><div style="color:#cfe6d9;font-weight:700">${t('left')}: ${fmt(A.left)} ${t('pcs')}</div>${u.phone?`<div style="color:#cfe6d9;font-weight:700;margin-top:2px">📞 ${esc(u.phone)}</div>`:''}</div>
+ <div class="turn"><div class="row" style="align-items:flex-start"><div class="sp" style="min-width:0"><small>${esc(u.name||'')} · ${t('due')}</small><h2 class="num big">${dueTxt(A.due)}</h2><div style="color:#cfe6d9;font-weight:700">${t('left')}: ${fmt(A.left)} ${t('pcs')}</div>${u.phone?`<div style="color:#cfe6d9;font-weight:700;margin-top:2px">📞 ${esc(u.phone)}</div>`:''}</div>
  <div class="vbtns">${B('full','📊',t('fullH'))}${B('items','👗',t('maalH'))}${B('ent','📒',t('entries'))}${B('more','⚙️',t('more'))}</div></div>
  <div class="row" style="margin-top:12px;flex-wrap:wrap"><button class="gold sm" onclick="openForm('give','${id}')">📦 ${t('give')}</button><button class="gold sm" onclick="openForm('sale','${id}')">🛍️ ${t('tsale')}</button><button class="gold sm" onclick="openForm('pay','${id}')">💵 ${t('pay')}</button><button class="gold sm" onclick="openForm('ret','${id}')">↩️ ${t('tret')}</button></div></div><div id="dsec"></div>`;
  if(sub==='full')h+=card('📊 '+t('fullH'),kpis([[t('given'),fmt(A.g+A.o)+' '+t('pcs')],[t('sold'),fmt(A.s)+' '+t('pcs')],[t('returned'),fmt(A.r)+' '+t('pcs')],[t('lost'),fmt(A.l)+' '+t('pcs'),'neg'],[t('saleVal'),money(A.sv)],[t('received'),money(A.paid),'pos'],[t('distProfit'),money(A.dp)],[t('adminProfit'),money(A.ap),'pos'],[t('pending'),money(A.pend)]]));
- else if(sub==='items')h+=card('👗 '+t('perItem'),itemTable(A,true));
+ else if(sub==='items'){S.itDist=id;h+=card('👗 '+t('perItem'),itemTable(A,true))}
  else if(sub==='ent')h+=card('📒 '+t('entries')+` (${list.length})`,list.length?list.slice(0,100).map(x=>txRow(x,true)).join(''):empty());
  else if(sub==='more')h+=card('⚙️ '+t('more'),`<button class="full" onclick="repDist('${id}')">📄 ${t('statement')}</button><button class="full ghost" style="margin-top:10px" onclick="distForm('${id}')">✏️ ${t('edit')}</button><button class="full danger" style="margin-top:10px" onclick="toggleUser('${id}')">${u.active===false?t('turnOn'):t('turnOff')}</button>`);
  return h;
@@ -646,7 +678,7 @@ function vHisab(){
  return monthChips()+sel+card(t('hisab')+` (${list.length})`,list.length?list.slice(0,200).map(x=>txRow(x,!adm)).join(''):empty(),adm?'':`<button class="sm" onclick="repDist('${S.uid}')">📄 PDF</button>`);
 }
 function vAdmin(){
- const tabs=[['maal','👗 '+t('maalT')],['code','🔑 '+t('codeT')],['months','🗓️ '+t('months')],['admins','🛡️ '+t('admin')],['settings','⚙️ '+t('settings')]];
+ const tabs=[['maal','👗 '+t('maalT')],['code','🔑 '+t('codeT')],['months','🗓️ '+t('months')],['admins','🛡️ '+t('admin')],['settings','⚙️ '+t('settings')],['deld','🗑️ '+t('delDistT')]];
  if(S.owner&&S.mode==='real')tabs.push(['yasir','⭐ Yasir Admin']);
  if(!tabs.some(x=>x[0]===S.asub))S.asub='maal';
  let h=`<div class="chips" style="flex-wrap:wrap;margin-top:6px">${tabs.map(([k,l])=>`<button class="${S.asub===k?'on':''}" onclick="S.asub='${k}';render()">${l}</button>`).join('')}</div>`;
@@ -665,6 +697,8 @@ function vAdmin(){
  }else if(a==='admins'){
   const admins=Object.entries(S.users).filter(([,u])=>u.role==='admin'&&!u.owner);
   h+=card(t('admins'),(admins.length?admins.map(([id,u])=>`<div class="li"><div class="ico">🛡️</div><div class="sp"><b>${esc(u.name)}</b>${u.active===false?` <span class="tag offt">${t('offT')}</span>`:''}<div class="mut">${esc(u.email||'')}</div></div>${id===S.uid?'':`<button class="sm danger" onclick="toggleUser('${id}')">${u.active===false?t('turnOn'):t('turnOff')}</button>`}</div>`).join(''):empty())+`<button class="full" style="margin-top:10px" onclick="adminForm()">${t('addAdmin')}</button><p class="mut center" style="margin:8px 0 0">${t('adminsP')}</p>`);
+ }else if(a==='deld'){
+  h+=card('🗑️ '+t('delDistT'),`<p class="mut" style="margin-top:0">${t('delDistP')}</p>`+resetRows('full'));
  }else if(a==='settings'){
   h+=card(t('settings'),`<div class="li"><div class="sp"><div class="mut">${t('biz')}</div><b>${esc(S.cfg.bizName)}</b></div></div><div class="li"><div class="sp"><div class="mut">${t('currency')}</div><b>${esc(S.cfg.cur||'Rs')}</b></div></div><button class="full ghost" style="margin-top:8px" onclick="setForm()">✏️ ${t('edit')}</button>`);
  }else if(a==='yasir')h+=vOwner();
@@ -689,13 +723,13 @@ function vOwner(){
 /* ---------- distributor screens ---------- */
 function vHomeD(){
  const A=agg(txArr())[S.uid]||sumAgg({});const mine=txArr().filter(x=>x.type==='pay'&&x.st==='pending');
- return `<div class="turn"><small>${t('myDue')}</small><h2 class="num big">${money(A.due)}</h2><div style="color:#cfe6d9;font-weight:700">${t('withMe')}: ${fmt(A.left)} ${t('pcs')}</div>
+ return `<div class="turn"><small>${t('myDue')}</small><h2 class="num big">${dueTxt(A.due)}</h2><div style="color:#cfe6d9;font-weight:700">${t('withMe')}: ${fmt(A.left)} ${t('pcs')}</div>
  <div class="row" style="margin-top:14px"><button class="gold" onclick="openForm('sale')">🛍️ ${t('sale')}</button><button class="gold" onclick="openForm('pay')">💵 ${t('pay')}</button></div></div>
  ${mine.length?card('⏳ '+t('waitAppr'),mine.map(x=>txRow(x,true)).join('')):''}
- ${card(t('since'),`<div class="grid" style="margin-bottom:8px"><div class="kpi kbig"><small>📦 ${t('withMe')}</small><b class="num">${fmt(A.left)} ${t('pcs')}</b></div><div class="kpi kbig"><small>💰 ${t('due')}</small><b class="num ${r2(A.due)>0?'neg':''}">${money(A.due)}</b></div></div>`+kpis([[t('got'),fmt(A.g+A.o)+' '+t('pcs')],[t('sold'),fmt(A.s)+' '+t('pcs')],[t('returned'),fmt(A.r)+' '+t('pcs')],[t('lost'),fmt(A.l)+' '+t('pcs')],[t('saleVal'),money(A.sv)],[t('paidOk'),money(A.paid),'pos'],[t('myProfit'),money(A.dp),'pos'],[t('pending'),money(A.pend)]]))}`;
+ ${card(t('since'),`<div class="grid" style="margin-bottom:8px"><div class="kpi kbig"><small>📦 ${t('withMe')}</small><b class="num">${fmt(A.left)} ${t('pcs')}</b></div><div class="kpi kbig"><small>💰 ${t('due')}</small><b class="num ${dueCls(A.due)}">${dueTxt(A.due)}</b></div></div>`+kpis([[t('got'),fmt(A.g+A.o)+' '+t('pcs')],[t('sold'),fmt(A.s)+' '+t('pcs')],[t('returned'),fmt(A.r)+' '+t('pcs')],[t('lost'),fmt(A.l)+' '+t('pcs')],[t('saleVal'),money(A.sv)],[t('paidOk'),money(A.paid),'pos'],[t('myProfit'),money(A.dp),'pos'],[t('pending'),money(A.pend)]]))}`;
 }
 function vStockD(){
- const A=agg(txArr())[S.uid];const tbl=itemTable(A,true);const has=A&&Object.keys(A.items).length;
+ const A=agg(txArr())[S.uid];S.itDist=S.uid;const tbl=itemTable(A,true);const has=A&&Object.keys(A.items).length;
  const rates=itemList(true).filter(x=>!has||x.cat===S.dcat).map(x=>`<div class="li"><div class="ico">👗</div><div class="sp"><b>${esc(x.name)}</b><div class="mut">${esc(catName(x.cat))}</div></div><div style="text-align:end" class="mut">${t('dRateS')} <b>${fmt(x.d)}</b><br>${t('sRateS')} <b>${fmt(x.s)}</b><br><span class="pos">+${fmt(x.s-x.d)}</span></div></div>`).join('');
  return card(t('perItem'),tbl)+card(t('dRate')+' / '+t('sRate'),rates||empty());
 }
@@ -738,7 +772,8 @@ function saveForm(){
   if(f.type!=='give'){const A=agg(txArr().filter(y=>y.dist===f.dist))[f.dist];for(const i of ids){const lf=A&&A.items[i]?leftOf(A.items[i]):0;if(m[i]>lf+1e-9)return toast(t('maxQty',itemName(i),fmt(lf)))}}
   x.lines=ids.map(i=>({i,q:m[i],d:+S.items[i]?.d||0,s:+S.items[i]?.s||0}));
  }
- DB.set('tx',nid(),x);closeSheet();toast(t('saved'));
+ let over=0,dueNow=0;if(x.type==='pay'){const A=agg(txArr().filter(y=>y.dist===x.dist))[x.dist];dueNow=A?A.due:0;over=x.amt-dueNow}
+ DB.set('tx',nid(),x);closeSheet();if(over>0.0001)dlg(`<p style="font-weight:800;font-size:16px;margin-top:0">${t('overPay',money(over),dueTxt(dueNow),money(x.amt))}</p><p class="mut">${t('saved')}</p><button class="full" onclick="closeDlg()">OK</button>`);else toast(t('saved'));
 }
 function catForm(id){const c=id?S.cats[id]:{name:''};
  sheet(`<h2>${t('cat')}</h2><label>${t('name')}</label><input id="fCat" value="${esc(c.name)}" placeholder="Ladies suit"><div class="row"><button class="ghost sp" onclick="closeSheet()">${t('cancel')}</button>${id&&!Object.values(S.items).some(x=>x.cat===id)?`<button class="danger" onclick="DB.del('cats','${id}');closeSheet()">🗑</button>`:''}<button class="ok sp" onclick="saveCat('${id||''}')">${t('save')}</button></div>`)}
@@ -818,7 +853,7 @@ function repDist(id){
  <tr><td>${t('given')}</td><td class="n">${fmt(A.g+A.o)} ${t('pcs')}</td><td>${t('saleVal')}</td><td class="n">${money(A.sv)}</td></tr>
  <tr><td>${t('sold')}</td><td class="n">${fmt(A.s)} ${t('pcs')}</td><td>${t('received')}</td><td class="n gr">${money(A.paid)}</td></tr>
  <tr><td>${t('returned')} / ${t('lost')}</td><td class="n">${fmt(A.r)} / ${fmt(A.l)}</td><td>${t('pending')}</td><td class="n">${money(A.pend)}</td></tr>
- <tr class="tot"><td>${t('left')}</td><td class="n">${fmt(A.left)} ${t('pcs')}</td><td>${t('due')}</td><td class="n rd">${money(A.due)}</td></tr></table>
+ <tr class="tot"><td>${t('left')}</td><td class="n">${fmt(A.left)} ${t('pcs')}</td><td>${t('due')}</td><td class="n rd">${dueTxt(A.due)}</td></tr></table>
  <p><b>${t('distProfit')}: ${money(A.dp)}</b>${adm?` · <b>${t('adminProfit')}: ${money(A.ap)}</b>`:''}</p>
  <h3>${t('perItem')}</h3>${itemTable(A,true)}<h3>${t('entries')} (${list.length})</h3>${repTx(list,false)}`);
 }
