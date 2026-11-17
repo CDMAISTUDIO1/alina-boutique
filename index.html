@@ -176,14 +176,17 @@ html[lang=ur] .hban>div,html[lang=ur] .hban>button{line-height:1.7!important}
 .hb-rib{left:61%;width:31.8%;top:61.7%;transform:translateY(-50%);overflow:hidden!important;text-align:center;font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:700;color:#0b261b}
 html[lang=ur] .hb-rib,html[lang=ur] .hb-l1,html[lang=ur] .hb-dl{font-style:normal}
 html[lang=ur] .hb-rib{transform:translateY(-40%);line-height:1.5!important}
-.asbar{position:sticky;top:0;z-index:30;text-align:center;font-weight:800;font-size:14px;padding:8px;letter-spacing:.3px}.asbar.a1{background:linear-gradient(180deg,#14805c,#0b5a40);color:#fff;border-bottom:2px solid #e8b43a}.asbar.a2{background:linear-gradient(180deg,#f8d96c,#e3a722);color:#1c2b0f;border-bottom:2px solid #0b5a40}
+.asbar{position:sticky;top:0;z-index:30;text-align:center;font-weight:800;font-size:14px;padding:8px;letter-spacing:.3px}.asbar.a0{background:linear-gradient(180deg,#ff9f43,#e67e22);color:#1c2b0f;border-bottom:2px solid #0b5a40}.asbar.a1{background:linear-gradient(180deg,#14805c,#0b5a40);color:#fff;border-bottom:2px solid #e8b43a}.asbar.a2{background:linear-gradient(180deg,#f8d96c,#e3a722);color:#1c2b0f;border-bottom:2px solid #0b5a40}
 .tw-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 12px;position:relative;z-index:2}
 .tw-tabs{display:none;gap:6px;padding:0 12px 8px;position:relative;z-index:2}.tw-tabs button{flex:1;background:#fff;color:#0b261b;border:1.5px solid #c8d6c4;box-shadow:none}.tw-tabs button.on{background:linear-gradient(180deg,#14805c,#0b5a40);color:#fff;border-color:#d9a521}
 .tw-wrap{display:flex;gap:22px;justify-content:center;align-items:flex-start;padding:0 10px 16px;position:relative;z-index:2}
-.tw-ph{width:400px;max-width:100%;border-radius:34px;padding:10px;background:#0b0f0d;box-shadow:0 14px 36px rgba(0,0,0,.55);border:3px solid #e8b43a}.tw-ph.a2{border-color:#9b7ef0}
+.tw-cover{display:none}.tw-ph:not(.act) .tw-cover{display:block;position:absolute;inset:0;z-index:3;cursor:pointer;border-radius:34px}
+.tw-ph{position:relative;width:300px;max-width:100%;transition:width .25s,opacity .25s;opacity:.8;border-radius:34px;padding:10px;background:#0b0f0d;box-shadow:0 14px 36px rgba(0,0,0,.55);border:3px solid #e8b43a}.tw-ph.a2{border-color:#9b7ef0}.tw-ph.a0{border-color:#ff9f43}.tw-ph.act{width:410px;opacity:1;box-shadow:0 18px 44px rgba(0,0,0,.65),0 0 24px rgba(246,207,91,.35)}
+.tw-ph:not(.act) iframe{height:calc(100vh - 230px);min-height:480px}
 .tw-lbl{text-align:center;font-weight:800;font-size:13px;padding:6px 4px 8px;color:#f6cf5b}.tw-ph.a2 .tw-lbl{color:#cbb8ff}
 .tw-ph iframe{display:block;width:100%;height:calc(100vh - 150px);min-height:560px;border:0;border-radius:24px;background:#052e20}
-@media (max-width:860px){.tw-tabs{display:flex}.tw-ph{display:none;width:100%}.tw-ph.act{display:block}.tw-ph iframe{height:calc(100vh - 175px)}}
+.tw-tabs{display:flex;max-width:900px;margin:0 auto}
+@media (max-width:860px){.tw-ph{display:none;width:100%!important}.tw-ph.act{display:block}.tw-ph iframe{height:calc(100vh - 175px)!important}}
 .kpi.kbig{border:1.5px solid #d9a521;background:linear-gradient(180deg,#fffdf3,#f6efd6)}.kpi.kbig b{font-size:22px}
 .hban .hb-row{left:3.5%;top:51.5%;width:48%;height:14%;background:transparent;box-shadow:none;border:0;border-radius:999px;padding:0}
 .kpi.kclick{cursor:pointer;transition:transform .08s}.kpi.kclick:active{transform:scale(.97)}.karr{color:#b8860b;font-weight:800}
@@ -209,6 +212,10 @@ html[lang=ur] .hb-rib{transform:translateY(-40%);line-height:1.5!important}
 <script>
 /* ================= Alina Boutique — Developed by CDM AI Studio ================= */
 const TX={
+itemUsed:['Is stock item ki entries hisab mein hain. Delete karne se hisab ghalat ho jayega. Pehle us distributor ka "Hisab khatam" karein, ya item ko Band kar dein.','This item has entries in the ledger. Close those accounts first, or switch the item off.','اس آئٹم کی انٹریز حساب میں ہیں۔ پہلے حساب ختم کریں یا آئٹم بند کر دیں۔'],
+turnOffItem:['Band kar dein','Switch off','بند کر دیں'],delItemQ:['Ye stock item delete karein?','Delete this stock item?','یہ اسٹاک آئٹم حذف کریں؟'],
+catHasItems:['Is category mein {0} stock item hain. Pehle unhein delete karein.','This category has {0} items. Delete them first.','اس کیٹیگری میں {0} آئٹم ہیں۔ پہلے انہیں حذف کریں۔'],delCatQ:['Ye category delete karein?','Delete this category?','یہ کیٹیگری حذف کریں؟'],
+ph0:['Yasir Admin','Yasir Admin','یاسر ایڈمن'],threeT:['Teen phone','Three phones','تین فون'],threeP:['⭐ Yasir Admin, 🛡️ Malik aur 👤 Distributor ki screen ek saath, asli data ke saath. Jis ko dabayein wo bada ho kar saamne aa jata hai. Ye sirf aapko dikhta hai.','Yasir, owner and distributor screens together with live data. Tap one to bring it to the front. Only you see this.','یاسر، مالک اور ڈسٹری بیوٹر کی اسکرین ایک ساتھ۔'],
 stockValP:['Bache hue stock ki qeemat (Distributor Price se)','Value of remaining stock (at distributor price)','بچے ہوئے اسٹاک کی قیمت (ڈسٹری بیوٹر پرائس سے)'],
 aGive:['Distributor ko Stock Issue','Issue stock to distributor','ڈسٹری بیوٹر کو اسٹاک جاری'],aSale:['Distributor ki Sale darj karein','Record distributor sale','ڈسٹری بیوٹر کی سیل درج کریں'],aPay:['Distributor se Payment li','Payment from distributor','ڈسٹری بیوٹر سے ادائیگی لی'],aRet:['Distributor se Stock Return','Stock return from distributor','ڈسٹری بیوٹر سے اسٹاک واپسی'],
 byMalik:['Malik ne darj ki','Entered by owner','مالک نے درج کی'],byDist:['Distributor ne darj ki','Entered by distributor','ڈسٹری بیوٹر نے درج کی'],
@@ -446,7 +453,7 @@ async function afterLogin(u){
   try{await db.collection('users').doc(u.uid).set(o);me=o}catch(e){return gate('noAcc',true)}}
  if(me.active===false)return gate('accOff',true);
  S.me=me;S.role=me.role==='dist'?'dist':'admin';S.owner=!!me.owner;S.tab='home';S.screen='app';
- if(S.as&&S.owner){S.asMode=true;S.owner=false;
+ if(S.as&&S.owner){S.asMode=true;if(S.as==='owner')S.asOwner=true;else S.owner=false;
   if(S.as.startsWith('dist:')){const did=S.as.slice(5);let d;try{d=await db.collection('users').doc(did).get()}catch(e){return gate('connErr')}
    if(!d.exists)return gate('noData');S.role='dist';S.uid=did;S.me=d.data()}}
  listen();render();
@@ -581,19 +588,23 @@ function pwBox(id,extra){return `<div class="pw"><input id="${id}" type="passwor
 function togglePw(id,b){const i=$('#'+id);if(!i)return;const sh=i.type==='password';i.type=sh?'text':'password';b.textContent=sh?'🙈':'👁️';i.focus()}
 function fitBan(){document.querySelectorAll('.hban').forEach(b=>{const W=b.clientWidth;if(!W)return;b.querySelectorAll('[data-fit]').forEach(el=>{const [mw,mh,st]=el.dataset.fit.split(',').map(Number);let f=st*W/100;el.style.fontSize=f+'px';let n=0;const MW=mw*W/100,MH=mh*W/100;while((el.scrollWidth>MW+1||el.scrollWidth>el.clientWidth+1||el.getBoundingClientRect().height>MH*1.15)&&n++<45){f*=0.94;el.style.fontSize=f+'px'}})})}
 addEventListener('resize',()=>fitBan());if(document.fonts){document.fonts.addEventListener&&document.fonts.addEventListener('loadingdone',()=>fitBan());document.fonts.ready.then(()=>fitBan())}
-function openTwo(){const ds=distUsers();if(!ds.length)return toast(t('noDists'));if(!S.twoDist||!S.users[S.twoDist])S.twoDist=ds[0].id;S.twoTab=S.twoTab||1;stop();S.screen='two';render();scrollTo(0,0)}
+function openTwo(){const ds=distUsers();if(!S.twoDist||!S.users[S.twoDist])S.twoDist=ds[0]?.id||'';if(S.twoTab==null)S.twoTab=1;stop();S.screen='two';render();scrollTo(0,0)}
 function closeTwo(){S.screen='app';listen();render()}
-function twoSet(k,v){S[k]=v;render()}
-function vTwo(){const ds=distUsers(),u=location.pathname;
- return `<div class="tw-top"><button class="ghost sm" onclick="closeTwo()">← ${t('back')}</button><b style="color:#fff">📱📱 ${t('twoT')}</b><span class="sp"></span><label style="color:#f3d47a">📱2:</label><select onchange="twoSet('twoDist',this.value)" style="width:auto;margin:0">${ds.map(d=>`<option value="${d.id}" ${S.twoDist===d.id?'selected':''}>${esc(d.name)}</option>`).join('')}</select></div>
- <div class="tw-tabs"><button class="${S.twoTab===1?'on':''}" onclick="twoSet('twoTab',1)">📱1 ${t('ph1')}</button><button class="${S.twoTab===2?'on':''}" onclick="twoSet('twoTab',2)">📱2 ${t('ph2')}</button></div>
- <div class="tw-wrap"><div class="tw-ph a1 ${S.twoTab===1?'act':''}"><iframe src="${u}?as=admin"></iframe></div><div class="tw-ph a2 ${S.twoTab===2?'act':''}"><iframe src="${u}?as=dist:${encodeURIComponent(S.twoDist)}"></iframe></div></div>`}
+function twoFocus(n){S.twoTab=n;document.querySelectorAll('.tw-ph').forEach(e=>{const k=+e.dataset.n;e.classList.toggle('act',k===n);e.style.order=k===n?2:(k===[0,1,2].filter(x=>x!==n)[0]?1:3)});document.querySelectorAll('.tw-tabs button').forEach(b=>b.classList.toggle('on',+b.dataset.n===n))}
+function twoDist(v){S.twoDist=v;const f=document.querySelector('.tw-ph[data-n="2"] iframe');if(f)f.src=location.pathname+'?as=dist:'+encodeURIComponent(v)}
+function vTwo(){const ds=distUsers(),u=location.pathname,n=S.twoTab;
+ const ord=k=>k===n?2:(k===[0,1,2].filter(x=>x!==n)[0]?1:3);
+ const ph=(k,cls,src)=>`<div class="tw-ph ${cls} ${n===k?'act':''}" data-n="${k}" style="order:${ord(k)}" onclick="if(!this.classList.contains('act'))twoFocus(${k})"><div class="tw-cover"></div><iframe src="${src}"></iframe></div>`;
+ setTimeout(()=>twoFocus(n),0);
+ return `<div class="tw-top"><button class="ghost sm" onclick="closeTwo()">← ${t('back')}</button><b style="color:#fff">📱📱📱 ${t('threeT')}</b><span class="sp"></span>${ds.length?`<label style="color:#cbb8ff">👤</label><select onchange="twoDist(this.value)" style="width:auto;margin:0">${ds.map(d=>`<option value="${d.id}" ${S.twoDist===d.id?'selected':''}>${esc(d.name)}</option>`).join('')}</select>`:''}</div>
+ <div class="tw-tabs"><button data-n="0" class="${n===0?'on':''}" onclick="twoFocus(0)">⭐ ${t('ph0')}</button><button data-n="1" class="${n===1?'on':''}" onclick="twoFocus(1)">🛡️ ${t('ph1')}</button><button data-n="2" class="${n===2?'on':''}" onclick="twoFocus(2)">👤 ${t('ph2')}</button></div>
+ <div class="tw-wrap">${ph(0,'a0',u+'?as=owner')}${ph(1,'a1',u+'?as=admin')}${ds.length?ph(2,'a2',u+'?as=dist:'+encodeURIComponent(S.twoDist)):''}</div>`}
 function langSel(){return `<select id="lang" onchange="setLang(this.value)">${LANGS.map(([k,n])=>`<option value="${k}" ${S.lang===k?'selected':''}>${n}</option>`).join('')}</select>`}
 function simpleHdr(withLang){return `<header><div class="hlogo"><img src="logo.png" alt=""><h1>${esc(S.cfg.bizName||'Alina Boutique')}</h1></div><p>${t('appSub')}</p>${withLang?`<div class="row">${langSel()}</div>`:''}</header>`}
 function hdr(){
  const real=S.mode==='real',adm=S.role==='admin';
  const sub=S.mode==='demo'?(adm?t('adminView'):t('distView'))+' · Demo':esc(S.me.name||'')+' · '+(adm?t('admin'):t('dist'));
- if(S.asMode)return `<div class="asbar ${adm?'a1':'a2'}">${adm?'📱1 · '+t('ph1'):'📱2 · '+t('ph2')+': '+esc(S.me.name||'')}</div><header><div class="hlogo"><img src="logo.png" alt=""><h1>${esc(S.cfg.bizName||'Alina Boutique')}</h1></div><p>${sub}</p></header>`;
+ if(S.asMode)return `<div class="asbar ${S.asOwner?'a0':adm?'a1':'a2'}">${S.asOwner?'⭐ '+t('ph0'):adm?'🛡️ '+t('ph1'):'👤 '+t('ph2')+': '+esc(S.me.name||'')}</div><header><div class="hlogo"><img src="logo.png" alt=""><h1>${esc(S.cfg.bizName||'Alina Boutique')}</h1></div><p>${sub}</p></header>`;
  return `<header><div class="hlogo"><img src="logo.png" alt=""><h1>${esc(S.cfg.bizName||'Alina Boutique')}</h1></div><p>${sub}</p><div class="row">${langSel()}
  ${S.mode==='demo'&&S.preview?`<button id="back" class="ghost" onclick="location.reload()">↩ ${t('back')}</button>`:''}
  ${real&&adm?`<button id="ofb" class="ghost" onclick="toggleOff()">${S.off?'🟢 '+t('online'):'📴 '+t('offline')}</button>`:''}
@@ -756,7 +767,7 @@ function vOwner(){
  const tm=x=>{if(!x)return '';const d=new Date(x);return fdate(d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()))+' '+pad(d.getHours())+':'+pad(d.getMinutes())};
  const ml=S.vmLang||'ru',cur=(S.vcfg.msgs||{})[ml];
  const txt=S.vmDraft!=null?S.vmDraft:(cur||V[ml][7]);
- return card('📱📱 '+t('twoT'),`<p class="mut" style="margin-top:0">${t('twoP')}</p><button class="full ok" onclick="openTwo()">📱📱 ${t('twoT')}</button>`)
+ return (S.asMode?'':card('📱📱📱 '+t('threeT'),`<p class="mut" style="margin-top:0">${t('threeP')}</p><button class="full ok" onclick="openTwo()">📱📱📱 ${t('threeT')}</button>`))
  +card('👥 '+t('visitors'),`<p class="mut" style="margin-top:0">${t('visitorsP')}</p><button class="full" onclick="newLink()">➕ ${t('newVLink')}</button>
  <div style="margin-top:8px">${ls.length?ls.map(([k,l])=>`<div class="li"><div class="sp"><b>Link ${l.n}${l.name?' · '+esc(l.name):''}</b><div class="mut">${l.uid?t('lastSeen')+': '+tm(l.usedAt):t('notOpened')}</div></div><button class="sm" onclick="shareLink('${k}')">📋 ${t('copy')}</button><button class="sm danger" onclick="delLink('${k}')">${t('hatayein')}</button></div>`).join(''):empty()}</div>`)
  +card('💬 '+t('vmsgT'),`<p class="mut" style="margin-top:0">${t('vmsgP')}</p><select onchange="S.vmLang=this.value;S.vmDraft=null;render()">${VL.map(l=>`<option value="${l}" ${ml===l?'selected':''}>${V[l][0]}${(S.vcfg.msgs||{})[l]?' ✓':''}</option>`).join('')}</select>
@@ -824,7 +835,11 @@ function saveForm(){
  DB.set('tx',nid(),x);closeSheet();if(over>0.0001)dlg(`<p style="font-weight:800;font-size:16px;margin-top:0">${t('overPay',money(over),dueTxt(dueNow),money(x.amt))}</p><p class="mut">${t('saved')}</p><button class="full" onclick="closeDlg()">OK</button>`);else toast(t('saved'));
 }
 function catForm(id){const c=id?S.cats[id]:{name:''};
- sheet(`<h2>${t('cat')}</h2><label>${t('name')}</label><input id="fCat" value="${esc(c.name)}" placeholder="Ladies suit"><div class="row"><button class="ghost sp" onclick="closeSheet()">${t('cancel')}</button>${id&&!Object.values(S.items).some(x=>x.cat===id)?`<button class="danger" onclick="DB.del('cats','${id}');closeSheet()">🗑</button>`:''}<button class="ok sp" onclick="saveCat('${id||''}')">${t('save')}</button></div>`)}
+ sheet(`<h2>${t('cat')}</h2><label>${t('name')}</label><input id="fCat" value="${esc(c.name)}" placeholder="Ladies suit"><div class="row"><button class="ghost sp" onclick="closeSheet()">${t('cancel')}</button>${id?`<button class="danger" onclick="delCat('${id}')">🗑</button>`:''}<button class="ok sp" onclick="saveCat('${id||''}')">${t('save')}</button></div>`)}
+function delCat(id){const n=Object.values(S.items).filter(x=>x.cat===id).length;if(n)return toast(t('catHasItems',n));closeSheet();confirmBox(t('delCatQ')+' '+(S.cats[id]?.name||''),()=>{DB.del('cats',id);if(S.mcat===id)S.mcat='';toast(t('deleted'))})}
+function delItem(id){const used=Object.values(S.tx).some(x=>(x.lines||[]).some(l=>l.i===id));closeSheet();
+ if(used)return dlg(`<p style="font-weight:700;margin-top:0">⚠️ ${esc(S.items[id]?.name||'')}</p><p>${t('itemUsed')}</p><div class="row"><button class="ghost sp" onclick="closeDlg()">${t('cancel')}</button><button class="sp" onclick="closeDlg();DB.set('items','${id}',{on:false},true);toast(t('saved'))">${t('turnOffItem')}</button></div>`);
+ confirmBox(t('delItemQ')+' '+(S.items[id]?.name||''),()=>{DB.batch([{o:'del',c:'items',id},{o:'del',c:'cost',id}]);toast(t('deleted'))})}
 function saveCat(id){const n=val('#fCat');if(!n)return toast(t('fill'));DB.set('cats',id||nid(),{name:n},true);closeSheet();toast(t('saved'))}
 function itemForm(id){
  const x=id?S.items[id]:{cat:(S.cats[S.mcat]?S.mcat:Object.keys(S.cats)[0])||'',name:'',d:'',s:'',on:true},c=id?(S.cost[id]?.c??''):'';
@@ -835,7 +850,7 @@ function itemForm(id){
  <label>${t('dRate')}</label><input id="fId" type="number" inputmode="decimal" value="${esc(x.d)}" placeholder="${t('typeHere')}">
  <label>${t('sRate')}</label><input id="fIs" type="number" inputmode="decimal" value="${esc(x.s)}" placeholder="${t('typeHere')}">
  <label class="chk"><input id="fIon" type="checkbox" ${x.on===false?'':'checked'}> ${t('activeT')}</label>
- <div class="row"><button class="ghost sp" onclick="closeSheet()">${t('cancel')}</button><button class="ok sp" onclick="saveItem('${id||''}')">${t('save')}</button></div>`)}
+ <div class="row"><button class="ghost sp" onclick="closeSheet()">${t('cancel')}</button>${id?`<button class="danger" onclick="delItem('${id}')">🗑</button>`:''}<button class="ok sp" onclick="saveItem('${id||''}')">${t('save')}</button></div>`)}
 function saveItem(id){const n=val('#fIn'),cat=val('#fIc'),c=r2(val('#fIcst')),d=r2(val('#fId')),s=r2(val('#fIs'));
  if(!n||!cat||val('#fId')===''||val('#fIs')==='')return toast(t('fill'));id=id||nid();
  DB.batch([{o:'set',c:'items',id,d:{cat,name:n,d,s,on:$('#fIon').checked,at:Date.now()},merge:true},{o:'set',c:'cost',id,d:{c}}]);closeSheet();toast(t('saved'))}
