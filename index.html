@@ -184,6 +184,8 @@ html[lang=ur] .hb-rib{transform:translateY(-40%);line-height:1.5!important}
 .tw-lbl{text-align:center;font-weight:800;font-size:13px;padding:6px 4px 8px;color:#f6cf5b}.tw-ph.a2 .tw-lbl{color:#cbb8ff}
 .tw-ph iframe{display:block;width:100%;height:calc(100vh - 150px);min-height:560px;border:0;border-radius:24px;background:#052e20}
 @media (max-width:860px){.tw-tabs{display:flex}.tw-ph{display:none;width:100%}.tw-ph.act{display:block}.tw-ph iframe{height:calc(100vh - 175px)}}
+.kpi.kbig{border:1.5px solid #d9a521;background:linear-gradient(180deg,#fffdf3,#f6efd6)}.kpi.kbig b{font-size:22px}
+.hban .hb-row{left:3.5%;top:51.5%;width:48%;height:14%;background:transparent;box-shadow:none;border:0;border-radius:999px;padding:0}
 .pw{position:relative}.pw input{padding-inline-end:54px}.pw .eye{position:absolute;inset-inline-end:6px;top:calc(50% - 3px);transform:translateY(-50%);background:none;box-shadow:none;border:0;padding:6px 10px;font-size:19px;line-height:1}
 .rep{overflow-x:auto}.rep table{font-size:11.5px}.rep td,.rep th{padding:6px 3px}@media print{.rep{overflow:visible}.rep table{font-size:12px}}
 </style>
@@ -200,6 +202,16 @@ html[lang=ur] .hb-rib{transform:translateY(-40%);line-height:1.5!important}
 <script>
 /* ================= Alina Boutique — Developed by CDM AI Studio ================= */
 const TX={
+see:['Dekhein ▸','View ▸','دیکھیں ▸'],
+distStock:['Distributors ka Stock','Distributors’ stock','ڈسٹری بیوٹرز کا اسٹاک'],
+received_d:['Payment Issue','Payment issued','ادائیگی جاری'],
+dRate_d:['Meri Price','My price','میری پرائس'],
+saleVal_d:['Sale (Meri Price)','Sales (my price)','سیل (میری پرائس)'],
+hisab_d:['Mera Hisab','My ledger','میرا حساب'],
+given_d:['Stock Received','Stock received','اسٹاک موصول'],
+tgive_d:['Stock Received','Stock received','اسٹاک موصول'],
+pay_d:['Payment Issue','Issue payment','ادائیگی جاری'],
+tpay_d:['Payment Issue','Payment issued','ادائیگی جاری'],
 appSub:['Maal aur hisab','Stock & accounts','مال اور حساب'],
 login:['Login','Login','لاگ اِن'],email:['Email','Email','ای میل'],pass:['Password','Password','پاس ورڈ'],
 forgot:['Password bhool gaye?','Forgot password?','پاس ورڈ بھول گئے؟'],
@@ -211,52 +223,52 @@ logout:['Logout','Logout','لاگ آؤٹ'],offline:['Offline karo','Go offline',
 offBar:['Offline: entries phone mein mehfooz hain, net aate hi sync hongi','Offline: entries are saved on this phone and will sync','آف لائن: انٹریز فون میں محفوظ ہیں، نیٹ آتے ہی سنک ہوں گی'],
 syncBar:['Sync baaki ({0})','Sync pending ({0})','سنک باقی ({0})'],
 demoBar:['Demo: kuch save nahi hota','Demo: nothing is saved','ڈیمو: کچھ محفوظ نہیں ہوتا'],
-home:['Home','Home','ہوم'],dists:['Distributor','Distributors','ڈسٹری بیوٹر'],hisab:['Hisab','Ledger','حساب'],admin:['Admin','Admin','ایڈمن'],mystock:['Mera maal','My stock','میرا مال'],
-give:['Maal do','Give stock','مال دیں'],sale:['Bikri likho','Record sale','فروخت لکھیں'],pay:['Payment','Payment','ادائیگی'],ret:['Wapsi','Return','واپسی'],loss:['Nuksan','Loss / damage','نقصان'],
-tgive:['Maal diya','Stock given','مال دیا'],tsale:['Bikri','Sale','فروخت'],tret:['Wapsi','Return','واپسی'],tloss:['Nuksan','Loss','نقصان'],tpay:['Payment','Payment','ادائیگی'],topen:['Pichhla hisab','Carried forward','پچھلا حساب'],
-dist:['Distributor','Distributor','ڈسٹری بیوٹر'],date:['Tareekh','Date','تاریخ'],item:['Maal','Item','مال'],qty:['Tadaad','Qty','تعداد'],
-addLine:['+ Aur maal','+ Add item','+ مزید مال'],save:['Save','Save','محفوظ کریں'],cancel:['Cancel','Cancel','منسوخ'],
+home:['Home','Home','ہوم'],dists:['Distributor','Distributors','ڈسٹری بیوٹر'],hisab:['Hisab','Ledger','حساب'],admin:['Admin','Admin','ایڈمن'],mystock:['Mera Stock','My stock','میرا اسٹاک'],
+give:['Stock Issue karein','Issue stock','اسٹاک جاری کریں'],sale:['Sale darj karein','Record sale','سیل درج کریں'],pay:['Payment','Payment','ادائیگی'],ret:['Stock Return','Stock return','اسٹاک واپسی'],loss:['Nuksan','Loss / damage','نقصان'],
+tgive:['Stock Issue','Stock issued','اسٹاک جاری'],tsale:['Sale','Sale','سیل'],tret:['Stock Return','Stock return','اسٹاک واپسی'],tloss:['Nuksan','Loss','نقصان'],tpay:['Payment','Payment','ادائیگی'],topen:['Pichhla hisab','Carried forward','پچھلا حساب'],
+dist:['Distributor','Distributor','ڈسٹری بیوٹر'],date:['Tareekh','Date','تاریخ'],item:['Stock','Item','اسٹاک'],qty:['Tadaad','Qty','تعداد'],
+addLine:['+ Aur stock','+ Add item','+ مزید اسٹاک'],save:['Save','Save','محفوظ کریں'],cancel:['Cancel','Cancel','منسوخ'],
 amount:['Raqam','Amount','رقم'],method:['Tareeqa','Method','طریقہ'],cash:['Cash','Cash','نقد'],bank:['Bank','Bank','بینک'],note:['Note (marzi)','Note (optional)','نوٹ (اختیاری)'],
-all:['Sab','All','سب'],given:['Maal diya','Given','مال دیا'],sold:['Bika','Sold','فروخت'],returned:['Wapas aaya','Returned','واپس آیا'],lost:['Nuksan','Lost / damaged','نقصان'],
-withDist:['Distributors ke paas','With distributors','ڈسٹری بیوٹرز کے پاس'],saleVal:['Bikri (distributor rate)','Sales (distributor rate)','فروخت (ڈسٹری بیوٹر ریٹ)'],
-received:['Paise mile','Money received','رقم ملی'],pending:['Pending payment','Pending payment','زیرِ التوا ادائیگی'],
+all:['Sab','All','سب'],given:['Stock Issue','Stock issued','اسٹاک جاری'],sold:['Sale','Sold','سیل'],returned:['Stock Return','Returned','اسٹاک واپسی'],lost:['Nuksan','Lost / damaged','نقصان'],
+withDist:['Available Stock','Available stock','دستیاب اسٹاک'],saleVal:['Sale (Distributor Price)','Sales (distributor price)','سیل (ڈسٹری بیوٹر پرائس)'],
+received:['Payment Received','Payment received','وصول شدہ ادائیگی'],pending:['Pending payment','Pending payment','زیرِ التوا ادائیگی'],
 due:['Bakaya','Due','بقایا'],totDue:['Kul bakaya','Total due','کل بقایا'],
-adminProfit:['Admin ka munafa','Admin profit','ایڈمن کا منافع'],distProfit:['Distributor ka munafa','Distributor profit','ڈسٹری بیوٹر کا منافع'],lossVal:['Nuksan (lagat se)','Loss (at cost)','نقصان (لاگت سے)'],
-pcs:['piece','pcs','پیس'],cats:['Categories','Categories','کیٹیگریز'],items:['Maal (items)','Items','مال'],cat:['Category','Category','کیٹیگری'],
+adminProfit:['Admin Profit','Admin profit','ایڈمن پرافٹ'],distProfit:['Distributor Profit','Distributor profit','ڈسٹری بیوٹر پرافٹ'],lossVal:['Nuksan (lagat se)','Loss (at cost)','نقصان (لاگت سے)'],
+pcs:['piece','pcs','پیس'],cats:['Categories','Categories','کیٹیگریز'],items:['Stock (items)','Stock items','اسٹاک (آئٹمز)'],cat:['Category','Category','کیٹیگری'],
 cost:['Asal lagat (sirf Admin)','Cost price (admin only)','اصل لاگت (صرف ایڈمن)'],costS:['Lagat','Cost','لاگت'],
-dRate:['Distributor rate','Distributor rate','ڈسٹری بیوٹر ریٹ'],dRateS:['Dist.','Dist.','ڈسٹ'],
+dRate:['Distributor Price','Distributor price','ڈسٹری بیوٹر پرائس'],dRateS:['Dist.','Dist.','ڈسٹ'],
 sRate:['Fixed sale price','Fixed sale price','مقررہ فروخت قیمت'],sRateS:['Sale','Sale','سیل'],
-pp:['Fi piece munafa','Profit per piece','فی پیس منافع'],addCat:['+ Category','+ Category','+ کیٹیگری'],addItem:['+ Naya maal','+ New item','+ نیا مال'],
+pp:['Fi piece profit','Profit per piece','فی پیس پرافٹ'],addCat:['+ Category','+ Category','+ کیٹیگری'],addItem:['+ Naya stock item','+ New stock item','+ نیا اسٹاک آئٹم'],
 edit:['Edit','Edit','ترمیم'],del:['Delete','Delete','حذف'],
 addDist:['+ Naya distributor','+ New distributor','+ نیا ڈسٹری بیوٹر'],phone:['Phone','Phone','فون'],
-admins:['Admin (Malik aur partners)','Admins (owner & partners)','ایڈمن (مالک اور پارٹنر)'],adminsP:['Sab admin barabar hain: sab kuch dekh aur kar sakte hain','All admins have equal access','سب ایڈمن برابر ہیں'],duaT:['Ae Allah, hamare rizq mein barkat de','O Allah, bless what You have provided us','اے اللہ، ہمارے رزق میں برکت دے'],pendBtn:['Pending','Pending','زیرِ التوا'],monthPdf:['Is mahine ki PDF','This month PDF','اس مہینے کی PDF'],dueList:['Bakaya list','Due list','بقایا لسٹ'],ph1:['Malik (Admin)','Owner (Admin)','مالک (ایڈمن)'],ph2:['Distributor','Distributor','ڈسٹری بیوٹر'],twoT:['Do phone','Two phones','دو فون'],twoP:['Ek hi jagah par Malik aur Distributor, dono ki screen. Ek phone mein entry karein, doosre mein foran nazar aayegi. Ye sirf aapko dikhta hai.','Owner and distributor screens side by side, with live data. Only you can see this.','ایک ہی جگہ مالک اور ڈسٹری بیوٹر دونوں کی اسکرین۔'],copy:['Copy','Copy','کاپی'],distsBtn:['Distributors','Distributors','ڈسٹری بیوٹرز'],fullH:['Poora hisab','Full account','پورا حساب'],maalH:['Maal ka hisab','Stock','مال کا حساب'],more:['Aur','More','مزید'],maalT:['Maal','Items','مال'],codeT:['Code','Code','کوڈ'],typeHere:['yahan likhein','type here','یہاں لکھیں'],noteEx:['Misaal: Challan no. 15 / Rickshaw se bheja (marzi ka)','e.g. Challan no. 15 / sent by rickshaw (optional)','مثال: چالان نمبر 15 / رکشہ سے بھیجا (اختیاری)'],newMalik:['🛡️ Naya account: Admin (Malik)','🛡️ New account: Admin (Owner)','🛡️ نیا اکاؤنٹ: ایڈمن (مالک)'],newDist:['👤 Naya account: Distributor','👤 New account: Distributor','👤 نیا اکاؤنٹ: ڈسٹری بیوٹر'],distSign:['Distributor ka naya account','New distributor account','ڈسٹری بیوٹر کا نیا اکاؤنٹ'],distSignP:['Malik se Distributor code lein, phir apni email aur password se account banayein','Get the Distributor code from the owner, then sign up with your email and password','مالک سے ڈسٹری بیوٹر کوڈ لیں، پھر اپنی ای میل اور پاس ورڈ سے اکاؤنٹ بنائیں'],dcode:['Distributor code','Distributor code','ڈسٹری بیوٹر کوڈ'],dcodeP:['Ye code naye distributor ko dein. Is se wo khud account bana lega.','Give this code to a new distributor to sign up.','یہ کوڈ نئے ڈسٹری بیوٹر کو دیں۔'],newCode:['Naya code','New code','نیا کوڈ'],makeCode:['Code banao','Create code','کوڈ بنائیں'],badCode:['Distributor code ghalat hai','Wrong distributor code','ڈسٹری بیوٹر کوڈ غلط ہے'],createAcc:['Account banao','Create account','اکاؤنٹ بنائیں'],newCodeQ:['Naya code banayein? Purana code band ho jayega (pehle bane accounts chalte rahenge).','Make a new code? The old code stops working (existing accounts keep working).','نیا کوڈ بنائیں؟ پرانا کوڈ بند ہو جائے گا۔'],addAdmin:['+ Naya admin','+ New admin','+ نیا ایڈمن'],settings:['Settings','Settings','سیٹنگز'],currency:['Currency','Currency','کرنسی'],
+admins:['Admin (Malik aur partners)','Admins (owner & partners)','ایڈمن (مالک اور پارٹنر)'],adminsP:['Sab admin barabar hain: sab kuch dekh aur kar sakte hain','All admins have equal access','سب ایڈمن برابر ہیں'],duaT:['Ae Allah, hamare rizq mein barkat de','O Allah, bless what You have provided us','اے اللہ، ہمارے رزق میں برکت دے'],pendBtn:['Pending','Pending','زیرِ التوا'],monthPdf:['Is mahine ki PDF','This month PDF','اس مہینے کی PDF'],dueList:['Bakaya list','Due list','بقایا لسٹ'],ph1:['Malik (Admin)','Owner (Admin)','مالک (ایڈمن)'],ph2:['Distributor','Distributor','ڈسٹری بیوٹر'],twoT:['Do phone','Two phones','دو فون'],twoP:['Ek hi jagah par Malik aur Distributor, dono ki screen. Ek phone mein entry karein, doosre mein foran nazar aayegi. Ye sirf aapko dikhta hai.','Owner and distributor screens side by side, with live data. Only you can see this.','ایک ہی جگہ مالک اور ڈسٹری بیوٹر دونوں کی اسکرین۔'],copy:['Copy','Copy','کاپی'],distsBtn:['Distributors','Distributors','ڈسٹری بیوٹرز'],fullH:['Poora hisab','Full account','پورا حساب'],maalH:['Stock ka hisab','Stock','اسٹاک کا حساب'],more:['Aur','More','مزید'],maalT:['Stock','Stock','اسٹاک'],codeT:['Code','Code','کوڈ'],typeHere:['yahan likhein','type here','یہاں لکھیں'],noteEx:['Misaal: Challan no. 15 / Rickshaw se bheja (marzi ka)','e.g. Challan no. 15 / sent by rickshaw (optional)','مثال: چالان نمبر 15 / رکشہ سے بھیجا (اختیاری)'],newMalik:['🛡️ Naya account: Admin (Malik)','🛡️ New account: Admin (Owner)','🛡️ نیا اکاؤنٹ: ایڈمن (مالک)'],newDist:['👤 Naya account: Distributor','👤 New account: Distributor','👤 نیا اکاؤنٹ: ڈسٹری بیوٹر'],distSign:['Distributor ka naya account','New distributor account','ڈسٹری بیوٹر کا نیا اکاؤنٹ'],distSignP:['Malik se Distributor code lein, phir apni email aur password se account banayein','Get the Distributor code from the owner, then sign up with your email and password','مالک سے ڈسٹری بیوٹر کوڈ لیں، پھر اپنی ای میل اور پاس ورڈ سے اکاؤنٹ بنائیں'],dcode:['Distributor code','Distributor code','ڈسٹری بیوٹر کوڈ'],dcodeP:['Ye code naye distributor ko dein. Is se wo khud account bana lega.','Give this code to a new distributor to sign up.','یہ کوڈ نئے ڈسٹری بیوٹر کو دیں۔'],newCode:['Naya code','New code','نیا کوڈ'],makeCode:['Code banao','Create code','کوڈ بنائیں'],badCode:['Distributor code ghalat hai','Wrong distributor code','ڈسٹری بیوٹر کوڈ غلط ہے'],createAcc:['Account banao','Create account','اکاؤنٹ بنائیں'],newCodeQ:['Naya code banayein? Purana code band ho jayega (pehle bane accounts chalte rahenge).','Make a new code? The old code stops working (existing accounts keep working).','نیا کوڈ بنائیں؟ پرانا کوڈ بند ہو جائے گا۔'],addAdmin:['+ Naya admin','+ New admin','+ نیا ایڈمن'],settings:['Settings','Settings','سیٹنگز'],currency:['Currency','Currency','کرنسی'],
 months:['Mahine','Months','مہینے'],backup:['Owner Backup','Owner Backup','اونر بیک اپ'],owner:['Owner (sirf aap)','Owner (only you)','اونر (صرف آپ)'],
 vlinks:['Visitor links','Visitor links','وزیٹر لنکس'],visitors:['Visitors','Visitors','وزیٹرز'],visitorsP:['Har visitor ko alag link dein. Wo sirf dekh sakta hai, kuch add ya change nahi kar sakta. Hatane par us ka link band ho jata hai.','Give each visitor a separate link. They can only look, not add or change anything. Removing closes the link.','ہر وزیٹر کو الگ لنک دیں۔ وہ صرف دیکھ سکتا ہے۔'],newVLink:['Naya visitor link','New visitor link','نیا وزیٹر لنک'],lastSeen:['Aakhri baar','Last opened','آخری بار'],hatayein:['Hatayein','Remove','ہٹائیں'],vmsgT:['Visitor ka message','Visitor message','وزیٹر کا پیغام'],vmsgP:['Visitor ko doosre page par ye message nazar aata hai. Har zuban ka alag likhein. Pehla paragraph bada (heading) hota hai, aakhri "— naam" wali line dastkhat ban jati hai. Khali line se naya paragraph.','Shown on the second visitor page. Write one per language. First paragraph is the heading; a last line starting with "—" becomes the signature. Blank line = new paragraph.','یہ پیغام وزیٹر کو دوسرے صفحے پر نظر آتا ہے۔'],saveK:['Save karein','Save','محفوظ کریں'],resetK:['Pehle jaisa karein','Reset to default','پہلے جیسا کریں'],waP:['WhatsApp number (pehle page par)','WhatsApp number (first page)','واٹس ایپ نمبر'],saveNum:['Number save karein','Save number','نمبر محفوظ کریں'],asVisitorT:['Visitor ki tarah dekhein (test)','View as visitor (test)','وزیٹر کی طرح دیکھیں'],asVisitorP:['Dekh sakte hain visitor ko kya nazar aayega. Kuch save nahi hota.','See what a visitor sees. Nothing is saved.','دیکھیں وزیٹر کو کیا نظر آئے گا۔'],newLink:['+ Naya link','+ New link','+ نیا لنک'],share:['Share','Share','شیئر'],
 wa:['WhatsApp number','WhatsApp number','واٹس ایپ نمبر'],wmsg:['Welcome message','Welcome message','خوش آمدید پیغام'],vset:['WhatsApp aur message','WhatsApp & messages','واٹس ایپ اور پیغام'],
 asVisitor:['Visitor ki tarah dekhein','View as visitor','وزیٹر کی طرح دیکھیں'],back:['Wapas','Back','واپس'],
 approve:['Approve','Approve','منظور'],reject:['Reject','Reject','مسترد'],noData:['Abhi kuch nahi','Nothing yet','ابھی کچھ نہیں'],
 yes:['Haan','Yes','ہاں'],saved:['Save ho gaya ✅','Saved ✅','محفوظ ہو گیا ✅'],deleted:['Delete ho gaya','Deleted','حذف ہو گیا'],
-maxQty:['{0}: distributor ke paas sirf {1} hain','{0}: only {1} with distributor','{0}: ڈسٹری بیوٹر کے پاس صرف {1} ہیں'],
+maxQty:['Stock kam hai: {0} ke sirf {1} piece available hain','Not enough stock: only {1} pcs of {0} available','اسٹاک کم ہے: {0} کے صرف {1} پیس دستیاب ہیں'],
 fill:['Sab zaroori khane bharein','Fill all required fields','سب ضروری خانے بھریں'],
-noItems:['Pehle Admin tab mein maal (item) banayein','Add items in the Admin tab first','پہلے ایڈمن ٹیب میں مال بنائیں'],
-noStock:['Is distributor ke paas abhi koi maal nahi','This distributor has no stock','اس ڈسٹری بیوٹر کے پاس ابھی کوئی مال نہیں'],
+noItems:['Pehle Admin tab mein stock item banayein','Add stock items in the Admin tab first','پہلے ایڈمن ٹیب میں اسٹاک آئٹم بنائیں'],
+noStock:['Is distributor ke paas abhi koi stock available nahi','This distributor has no available stock','اس ڈسٹری بیوٹر کے پاس ابھی کوئی اسٹاک نہیں'],
 noDists:['Pehle distributor banayein','Add a distributor first','پہلے ڈسٹری بیوٹر بنائیں'],
-carry:['Bakaya aur maal agle mahine mein le jao, phir delete','Carry balance to next month, then delete','بقایا اور مال اگلے مہینے میں لے جائیں، پھر حذف'],
+carry:['Bakaya aur stock agle mahine mein le jao, phir delete','Carry balance to next month, then delete','بقایا اور اسٹاک اگلے مہینے میں لے جائیں، پھر حذف'],
 delAny:['Phir bhi delete','Delete anyway','پھر بھی حذف'],
 delMonthQ:['{0} ki {1} entries delete hongi. Pehle PDF bana lein.','{1} entries of {0} will be deleted. Make the PDF first.','{0} کی {1} انٹریز حذف ہوں گی۔ پہلے PDF بنا لیں۔'],
 warnLeft:['⚠️ Dhyan: in ka hisab abhi baaki hai','⚠️ These still have a balance','⚠️ دھیان: ان کا حساب ابھی باقی ہے'],
 pendWarn:['⚠️ Is mahine ki {0} payment abhi pending hain','⚠️ {0} payments of this month are still pending','⚠️ اس مہینے کی {0} ادائیگیاں ابھی زیرِ التوا ہیں'],
 curMonthNo:['Chalta mahina delete nahi ho sakta','The current month cannot be deleted','چلتا مہینہ حذف نہیں ہو سکتا'],
 distView:['Distributor screen','Distributor view','ڈسٹری بیوٹر اسکرین'],adminView:['Admin screen','Admin view','ایڈمن اسکرین'],
-myDue:['Mera bakaya','My due','میرا بقایا'],myProfit:['Mera munafa','My profit','میرا منافع'],withMe:['Mere paas','With me','میرے پاس'],
-got:['Maal mila','Stock received','مال ملا'],paidOk:['Paise diye (approve)','Paid (approved)','رقم دی (منظور)'],
+myDue:['Bakaya','Due','بقایا'],myProfit:['Mera Profit','My profit','میرا پرافٹ'],withMe:['Mera Stock','My stock','میرا اسٹاک'],
+got:['Stock Received','Stock received','اسٹاک موصول'],paidOk:['Payment Issue (approve)','Payment issued (approved)','ادائیگی جاری (منظور)'],
 waitAppr:['Admin ke approve ka intezar','Waiting for admin approval','ایڈمن کی منظوری کا انتظار'],
 connErr:['Connect nahi ho paaya. Net check karke dobara kholein.','Could not connect. Check internet and try again.','کنیکٹ نہیں ہو سکا۔ نیٹ چیک کر کے دوبارہ کھولیں۔'],
 retry:['Dobara koshish','Retry','دوبارہ کوشش'],
 noAcc:['Aapka account is app mein nahi hai. Admin se baat karein.','Your account is not part of this app.','آپ کا اکاؤنٹ اس ایپ میں نہیں ہے۔'],
 accOff:['Aapka account band hai. Admin se baat karein.','Your account is disabled. Contact admin.','آپ کا اکاؤنٹ بند ہے۔ ایڈمن سے بات کریں۔'],
 newEntry:['+ Nayi entry','+ New entry','+ نئی انٹری'],statement:['Hisab PDF','Statement PDF','حساب PDF'],entries:['Entries','Entries','انٹریز'],
-left:['Baaki','Left','باقی'],total:['Total','Total','کل'],print:['PDF save / Print','Save PDF / Print','PDF / پرنٹ'],
+left:['Available','Available','دستیاب'],total:['Total','Total','کل'],print:['PDF save / Print','Save PDF / Print','PDF / پرنٹ'],
 printHint:['Print khulne par "Save as PDF" chunein','Choose "Save as PDF" in the print window','پرنٹ میں "Save as PDF" چنیں'],
 monthRep:['Mahine ki report','Monthly report','ماہانہ رپورٹ'],
 loginErr:['Email ya password ghalat hai','Wrong email or password','ای میل یا پاس ورڈ غلط ہے'],
@@ -275,8 +287,8 @@ copied:['Link copy ho gaya','Link copied','لنک کاپی ہو گیا'],
 activeT:['Chalu','Active','چالو'],offT:['Band','Disabled','بند'],turnOff:['Band karo','Disable','بند کریں'],turnOn:['Chalu karo','Enable','چالو کریں'],
 cfgMissing:['Firebase ki settings (firebase-config.js) abhi nahi daali gayi. Tab tak sirf demo dekh sakte hain.','Firebase settings (firebase-config.js) are missing. You can only open the demo for now.','فائر بیس کی سیٹنگز ابھی نہیں ڈالی گئیں۔ تب تک صرف ڈیمو دیکھ سکتے ہیں۔'],
 demoBtn:['Demo dekhein','Open demo','ڈیمو دیکھیں'],backupDone:['Backup file download ho gayi','Backup downloaded','بیک اپ ڈاؤن لوڈ ہو گیا'],
-perItem:['Maal ka hisab','Stock by item','مال کا حساب'],dueAll:['Bakaya hamesha poore hisab se','Due is always all-time','بقایا ہمیشہ پورے حساب سے'],
-chooseItem:['Maal chunein','Choose item','مال چنیں'],chooseDist:['Distributor chunein','Choose distributor','ڈسٹری بیوٹر چنیں'],
+perItem:['Stock ka hisab','Stock by item','اسٹاک کا حساب'],dueAll:['Bakaya hamesha poore hisab se','Due is always all-time','بقایا ہمیشہ پورے حساب سے'],
+chooseItem:['Stock chunein','Choose item','اسٹاک چنیں'],chooseDist:['Distributor chunein','Choose distributor','ڈسٹری بیوٹر چنیں'],
 made:['Banaya','Created','بنایا'],role:['Role','Role','رول'],errSave:['Save nahi hua','Not saved','محفوظ نہیں ہوا'],
 inactiveItem:['Maal band (list mein nahi aayega)','Item off (hidden from lists)','مال بند (لسٹ میں نہیں آئے گا)'],
 devBy:['Developed by CDM AI Studio','Developed by CDM AI Studio','Developed by CDM AI Studio'],
@@ -322,7 +334,7 @@ let db=null,auth=null,unsubs=[];
 const S={mode:'real',role:null,uid:null,me:{},owner:false,cfg:{bizName:'Alina Boutique',cur:'Rs'},vcfg:{wa:'',msgs:{}},
 cats:{},items:{},cost:{},users:{},tx:{},vlinks:{},code:'',hasMalik:true,pend:0,tab:'home',month:'all',fDist:'',view:null,
 lang:localStorage.getItem('cdm_lang')||'ru',off:localStorage.getItem('cdm_off')==='1',net:navigator.onLine,screen:'loading',vlang:'en'};
-function t(k,...a){const r=TX[k];let s=r?(r[{ru:0,en:1,ur:2}[S.lang]]??r[0]):k;a.forEach((v,i)=>s=s.split('{'+i+'}').join(v));return s}
+function t(k,...a){const r=(S.role==='dist'&&TX[k+'_d'])||TX[k];let s=r?(r[{ru:0,en:1,ur:2}[S.lang]]??r[0]):k;a.forEach((v,i)=>s=s.split('{'+i+'}').join(v));return s}
 let rq=0;function later(){if(rq)return;rq=requestAnimationFrame(()=>{rq=0;render()})}
 function toast(s){const e=$('#toast');e.textContent=s;e.classList.remove('hide');clearTimeout(toast.h);toast.h=setTimeout(()=>e.classList.add('hide'),2800)}
 function sheet(h){$('#sheetIn').innerHTML=h;$('#sheet').classList.remove('hide')}
@@ -589,12 +601,14 @@ function vHomeA(){
  const mon=S.month==='all'?tot:sumAgg(agg(txArr().filter(x=>x.m===S.month)));
  const pn=txArr().filter(x=>x.type==='pay'&&x.st==='pending').length;
  const amt=money(tot.due),rib=t('duaT');
- return `<div class="hban"><img src="banner-home.jpg" alt=""><div class="hb-l1" data-fit="26,4,2.9">${t('totDue')}</div><div class="hb-amt" data-fit="30.7,7.5,6.55">${amt}</div><div class="hb-dl" data-fit="25,3.6,2.4">${t('withDist')}:</div><div class="hb-pc" data-fit="13,3.1,2.45"><span class="hb-n">${fmt(tot.left)}</span> ${t('pcs')}</div><button class="hb-btn" onclick="plusMenu()"><span data-fit="27,7,3.7" style="display:inline-block;white-space:nowrap">${t('newEntry')}</span></button><div class="hb-rib" data-fit="32,2.9,2.55">${rib}</div></div>
+ return `<div class="hban"><img src="banner-home.jpg" alt=""><div class="hb-l1" data-fit="26,4,2.9">${t('totDue')}</div><div class="hb-amt" data-fit="30.7,7.5,6.55">${amt}</div><div class="hb-dl" data-fit="25,3.6,2.4">${t('distStock')}</div><div class="hb-pc" data-fit="13,3.1,2.45">${t('see')}</div><button class="hb-row" onclick="showDistStock()" aria-label="stock"></button><button class="hb-btn" onclick="plusMenu()"><span data-fit="27,7,3.7" style="display:inline-block;white-space:nowrap">${t('newEntry')}</span></button><div class="hb-rib" data-fit="32,2.9,2.55">${rib}</div></div>
  <div class="infochips"><button class="${pn?'hot':''}" onclick="showPending()">⏳ ${t('pendBtn')} (${pn})</button><button onclick="repMonth(curM())">📄 ${t('monthPdf')}</button><button onclick="showDueList()">💰 ${t('dueList')}</button></div>
  ${monthChips()}
  ${card(S.month==='all'?t('since'):mName(S.month),kpis([[t('given'),fmt(mon.g)+' '+t('pcs')],[t('sold'),fmt(mon.s)+' '+t('pcs')],[t('returned'),fmt(mon.r)+' '+t('pcs')],[t('lost'),fmt(mon.l)+' '+t('pcs'),'neg'],[t('saleVal'),money(mon.sv)],[t('received'),money(mon.paid),'pos'],[t('adminProfit'),money(mon.ap),'pos'],[t('distProfit'),money(mon.dp)],[t('lossVal'),money(mon.lv),'neg'],[t('pending'),money(mon.pend)]]))}`;
 }
 function showPending(){const l=txArr().filter(x=>x.type==='pay'&&x.st==='pending');sheet(`<h2>⏳ ${t('pendingT')}</h2>${l.length?l.map(x=>txRow(x)).join(''):empty()}<button class="full ghost" style="margin-top:12px" onclick="closeSheet()">${t('back')}</button>`)}
+function showDistStock(){const all=agg(txArr());const ds=distUsers().map(d=>({...d,a:all[d.id]||{left:0,due:0}}));
+ sheet(`<h2>📦 ${t('distStock')}</h2>${ds.length?ds.map(d=>`<div class="li click" onclick="closeSheet();openDist('${d.id}')"><div class="ico">👤</div><div class="sp"><b>${esc(d.name)}</b>${d.active===false?` <span class="tag offt">${t('offT')}</span>`:''}<div class="mut">${esc(d.phone||'')}</div></div><div style="text-align:end"><b class="num">📦 ${fmt(d.a.left)} ${t('pcs')}</b><div class="num ${r2(d.a.due)>0?'neg':''}" style="font-weight:800">💰 ${money(d.a.due)}</div></div></div>`).join(''):empty()}<button class="full ghost" style="margin-top:12px" onclick="closeSheet()">${t('back')}</button>`)}
 function showDueList(){const all=agg(txArr());const ds=distUsers().map(d=>({...d,a:all[d.id]||{left:0,due:0}})).sort((a,b)=>b.a.due-a.a.due);
  sheet(`<h2>💰 ${t('dueList')}</h2>${ds.length?ds.map(d=>`<div class="li click" onclick="closeSheet();openDist('${d.id}')"><div class="ico">👤</div><div class="sp"><b>${esc(d.name)}</b><div class="mut">${t('left')}: ${fmt(d.a.left)} ${t('pcs')}</div></div><b class="num ${r2(d.a.due)>0?'neg':''}">${money(d.a.due)}</b></div>`).join(''):empty()}<button class="full ghost" style="margin-top:12px" onclick="closeSheet()">${t('back')}</button>`)}
 function openDist(id){S.tab='dists';S.view=id;S.vsub='';render();scrollTo(0,0)}
@@ -661,13 +675,13 @@ function vOwner(){
  const tm=x=>{if(!x)return '';const d=new Date(x);return fdate(d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()))+' '+pad(d.getHours())+':'+pad(d.getMinutes())};
  const ml=S.vmLang||'ru',cur=(S.vcfg.msgs||{})[ml];
  const txt=S.vmDraft!=null?S.vmDraft:(cur||V[ml][7]);
- return card('👥 '+t('visitors'),`<p class="mut" style="margin-top:0">${t('visitorsP')}</p><button class="full" onclick="newLink()">➕ ${t('newVLink')}</button>
+ return card('📱📱 '+t('twoT'),`<p class="mut" style="margin-top:0">${t('twoP')}</p><button class="full ok" onclick="openTwo()">📱📱 ${t('twoT')}</button>`)
+ +card('👥 '+t('visitors'),`<p class="mut" style="margin-top:0">${t('visitorsP')}</p><button class="full" onclick="newLink()">➕ ${t('newVLink')}</button>
  <div style="margin-top:8px">${ls.length?ls.map(([k,l])=>`<div class="li"><div class="sp"><b>Link ${l.n}${l.name?' · '+esc(l.name):''}</b><div class="mut">${l.uid?t('lastSeen')+': '+tm(l.usedAt):t('notOpened')}</div></div><button class="sm" onclick="shareLink('${k}')">📋 ${t('copy')}</button><button class="sm danger" onclick="delLink('${k}')">${t('hatayein')}</button></div>`).join(''):empty()}</div>`)
  +card('💬 '+t('vmsgT'),`<p class="mut" style="margin-top:0">${t('vmsgP')}</p><select onchange="S.vmLang=this.value;S.vmDraft=null;render()">${VL.map(l=>`<option value="${l}" ${ml===l?'selected':''}>${V[l][0]}${(S.vcfg.msgs||{})[l]?' ✓':''}</option>`).join('')}</select>
  <textarea id="vmText" dir="${RTL7.includes(ml)?'rtl':'ltr'}" style="min-height:220px;font-size:14px" oninput="S.vmDraft=this.value">${esc(txt)}</textarea>
  <div class="row"><button class="sp" onclick="saveVmsg()">${t('saveK')}</button><button class="ghost sp" onclick="resetVmsg()">${t('resetK')}</button></div>
  <label style="display:block;margin-top:14px">${t('waP')}</label><input id="vWa" type="tel" value="${esc(S.waDraft!=null?S.waDraft:(S.vcfg.wa||''))}" placeholder="00971..." oninput="S.waDraft=this.value"><button class="full" onclick="saveWa()">${t('saveNum')}</button>`)
- +card('📱📱 '+t('twoT'),`<p class="mut" style="margin-top:0">${t('twoP')}</p><button class="full ok" onclick="openTwo()">📱📱 ${t('twoT')}</button>`)
  +card('',`<button class="full" onclick="previewVisitor()">👁️ ${t('asVisitorT')}</button><p class="mut" style="margin:8px 0 0">${t('asVisitorP')}</p>`)
  +card('💾 '+t('backup'),`<button class="full ghost" onclick="backup()">💾 ${t('backup')}</button>`);
 }
@@ -678,7 +692,7 @@ function vHomeD(){
  return `<div class="turn"><small>${t('myDue')}</small><h2 class="num big">${money(A.due)}</h2><div style="color:#cfe6d9;font-weight:700">${t('withMe')}: ${fmt(A.left)} ${t('pcs')}</div>
  <div class="row" style="margin-top:14px"><button class="gold" onclick="openForm('sale')">🛍️ ${t('sale')}</button><button class="gold" onclick="openForm('pay')">💵 ${t('pay')}</button></div></div>
  ${mine.length?card('⏳ '+t('waitAppr'),mine.map(x=>txRow(x,true)).join('')):''}
- ${card(t('since'),kpis([[t('got'),fmt(A.g+A.o)+' '+t('pcs')],[t('sold'),fmt(A.s)+' '+t('pcs')],[t('returned'),fmt(A.r)+' '+t('pcs')],[t('lost'),fmt(A.l)+' '+t('pcs')],[t('saleVal'),money(A.sv)],[t('paidOk'),money(A.paid),'pos'],[t('myProfit'),money(A.dp),'pos'],[t('pending'),money(A.pend)]]))}`;
+ ${card(t('since'),`<div class="grid" style="margin-bottom:8px"><div class="kpi kbig"><small>📦 ${t('withMe')}</small><b class="num">${fmt(A.left)} ${t('pcs')}</b></div><div class="kpi kbig"><small>💰 ${t('due')}</small><b class="num ${r2(A.due)>0?'neg':''}">${money(A.due)}</b></div></div>`+kpis([[t('got'),fmt(A.g+A.o)+' '+t('pcs')],[t('sold'),fmt(A.s)+' '+t('pcs')],[t('returned'),fmt(A.r)+' '+t('pcs')],[t('lost'),fmt(A.l)+' '+t('pcs')],[t('saleVal'),money(A.sv)],[t('paidOk'),money(A.paid),'pos'],[t('myProfit'),money(A.dp),'pos'],[t('pending'),money(A.pend)]]))}`;
 }
 function vStockD(){
  const A=agg(txArr())[S.uid];const tbl=itemTable(A,true);const has=A&&Object.keys(A.items).length;
