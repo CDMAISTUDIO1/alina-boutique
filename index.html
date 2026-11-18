@@ -130,6 +130,8 @@ header h1{font-size:34px;line-height:1.1}
 header .row #lang{order:1;flex:1 0 100%!important;width:100%;margin:0}
 header .row #back{order:2}header .row #ofb{order:3}header .row #lo{order:4;white-space:nowrap}header .row #sch{order:5}
 header .row #sch{white-space:nowrap}
+header .row #ofb.st{border:0;color:#fff;font-weight:800;box-shadow:0 2px 6px rgba(0,0,0,.3)}header .row #ofb.son{background:#2e7d32}header .row #ofb.soff{background:#c62828}header .row #ofb.sno{background:#ef6c00}
+.bar.slow{background:#7a4a0a;color:#fff}
 header .row #ofb,header .row #lo,header .row #sch,header .row #back{font-size:12px;padding:8px 10px;flex:0 1 auto;min-width:0;white-space:nowrap}
 header .row{column-gap:6px}
 /*FONT + LOGO + PDF*/
@@ -218,6 +220,7 @@ html[lang=ur] .hban .hb-ds{gap:0;padding-top:.6cqw;padding-bottom:.6cqw}html[lan
 <script>
 /* ================= Alina Boutique — Developed by CDM AI Studio ================= */
 const TX={
+stOn:['Online','Online','آن لائن'],stOff:['Offline','Offline','آف لائن'],stNo:['No service','No service','نو سروس'],noNetNow:['Phone mein net nahi hai. Entries phone mein save hongi, net aate hi chali jayengi.','No network on this phone. Entries will be saved here and sync when the network returns.','فون میں نیٹ نہیں ہے۔ انٹریز فون میں محفوظ ہوں گی، نیٹ آتے ہی چلی جائیں گی۔'],slowBar:['Server jawab nahi de raha. Phone mein save hai, net aate hi chali jayegi.','Server is not responding. Saved on this phone, will sync when the network is back.','سرور جواب نہیں دے رہا۔ فون میں محفوظ ہے، نیٹ آتے ہی چلی جائے گی۔'],noSvcBar:['No service: net nahi hai. App chal rahi hai, entries phone mein save hongi, net aate hi update ho jayengi.','No service: no network. The app works, entries are saved on this phone and will update when the network returns.','نو سروس: نیٹ نہیں ہے۔ ایپ چل رہی ہے، انٹریز فون میں محفوظ ہوں گی، نیٹ آتے ہی اپڈیٹ ہو جائیں گی۔'],
 photo:['Photo','Photo','تصویر'],addPhoto:['📷 Photo daalein','📷 Add photo','📷 تصویر ڈالیں'],chgPhoto:['📷 Photo badlein','📷 Change photo','📷 تصویر بدلیں'],delPhoto:['🗑 Photo hatayein','🗑 Remove photo','🗑 تصویر ہٹائیں'],picBusy:['Photo tayyar ho rahi hai...','Preparing photo...','تصویر تیار ہو رہی ہے...'],picErr:['Photo nahi khul saki','Could not open the photo','تصویر نہیں کھل سکی'],picNote:['App photo ko khud chhota kar degi, design saaf nazar aayega','The app shrinks the photo automatically, the design stays clear','ایپ تصویر خود چھوٹی کر دے گی، ڈیزائن صاف نظر آئے گا'],picSaveErr:['Item save ho gaya, lekin photo save nahi hui','Item saved, but the photo was not saved','آئٹم محفوظ ہو گیا، لیکن تصویر محفوظ نہیں ہوئی'],close:['Band karein','Close','بند کریں'],
 itemUsed:['Is stock item ki entries hisab mein hain. Delete karne se hisab ghalat ho jayega. Pehle us distributor ka "Hisab khatam" karein, ya item ko Band kar dein.','This item has entries in the ledger. Close those accounts first, or switch the item off.','اس آئٹم کی انٹریز حساب میں ہیں۔ پہلے حساب ختم کریں یا آئٹم بند کر دیں۔'],
 turnOffItem:['Band kar dein','Switch off','بند کر دیں'],delItemQ:['Ye stock item delete karein?','Delete this stock item?','یہ اسٹاک آئٹم حذف کریں؟'],
@@ -386,7 +389,7 @@ const nid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,9);
 /* ---------- item photos (#93): pics/{itemId} = {p:dataURL}, item.pv = version ---------- */
 function picUrl(i){const pv=S.items[i]?.pv;if(!pv)return null;const c=S.pc[i];if(c&&c.v===pv)return c.u||null;
  if(!c||c.v!==pv){S.pc[i]={v:pv,u:null};
-  if(S.mode==='real'&&db)db.collection('pics').doc(i).get().then(d=>{if(S.pc[i]&&S.pc[i].v===pv){S.pc[i].u=d.exists?d.data().p:null;picReady(i)}}).catch(e=>console.warn('pic',e));
+  if(S.mode==='real'&&db)gget(db.collection('pics').doc(i)).then(d=>{if(S.pc[i]&&S.pc[i].v===pv){S.pc[i].u=d.exists?d.data().p:null;picReady(i)}}).catch(e=>console.warn('pic',e));
   else{S.pc[i].u=S.pics[i]?.p||null}}
  return S.pc[i].u||null}
 function thumb(i,cls,fb){const u=picUrl(i);if(u)return `<img class="ith ${cls||''}" src="${u}" alt="" onclick="event.stopPropagation();showPic('${i}')">`;const f=fb===undefined?`<div class="ico">👗</div>`:fb;return S.items[i]?.pv?`<span data-pi="${i}" data-pc="${cls||''}" style="display:contents">${f}</span>`:f}
@@ -422,13 +425,15 @@ const empty=()=>`<p class="empty">${t('noData')}</p>`;
 
 /* ---------- data layer (Firebase ya demo memory) ---------- */
 function memSet(c,id,d,merge){if(c==='cfg'&&id==='code'){S.code=d.c;return}if(c==='cfg'){const k=id==='app'?'cfg':'vcfg';S[k]=merge?{...S[k],...d}:{...d}}else{S[c][id]=merge?{...(S[c][id]||{}),...d}:{...d}}}
+function W(pr){/* 8 sec mein server jawab na de to patti */let done=false,sl=false;const tm=setTimeout(()=>{if(!done&&S.net&&!S.off){sl=true;S.slow=(S.slow||0)+1;later()}},8000);
+ const fin=()=>{done=true;clearTimeout(tm);if(sl){S.slow=Math.max(0,(S.slow||0)-1);later()}};return pr.then(r=>{fin();return r},e=>{fin();throw e})}
 const DB={
  real(){return S.mode==='real'&&db},
- set(c,id,d,merge){if(this.real())return db.collection(c).doc(id).set(d,merge?{merge:true}:{}).catch(werr);memSet(c,id,d,merge);later();return Promise.resolve()},
- upd(c,id,d){if(this.real())return db.collection(c).doc(id).update(d).catch(werr);memSet(c,id,d,true);later();return Promise.resolve()},
- del(c,id){if(this.real())return db.collection(c).doc(id).delete().catch(werr);delete S[c][id];later();return Promise.resolve()},
+ set(c,id,d,merge){if(this.real())return W(db.collection(c).doc(id).set(d,merge?{merge:true}:{})).catch(werr);memSet(c,id,d,merge);later();return Promise.resolve()},
+ upd(c,id,d){if(this.real())return W(db.collection(c).doc(id).update(d)).catch(werr);memSet(c,id,d,true);later();return Promise.resolve()},
+ del(c,id){if(this.real())return W(db.collection(c).doc(id).delete()).catch(werr);delete S[c][id];later();return Promise.resolve()},
  batch(ops){
-  if(this.real()){const ps=[];for(let i=0;i<ops.length;i+=400){const b=db.batch();ops.slice(i,i+400).forEach(o=>{const r=db.collection(o.c).doc(o.id);o.o==='del'?b.delete(r):o.o==='upd'?b.update(r,o.d):b.set(r,o.d,o.merge?{merge:true}:{})});ps.push(b.commit().catch(werr))}return Promise.all(ps)}
+  if(this.real()){const ps=[];for(let i=0;i<ops.length;i+=400){const b=db.batch();ops.slice(i,i+400).forEach(o=>{const r=db.collection(o.c).doc(o.id);o.o==='del'?b.delete(r):o.o==='upd'?b.update(r,o.d):b.set(r,o.d,o.merge?{merge:true}:{})});ps.push(W(b.commit()).catch(werr))}return Promise.all(ps)}
   ops.forEach(o=>o.o==='del'?delete S[o.c][o.id]:memSet(o.c,o.id,o.d,o.o==='upd'||o.merge));later();return Promise.resolve()}
 };
 function stop(){unsubs.forEach(u=>{try{u()}catch(e){}});unsubs=[]}
@@ -447,7 +452,7 @@ function listen(){
 /* ---------- auth / start ---------- */
 async function boot(){
  if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
- addEventListener('online',()=>{S.net=true;later()});addEventListener('offline',()=>{S.net=false;later()});
+ addEventListener('online',()=>{S.net=true;for(const k in S.pc)if(!S.pc[k].u)delete S.pc[k];later()});addEventListener('offline',()=>{S.net=false;later()});setInterval(()=>{if(S.net!==navigator.onLine){S.net=navigator.onLine;later()}},2500);
  S.vtok=new URLSearchParams(location.search).get('v');S.as=new URLSearchParams(location.search).get('as');if(S.vtok)S.cfg.bizName='Alina Boutique';
  if(!HAS_CFG||typeof firebase==='undefined'){S.screen='nocfg';return render()}
  firebase.initializeApp(CFG);auth=firebase.auth();db=firebase.firestore();
@@ -470,7 +475,7 @@ async function onAuth(u){
 }
 async function afterLogin(u){
  S.uid=u.uid;S.screen='loading';render();
- let s;try{s=await db.collection('users').doc(u.uid).get()}catch(e){return gate('connErr',true)}
+ let s;try{s=await gget(db.collection('users').doc(u.uid))}catch(e){return gate('connErr',true)}
  let me=s.exists?s.data():null;
  if(!me){/* chhupa Owner: rules sirf owner email ko ijazat dete hain */
   const o={role:'admin',owner:true,name:'Owner',email:u.email||'',active:true,at:Date.now()};
@@ -478,10 +483,13 @@ async function afterLogin(u){
  if(me.active===false)return gate('accOff',true);
  S.me=me;S.role=me.role==='dist'?'dist':'admin';S.owner=!!me.owner;S.tab='home';S.screen='app';
  if(S.as&&S.owner){S.asMode=true;if(S.as==='owner')S.asOwner=true;else S.owner=false;
-  if(S.as.startsWith('dist:')){const did=S.as.slice(5);let d;try{d=await db.collection('users').doc(did).get()}catch(e){return gate('connErr')}
+  if(S.as.startsWith('dist:')){const did=S.as.slice(5);let d;try{d=await gget(db.collection('users').doc(did))}catch(e){return gate('connErr')}
    if(!d.exists)return gate('noData');S.role='dist';S.uid=did;S.me=d.data()}}
  listen();render();
 }
+async function gget(ref){/* offline/slow net: 4 sec baad phone ki copy */
+ if(S.off||!navigator.onLine){try{return await ref.get({source:'cache'})}catch(e){}}
+ try{return await Promise.race([ref.get(),new Promise((_,r)=>setTimeout(()=>r(new Error('slow')),4000))])}catch(e){return ref.get({source:'cache'})}}
 function gate(k,lo){S.screen='msg';S.msg=k;S.msgLo=!!lo;render()}
 function authErr(e){const c=(e&&e.code)||'';if(/invalid-credential|wrong-password|user-not-found|invalid-login/.test(c))return t('loginErr');if(/email-already/.test(c))return t('emailUsed');if(/weak-password/.test(c))return t('weakPass');if(/invalid-email/.test(c))return t('badEmail');if(/network/.test(c))return t('connErr');return c||String(e)}
 async function doLogin(){const e=val('#lEmail'),p=val('#lPass');if(!e||!p)return toast(t('fill'));try{await auth.signInWithEmailAndPassword(e,p)}catch(err){toast(authErr(err))}}
@@ -512,7 +520,7 @@ async function doDistSign(){
  }catch(e){S.busy=false;toast(authErr(e))}
 }
 function logout(){stop();if(S.mode!=='real'||!auth)return location.reload();auth.signOut().finally(()=>{location.href=location.pathname+(S.vtok?'?v='+encodeURIComponent(S.vtok):'')})}
-function toggleOff(){S.off=!S.off;localStorage.setItem('cdm_off',S.off?'1':'0');(S.off?db.disableNetwork():db.enableNetwork()).catch(()=>{});render()}
+function toggleOff(){if(!S.net&&!S.off)return toast(t('noNetNow'));S.off=!S.off;localStorage.setItem('cdm_off',S.off?'1':'0');(S.off?db.disableNetwork():db.enableNetwork()).catch(()=>{});render()}
 function setLang(l){S.lang=l;localStorage.setItem('cdm_lang',l);render()}
 
 /* ---------- visitor ---------- */
@@ -631,12 +639,12 @@ function hdr(){
  if(S.asMode)return `<div class="asbar ${S.asOwner?'a0':adm?'a1':'a2'}">${S.asOwner?'⭐ '+t('ph0'):adm?'🛡️ '+t('ph1'):'👤 '+t('ph2')+': '+esc(S.me.name||'')}</div><header><div class="hlogo"><img src="logo.png" alt=""><h1>${esc(S.cfg.bizName||'Alina Boutique')}</h1></div><p>${sub}</p></header>`;
  return `<header><div class="hlogo"><img src="logo.png" alt=""><h1>${esc(S.cfg.bizName||'Alina Boutique')}</h1></div><p>${sub}</p><div class="row">${langSel()}
  ${S.mode==='demo'&&S.preview?`<button id="back" class="ghost" onclick="location.reload()">↩ ${t('back')}</button>`:''}
- ${real&&adm?`<button id="ofb" class="ghost" onclick="toggleOff()">${S.off?'🟢 '+t('online'):'📴 '+t('offline')}</button>`:''}
+ ${real?`<button id="ofb" class="st ${!S.net?'sno':S.off?'soff':'son'}" onclick="toggleOff()">${!S.net?'🟠 '+t('stNo'):S.off?'🔴 '+t('stOff'):'🟢 '+t('stOn')}</button>`:''}
  ${real?`<button id="lo" class="ghost" onclick="logout()">${t('logout')}</button>`:''}
  ${S.mode==='demo'?`<button id="sch" class="ghost" onclick="demoRole()">${adm?'👤 '+t('distView'):'🛡️ '+t('adminView')}</button>`:''}
  </div></header>`;
 }
-function bars(){let h='';if(S.mode==='demo')h+=`<div class="bar demo">🎬 ${t('demoBar')}</div>`;else{if(S.off||!S.net)h+=`<div class="bar off">📴 ${t('offBar')}</div>`;if(S.pend>0)h+=`<div class="bar sync">⏳ ${t('syncBar',S.pend)}</div>`}return h}
+function bars(){let h='';if(S.mode==='demo')h+=`<div class="bar demo">🎬 ${t('demoBar')}</div>`;else{if(!S.net)h+=`<div class="bar off">🟠 ${t('noSvcBar')}</div>`;else if(S.off)h+=`<div class="bar off">📴 ${t('offBar')}</div>`;if(S.pend>0)h+=`<div class="bar sync">⏳ ${t('syncBar',S.pend)}</div>`;if(S.slow>0&&S.net&&!S.off)h+=`<div class="bar slow">⏳ ${t('slowBar')}</div>`}return h}
 function nav(){const it=S.role==='admin'?[['home','🏠'],['dists','👥'],['+'],['hisab','📒'],['admin','⚙️']]:[['home','🏠'],['mystock','📦'],['+'],['hisab','📒']];
  return '<nav>'+it.map(([k,e])=>k==='+'?`<button class="plus" onclick="plusMenu()" aria-label="new">+</button>`:`<button class="${S.tab===k?'on':''}" onclick="go('${k}')"><span class="e">${e}</span>${t(k)}</button>`).join('')+'</nav>'}
 function go(k){S.tab=k;S.view=null;S.vsub='';S.ipage=null;render();scrollTo(0,0)}
@@ -884,7 +892,7 @@ function saveItem(id){const n=val('#fIn'),cat=val('#fIc'),c=r2(val('#fIcst')),d=
  if(P==='del')d0.pv=0;else if(P){d0.pv=Date.now();S.pc[id]={v:d0.pv,u:P}}
  DB.batch([{o:'set',c:'items',id,d:d0,merge:true},{o:'set',c:'cost',id,d:{c}}]);
  if(P==='del')DB.del('pics',id);
- else if(P){if(S.mode==='real'&&db)db.collection('pics').doc(id).set({p:P,at:d0.pv}).catch(e=>{console.warn(e);toast(t('picSaveErr'))});else S.pics[id]={p:P,at:d0.pv}}
+ else if(P){if(S.mode==='real'&&db)W(db.collection('pics').doc(id).set({p:P,at:d0.pv})).catch(e=>{console.warn(e);toast(t('picSaveErr'))});else S.pics[id]={p:P,at:d0.pv}}
  closeSheet();toast(t('saved'))}
 function needNet(){return S.mode==='real'&&(S.off||!navigator.onLine)}
 function distForm(id){const u=id?S.users[id]:{};
