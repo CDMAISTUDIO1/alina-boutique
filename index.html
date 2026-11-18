@@ -44,6 +44,10 @@ nav .plus{font-size:32px;font-weight:800;border-radius:50%;padding:0;justify-con
 .li:last-child{border-bottom:0}
 .li.click{cursor:pointer}
 .ico{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:19px;flex:0 0 38px}
+.ith{width:44px;height:44px;border-radius:12px;object-fit:cover;flex:0 0 44px;border:2px solid #e8b43a;cursor:zoom-in;background:#f3f0e6;display:block}.ith.big{width:84px;height:84px;flex:0 0 84px;border-radius:16px}.ith.sm{width:34px;height:34px;flex:0 0 34px;border-radius:9px;border-width:1.5px}
+.ln.lp{grid-template-columns:34px 1fr 86px 38px}.lnp{width:34px;height:34px;border-radius:9px;background:#e8eee2;border:1px dashed #c9d6c0}
+.picbox{display:flex;gap:12px;align-items:center;margin:2px 0 12px}.picbox img{width:96px;height:96px;object-fit:cover;border-radius:14px;border:2px solid #e8b43a}.picnone{width:96px;height:96px;border-radius:14px;border:2px dashed #c9d6c0;display:flex;align-items:center;justify-content:center;font-size:34px;background:#f5f7f2}
+.picbig{max-width:100%;max-height:72vh;display:block;margin:0 auto 12px;border-radius:12px}
 .mut{color:var(--mut);font-size:12.5px}
 .neg{color:var(--neg)}.pos{color:var(--pri)}
 .hide{display:none!important}
@@ -212,6 +216,7 @@ html[lang=ur] .hb-rib{transform:translateY(-40%);line-height:1.5!important}
 <script>
 /* ================= Alina Boutique — Developed by CDM AI Studio ================= */
 const TX={
+photo:['Photo','Photo','تصویر'],addPhoto:['📷 Photo daalein','📷 Add photo','📷 تصویر ڈالیں'],chgPhoto:['📷 Photo badlein','📷 Change photo','📷 تصویر بدلیں'],delPhoto:['🗑 Photo hatayein','🗑 Remove photo','🗑 تصویر ہٹائیں'],picBusy:['Photo tayyar ho rahi hai...','Preparing photo...','تصویر تیار ہو رہی ہے...'],picErr:['Photo nahi khul saki','Could not open the photo','تصویر نہیں کھل سکی'],picNote:['App photo ko khud chhota kar degi, design saaf nazar aayega','The app shrinks the photo automatically, the design stays clear','ایپ تصویر خود چھوٹی کر دے گی، ڈیزائن صاف نظر آئے گا'],picSaveErr:['Item save ho gaya, lekin photo save nahi hui','Item saved, but the photo was not saved','آئٹم محفوظ ہو گیا، لیکن تصویر محفوظ نہیں ہوئی'],close:['Band karein','Close','بند کریں'],
 itemUsed:['Is stock item ki entries hisab mein hain. Delete karne se hisab ghalat ho jayega. Pehle us distributor ka "Hisab khatam" karein, ya item ko Band kar dein.','This item has entries in the ledger. Close those accounts first, or switch the item off.','اس آئٹم کی انٹریز حساب میں ہیں۔ پہلے حساب ختم کریں یا آئٹم بند کر دیں۔'],
 turnOffItem:['Band kar dein','Switch off','بند کر دیں'],delItemQ:['Ye stock item delete karein?','Delete this stock item?','یہ اسٹاک آئٹم حذف کریں؟'],
 catHasItems:['Is category mein {0} stock item hain. Pehle unhein delete karein.','This category has {0} items. Delete them first.','اس کیٹیگری میں {0} آئٹم ہیں۔ پہلے انہیں حذف کریں۔'],delCatQ:['Ye category delete karein?','Delete this category?','یہ کیٹیگری حذف کریں؟'],
@@ -376,13 +381,30 @@ function showMetric(k,label){let list=txArr();if(S.month!=='all')list=list.filte
 function dueTxt(v){return r2(v)<0?money(v)+' ('+t('adv')+')':money(v)}
 function dueCls(v){return r2(v)>0?'neg':r2(v)<0?'pos':''}
 const nid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,9);
+/* ---------- item photos (#93): pics/{itemId} = {p:dataURL}, item.pv = version ---------- */
+function picUrl(i){const pv=S.items[i]?.pv;if(!pv)return null;const c=S.pc[i];if(c&&c.v===pv)return c.u||null;
+ if(!c||c.v!==pv){S.pc[i]={v:pv,u:null};
+  if(S.mode==='real'&&db)db.collection('pics').doc(i).get().then(d=>{if(S.pc[i]&&S.pc[i].v===pv){S.pc[i].u=d.exists?d.data().p:null;picReady(i)}}).catch(e=>console.warn('pic',e));
+  else{S.pc[i].u=S.pics[i]?.p||null}}
+ return S.pc[i].u||null}
+function thumb(i,cls,fb){const u=picUrl(i);if(u)return `<img class="ith ${cls||''}" src="${u}" alt="" onclick="event.stopPropagation();showPic('${i}')">`;const f=fb===undefined?`<div class="ico">👗</div>`:fb;return S.items[i]?.pv?`<span data-pi="${i}" data-pc="${cls||''}" style="display:contents">${f}</span>`:f}
+function picReady(i){if(!S.pc[i]?.u)return;document.querySelectorAll(`[data-pi="${i}"]`).forEach(e=>e.outerHTML=thumb(i,e.dataset.pc));if(S.iid===i&&S.ipic==null)drawPicBox();later()}
+function showPic(i){const u=picUrl(i);if(!u)return;dlg(`<img class="picbig" src="${u}" alt=""><p class="center" style="font-weight:800;margin:0 0 10px">${esc(itemName(i))}</p><button class="full" onclick="closeDlg()">${t('close')}</button>`)}
+function shrinkPic(file){return new Promise((ok,no)=>{const r=new FileReader();r.onerror=no;r.onload=()=>{const im=new Image();im.onerror=no;im.onload=()=>{
+ const go=(max,q)=>{const k=Math.min(1,max/Math.max(im.width,im.height));const w=Math.round(im.width*k),h=Math.round(im.height*k);const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,w,h);x.drawImage(im,0,0,w,h);return c.toDataURL('image/jpeg',q)};
+ let u=go(800,0.78);if(u.length>260000)u=go(800,0.65);if(u.length>260000)u=go(640,0.6);if(u.length>700000)return no(new Error('big'));ok(u)};im.src=r.result};r.readAsDataURL(file)})}
+async function pickPic(inp){const f=inp.files&&inp.files[0];inp.value='';if(!f)return;toast(t('picBusy'));
+ try{S.ipic=await shrinkPic(f);drawPicBox()}catch(e){console.warn(e);toast(t('picErr'))}}
+function picBoxH(){const cur=S.ipic==='del'?null:(S.ipic||(S.iid?picUrl(S.iid):null));
+ return `${cur?`<img src="${cur}" alt="">`:`<div class="picnone">📷</div>`}<div class="sp"><label class="btn" style="display:inline-block;margin:0 0 6px;cursor:pointer"><span class="sm" style="display:inline-block;padding:9px 12px;border-radius:12px;background:#0f7a4f;color:#fff;font-weight:800">${cur?t('chgPhoto'):t('addPhoto')}</span><input type="file" accept="image/*" style="display:none" onchange="pickPic(this)"></label>${cur?`<br><button class="sm danger" onclick="S.ipic='del';drawPicBox()">${t('delPhoto')}</button>`:''}<div class="mut" style="font-size:11px;margin-top:4px">${t('picNote')}</div></div>`}
+function drawPicBox(){const b=$('#picBox');if(b)b.innerHTML=picBoxH()}
 const fdate=d=>d?d.slice(8,10)+'-'+d.slice(5,7)+'-'+d.slice(0,4):'';
 
 const CFG=window.FIREBASE_CONFIG||{};
 const HAS_CFG=!!(CFG.apiKey&&!/YAHAN|PASTE|xxxx/i.test(CFG.apiKey));
 let db=null,auth=null,unsubs=[];
 const S={mode:'real',role:null,uid:null,me:{},owner:false,cfg:{bizName:'Alina Boutique',cur:'Rs'},vcfg:{wa:'',msgs:{}},
-cats:{},items:{},cost:{},users:{},tx:{},vlinks:{},code:'',hasMalik:true,pend:0,tab:'home',month:'all',fDist:'',view:null,
+cats:{},items:{},cost:{},users:{},tx:{},vlinks:{},pics:{},pc:{},code:'',hasMalik:true,pend:0,tab:'home',month:'all',fDist:'',view:null,
 lang:localStorage.getItem('cdm_lang')||'ru',off:localStorage.getItem('cdm_off')==='1',net:navigator.onLine,screen:'loading',vlang:'en'};
 function t(k,...a){const r=(S.role==='dist'&&TX[k+'_d'])||TX[k];let s=r?(r[{ru:0,en:1,ur:2}[S.lang]]??r[0]):k;a.forEach((v,i)=>s=s.split('{'+i+'}').join(v));return s}
 let rq=0;function later(){if(rq)return;rq=requestAnimationFrame(()=>{rq=0;render()})}
@@ -516,7 +538,7 @@ function demoRole(){if(S.role==='admin'){S.role='dist';S.uid='d1';S.me={...S.use
 function seed(){
  const cm=curM(),pm=(()=>{let y=+cm.slice(0,4),m=+cm.slice(5)-1;if(!m){m=12;y--}return y+'-'+pad(m)})();
  const dd=(m,d)=>m+'-'+pad(d);const now=Date.now();
- S.cfg={bizName:'Alina Boutique',cur:'Rs'};S.code='KD7MXP';
+ S.cfg={bizName:'Alina Boutique',cur:'Rs'};S.code='KD7MXP';S.pics={};S.pc={};
  S.cats={c1:{name:'Ladies suit'},c2:{name:'Bachon ke suit'},c3:{name:'Gents'}};
  S.items={i1:{cat:'c1',name:'3-piece lawn',d:1000,s:1200,on:true},i2:{cat:'c1',name:'2-piece',d:700,s:850,on:true},i3:{cat:'c2',name:'Baby frock',d:400,s:500,on:true},i4:{cat:'c2',name:'Boys kurta',d:450,s:550,on:true},i5:{cat:'c3',name:'Shalwar kameez',d:1500,s:1800,on:true}};
  S.cost={i1:{c:500},i2:{c:350},i3:{c:200},i4:{c:250},i5:{c:900}};
@@ -694,7 +716,7 @@ function itemLedger(i,showRates){const id=S.itDist,it=S.items[i]||{};
  const list=txArr().filter(x=>x.dist===id&&MT.left.includes(x.type)&&(x.lines||[]).some(l=>l.i===i)).sort((a,b)=>(a.date||'').localeCompare(b.date||'')||(a.at||0)-(b.at||0));
  let run=0;const rows=list.map(x=>{const q=(x.lines||[]).filter(l=>l.i===i).reduce((s,l)=>s+(+l.q||0),0);const sg=(x.type==='give'||x.type==='open')?1:-1;run+=sg*q;
   return `<tr><td>${fdate(x.date)}</td><td>${ICON[x.type]||''} ${t('t'+x.type)}<div class="mut" style="font-size:11px">✍️ ${byTxt(x)}${x.note?' · 📝 '+esc(x.note):''}</div></td><td class="n" style="color:${sg>0?'#0a6b36':'#b8400a'};font-weight:800">${sg>0?'+':'−'}${fmt(q)}</td><td class="n"><b>${fmt(run)}</b></td></tr>`}).join('');
- return `<div class="iled"><div class="row" style="cursor:pointer" onclick="openItem('${i}')"><div class="sp"><b class="cl">👗 ${esc(it.name||'?')}</b> <span style="color:#b8860b">▸</span><div class="mut">${esc(catName(it.cat))}${showRates?` · ${t('dRateS')} ${fmt(it.d)} · ${t('sRateS')} ${fmt(it.s)}`:''}</div></div><div style="text-align:end"><div class="mut">${t('left')}</div><b class="num" style="font-size:18px">${fmt(run)}</b></div></div>
+ return `<div class="iled"><div class="row" style="cursor:pointer" onclick="openItem('${i}')"><div class="sp"><span style="display:inline-flex;gap:8px;align-items:center;vertical-align:middle">${thumb(i,'',' 👗')}<b class="cl">${esc(it.name||'?')}</b></span> <span style="color:#b8860b">▸</span><div class="mut">${esc(catName(it.cat))}${showRates?` · ${t('dRateS')} ${fmt(it.d)} · ${t('sRateS')} ${fmt(it.s)}`:''}</div></div><div style="text-align:end"><div class="mut">${t('left')}</div><b class="num" style="font-size:18px">${fmt(run)}</b></div></div>
  <table style="margin-top:6px"><tr><th>${t('date')}</th><th>${t('entries')}</th><th class="n">${t('qty')}</th><th class="n">${t('left')}</th></tr>${rows}</table></div>`}
 function itemTable2(rows,showRates){
  const C=(i,k,v,b)=>`<td class="n"><span class="cl" onclick="event.stopPropagation();showItemType('${i}','${k}')">${b?'<b>'+fmt(v)+'</b>':fmt(v)}</span></td>`;
@@ -708,7 +730,7 @@ function vItem(id,i){const it=S.items[i]||{},A=agg(txArr().filter(x=>x.dist===id
  const T=(k,lab,v,cls,big)=>`<div class="kpi kclick${big?' kbig':''}" onclick="showItemType('${i}','${k}')"><small>${lab} <span class="karr">▸</span></small><b class="num ${cls||''}">${fmt(v)} ${t('pcs')}</b></div>`;
  const list=txArr().filter(x=>x.dist===id&&MT.left.includes(x.type)&&(x.lines||[]).some(l=>l.i===i));
  return `<button class="ghost sm" style="margin-top:8px" onclick="S.ipage=null;render()">← ${t('back')}</button>
- <div class="card"><div class="row"><div class="ico" style="width:52px;height:52px;font-size:26px;flex:0 0 52px">👗</div><div class="sp"><h2 style="margin:0">${esc(it.name||'?')}</h2><div class="mut">${esc(catName(it.cat))} · ${esc(distName(id))}</div></div></div>
+ <div class="card"><div class="row">${thumb(i,'big',`<div class="ico" style="width:52px;height:52px;font-size:26px;flex:0 0 52px">👗</div>`)}<div class="sp"><h2 style="margin:0">${esc(it.name||'?')}</h2><div class="mut">${esc(catName(it.cat))} · ${esc(distName(id))}</div></div></div>
  <div class="grid" style="margin-top:12px">${adm?`<div class="kpi"><small>${t('costS')}</small><b class="num">${fmt(c)}</b></div>`:''}<div class="kpi"><small>${t('dRate')}</small><b class="num">${fmt(it.d)}</b></div><div class="kpi"><small>${t('sRate')}</small><b class="num">${fmt(it.s)}</b></div><div class="kpi"><small>${adm?t('distProfit'):t('myProfit')} · ${t('perPc')}</small><b class="num pos">+${fmt((it.s||0)-(it.d||0))}</b></div>${adm?`<div class="kpi"><small>${t('adminProfit')} · ${t('perPc')}</small><b class="num pos">+${fmt((it.d||0)-c)}</b></div>`:''}</div></div>
  ${card('📦 '+t('perItem'),`<div class="grid">${T('left',t('left'),lf,'',1)}${T('g',t('given'),r.g+r.o)}${T('s',t('sold'),r.s)}${T('r',t('returned'),r.r)}${T('l',t('lost'),r.l,'neg')}</div>`)}
  ${card('📅 '+t('itHist'),entTable(list,'left',i,false))}`}
@@ -746,7 +768,7 @@ function vAdmin(){
   if(cats.length&&!S.cats[S.mcat])S.mcat=cats[0][0];
   h+=card(t('cats'),`<div class="chips" style="flex-wrap:wrap">${cats.map(([id,c])=>`<span style="display:inline-flex;gap:2px"><button class="${S.mcat===id?'on':''}" onclick="S.mcat='${id}';render()">${esc(c.name)}</button><button style="padding:7px 9px" onclick="catForm('${id}')" aria-label="edit">✏️</button></span>`).join('')}<button class="ok" onclick="catForm()">${t('addCat')}</button></div>`);
   const fits=its.filter(x=>x.cat===S.mcat);
-  h+=card(t('items')+(S.cats[S.mcat]?' · '+esc(S.cats[S.mcat].name):''),(fits.length?fits.map(x=>{const c=+(S.cost[x.id]?.c)||0;return `<div class="li click" onclick="itemForm('${x.id}')"><div class="ico">👗</div><div class="sp"><b>${esc(x.name)}</b> ${x.on===false?`<span class="tag offt">${t('offT')}</span>`:''}<div class="mut">${esc(catName(x.cat))}</div><div class="mut">${t('costS')} ${fmt(c)} · ${t('dRateS')} ${fmt(x.d)} · ${t('sRateS')} ${fmt(x.s)}</div></div><div class="mut" style="text-align:end">Admin +${fmt(x.d-c)}<br>Dist +${fmt(x.s-x.d)}</div></div>`}).join(''):empty())+`<button class="full" style="margin-top:10px" onclick="itemForm()">${t('addItem')}</button><p class="mut center" style="margin:8px 0 0">🔒 ${t('rateNote')}</p>`);
+  h+=card(t('items')+(S.cats[S.mcat]?' · '+esc(S.cats[S.mcat].name):''),(fits.length?fits.map(x=>{const c=+(S.cost[x.id]?.c)||0;return `<div class="li click" onclick="itemForm('${x.id}')">${thumb(x.id)}<div class="sp"><b>${esc(x.name)}</b> ${x.on===false?`<span class="tag offt">${t('offT')}</span>`:''}<div class="mut">${esc(catName(x.cat))}</div><div class="mut">${t('costS')} ${fmt(c)} · ${t('dRateS')} ${fmt(x.d)} · ${t('sRateS')} ${fmt(x.s)}</div></div><div class="mut" style="text-align:end">Admin +${fmt(x.d-c)}<br>Dist +${fmt(x.s-x.d)}</div></div>`}).join(''):empty())+`<button class="full" style="margin-top:10px" onclick="itemForm()">${t('addItem')}</button><p class="mut center" style="margin:8px 0 0">🔒 ${t('rateNote')}</p>`);
  }else if(a==='code'){
   h+=card('🔑 '+t('dcode'),S.code?`<p class="mut" style="margin-top:0">${t('dcodeP')}</p><div class="center" style="font-size:34px;font-weight:800;letter-spacing:6px;margin:6px 0 12px;font-family:Montserrat,sans-serif">${esc(S.code)}</div><div class="row"><button class="sp" onclick="shareCode()">📋 ${t('copy')}</button><button class="ghost sp" onclick="newCode()">🔄 ${t('newCode')}</button></div>`:`<button class="full" onclick="newCode(true)">${t('makeCode')}</button>`);
  }else if(a==='months'){
@@ -789,7 +811,7 @@ function vHomeD(){
 function vStockD(){
  if(S.ipage){S.itDist=S.uid;return vItem(S.uid,S.ipage)}
  const A=agg(txArr())[S.uid];S.itDist=S.uid;const tbl=itemTable(A,true);const has=A&&Object.keys(A.items).length;
- const rates=itemList(true).filter(x=>!has||x.cat===S.dcat).map(x=>`<div class="li click" onclick="openItem('${x.id}')"><div class="ico">👗</div><div class="sp"><b>${esc(x.name)}</b><div class="mut">${esc(catName(x.cat))}</div></div><div style="text-align:end" class="mut">${t('dRateS')} <b>${fmt(x.d)}</b><br>${t('sRateS')} <b>${fmt(x.s)}</b><br><span class="pos">+${fmt(x.s-x.d)}</span></div></div>`).join('');
+ const rates=itemList(true).filter(x=>!has||x.cat===S.dcat).map(x=>`<div class="li click" onclick="openItem('${x.id}')">${thumb(x.id)}<div class="sp"><b>${esc(x.name)}</b><div class="mut">${esc(catName(x.cat))}</div></div><div style="text-align:end" class="mut">${t('dRateS')} <b>${fmt(x.d)}</b><br>${t('sRateS')} <b>${fmt(x.s)}</b><br><span class="pos">+${fmt(x.s-x.d)}</span></div></div>`).join('');
  return card(t('dRate')+' / '+t('sRate'),rates||empty())+card(t('perItem'),tbl);
 }
 
@@ -812,7 +834,8 @@ function drawForm(){
  if(f.type==='give')opts=itemList(true).map(x=>[x.id,itemName(x.id)]);
  else opts=Object.entries(A?A.items:{}).map(([i,it])=>[i,itemName(i),leftOf(it)]).filter(o=>o[2]>0).map(o=>[o[0],o[1]+' ('+t('left')+' '+fmt(o[2])+')']);
  const noStock=isL&&f.type!=='give'&&f.dist&&!opts.length;
- const ln=f.lines.map((l,k)=>`<div class="ln"><select onchange="S.f.lines[${k}].i=this.value"><option value="">${t('chooseItem')}</option>${opts.map(([v,n])=>`<option value="${v}" ${l.i===v?'selected':''}>${esc(n)}</option>`).join('')}</select><input type="number" inputmode="decimal" min="0" placeholder="${t('qty')}" value="${esc(l.q)}" oninput="S.f.lines[${k}].q=this.value"><button class="danger" onclick="S.f.lines.splice(${k},1);if(!S.f.lines.length)S.f.lines.push({i:'',q:''});drawForm()">✕</button></div>`).join('');
+ const anyP=opts.some(o=>S.items[o[0]]?.pv);
+ const ln=f.lines.map((l,k)=>`<div class="ln${anyP?' lp':''}">${anyP?(l.i&&S.items[l.i]?.pv?thumb(l.i,'sm','<div class="lnp"></div>'):'<div class="lnp"></div>'):''}<select onchange="S.f.lines[${k}].i=this.value;drawForm()"><option value="">${t('chooseItem')}</option>${opts.map(([v,n])=>`<option value="${v}" ${l.i===v?'selected':''}>${esc(n)}</option>`).join('')}</select><input type="number" inputmode="decimal" min="0" placeholder="${t('qty')}" value="${esc(l.q)}" oninput="S.f.lines[${k}].q=this.value"><button class="danger" onclick="S.f.lines.splice(${k},1);if(!S.f.lines.length)S.f.lines.push({i:'',q:''});drawForm()">✕</button></div>`).join('');
  sheet(`<h2>${ICON[f.type]} ${t(adm&&({give:'aGive',sale:'aSale',pay:'aPay',ret:'aRet'})[f.type]||f.type)}</h2>
  ${adm?`<label>${t('dist')}</label><select onchange="S.f.dist=this.value;S.f.lines=[{i:'',q:''}];drawForm()"><option value="">${t('chooseDist')}</option>${distUsers().filter(d=>d.active!==false||d.id===f.dist).map(d=>`<option value="${d.id}" ${f.dist===d.id?'selected':''}>${esc(d.name)}</option>`).join('')}</select>`:''}
  <label>${t('date')}</label><input type="date" value="${f.date}" onchange="S.f.date=this.value">
@@ -839,13 +862,15 @@ function catForm(id){const c=id?S.cats[id]:{name:''};
 function delCat(id){const n=Object.values(S.items).filter(x=>x.cat===id).length;if(n)return toast(t('catHasItems',n));closeSheet();confirmBox(t('delCatQ')+' '+(S.cats[id]?.name||''),()=>{DB.del('cats',id);if(S.mcat===id)S.mcat='';toast(t('deleted'))})}
 function delItem(id){const used=Object.values(S.tx).some(x=>(x.lines||[]).some(l=>l.i===id));closeSheet();
  if(used)return dlg(`<p style="font-weight:700;margin-top:0">⚠️ ${esc(S.items[id]?.name||'')}</p><p>${t('itemUsed')}</p><div class="row"><button class="ghost sp" onclick="closeDlg()">${t('cancel')}</button><button class="sp" onclick="closeDlg();DB.set('items','${id}',{on:false},true);toast(t('saved'))">${t('turnOffItem')}</button></div>`);
- confirmBox(t('delItemQ')+' '+(S.items[id]?.name||''),()=>{DB.batch([{o:'del',c:'items',id},{o:'del',c:'cost',id}]);toast(t('deleted'))})}
+ confirmBox(t('delItemQ')+' '+(S.items[id]?.name||''),()=>{const hp=!!S.items[id]?.pv;DB.batch([{o:'del',c:'items',id},{o:'del',c:'cost',id}]);if(hp)DB.del('pics',id);toast(t('deleted'))})}
 function saveCat(id){const n=val('#fCat');if(!n)return toast(t('fill'));DB.set('cats',id||nid(),{name:n},true);closeSheet();toast(t('saved'))}
 function itemForm(id){
+ S.iid=id||null;S.ipic=null;
  const x=id?S.items[id]:{cat:(S.cats[S.mcat]?S.mcat:Object.keys(S.cats)[0])||'',name:'',d:'',s:'',on:true},c=id?(S.cost[id]?.c??''):'';
  if(!Object.keys(S.cats).length)return catForm();
  sheet(`<h2>👗 ${t('item')}</h2><label>${t('cat')}</label><select id="fIc">${Object.entries(S.cats).map(([k,v])=>`<option value="${k}" ${x.cat===k?'selected':''}>${esc(v.name)}</option>`).join('')}</select>
  <label>${t('name')}</label><input id="fIn" value="${esc(x.name)}" placeholder="3-piece lawn">
+ <label>📷 ${t('photo')}</label><div class="picbox" id="picBox">${picBoxH()}</div>
  <label>🔒 ${t('cost')}</label><input id="fIcst" type="number" inputmode="decimal" value="${esc(c)}" placeholder="${t('typeHere')}">
  <label>${t('dRate')}</label><input id="fId" type="number" inputmode="decimal" value="${esc(x.d)}" placeholder="${t('typeHere')}">
  <label>${t('sRate')}</label><input id="fIs" type="number" inputmode="decimal" value="${esc(x.s)}" placeholder="${t('typeHere')}">
@@ -853,7 +878,12 @@ function itemForm(id){
  <div class="row"><button class="ghost sp" onclick="closeSheet()">${t('cancel')}</button>${id?`<button class="danger" onclick="delItem('${id}')">🗑</button>`:''}<button class="ok sp" onclick="saveItem('${id||''}')">${t('save')}</button></div>`)}
 function saveItem(id){const n=val('#fIn'),cat=val('#fIc'),c=r2(val('#fIcst')),d=r2(val('#fId')),s=r2(val('#fIs'));
  if(!n||!cat||val('#fId')===''||val('#fIs')==='')return toast(t('fill'));id=id||nid();
- DB.batch([{o:'set',c:'items',id,d:{cat,name:n,d,s,on:$('#fIon').checked,at:Date.now()},merge:true},{o:'set',c:'cost',id,d:{c}}]);closeSheet();toast(t('saved'))}
+ const P=S.ipic,d0={cat,name:n,d,s,on:$('#fIon').checked,at:Date.now()};S.ipic=null;
+ if(P==='del')d0.pv=0;else if(P){d0.pv=Date.now();S.pc[id]={v:d0.pv,u:P}}
+ DB.batch([{o:'set',c:'items',id,d:d0,merge:true},{o:'set',c:'cost',id,d:{c}}]);
+ if(P==='del')DB.del('pics',id);
+ else if(P){if(S.mode==='real'&&db)db.collection('pics').doc(id).set({p:P,at:d0.pv}).catch(e=>{console.warn(e);toast(t('picSaveErr'))});else S.pics[id]={p:P,at:d0.pv}}
+ closeSheet();toast(t('saved'))}
 function needNet(){return S.mode==='real'&&(S.off||!navigator.onLine)}
 function distForm(id){const u=id?S.users[id]:{};
  sheet(`<h2>👤 ${t('dist')}</h2><label>${t('name')}</label><input id="fDn" value="${esc(u.name||'')}"><label>${t('phone')}</label><input id="fDp" type="tel" value="${esc(u.phone||'')}">
