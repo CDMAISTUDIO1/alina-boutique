@@ -644,7 +644,8 @@ function hdr(){
  ${S.mode==='demo'?`<button id="sch" class="ghost" onclick="demoRole()">${adm?'👤 '+t('distView'):'🛡️ '+t('adminView')}</button>`:''}
  </div></header>`;
 }
-function bars(){let h='';if(S.mode==='demo')h+=`<div class="bar demo">🎬 ${t('demoBar')}</div>`;else{if(!S.net)h+=`<div class="bar off">🟠 ${t('noSvcBar')}</div>`;else if(S.off)h+=`<div class="bar off">📴 ${t('offBar')}</div>`;if(S.pend>0)h+=`<div class="bar sync">⏳ ${t('syncBar',S.pend)}</div>`;if(S.slow>0&&S.net&&!S.off)h+=`<div class="bar slow">⏳ ${t('slowBar')}</div>`}return h}
+function bars(){let h='';if(S.mode==='demo')h+=`<div class="bar demo">🎬 ${t('demoBar')}</div>`;else{const st=!S.net?'no':S.off?'off':'on';if(st!==S.lastSt){S.lastSt=st;S.barUntil=st==='on'?0:Date.now()+10000;if(st!=='on')setTimeout(later,10100)}/* #99: patti sirf 10 sec */
+  const sh=Date.now()<(S.barUntil||0);if(sh&&!S.net)h+=`<div class="bar off">🟠 ${t('noSvcBar')}</div>`;else if(sh&&S.off)h+=`<div class="bar off">📴 ${t('offBar')}</div>`;if(S.pend>0)h+=`<div class="bar sync">⏳ ${t('syncBar',S.pend)}</div>`;if(S.slow>0&&S.net&&!S.off)h+=`<div class="bar slow">⏳ ${t('slowBar')}</div>`}return h}
 function nav(){const it=S.role==='admin'?[['home','🏠'],['dists','👥'],['+'],['hisab','📒'],['admin','⚙️']]:[['home','🏠'],['mystock','📦'],['+'],['hisab','📒']];
  return '<nav>'+it.map(([k,e])=>k==='+'?`<button class="plus" onclick="plusMenu()" aria-label="new">+</button>`:`<button class="${S.tab===k?'on':''}" onclick="go('${k}')"><span class="e">${e}</span>${t(k)}</button>`).join('')+'</nav>'}
 function go(k){S.tab=k;S.view=null;S.vsub='';S.ipage=null;render();scrollTo(0,0)}
