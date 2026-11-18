@@ -1,5 +1,5 @@
 // Alina Boutique - service worker (network-first, 3.5 sec baad phone ki copy)
-const C='alina-v25';
+const C='alina-v26';
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(C).then(c=>Promise.all(['./','./index.html','./manifest.webmanifest','./firebase-config.js','./logo.png','./banner-home.jpg'].map(x=>c.add(x).catch(()=>{})))))});
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==C).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',e=>{
